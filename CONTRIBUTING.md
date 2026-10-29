@@ -6,7 +6,8 @@ Esta guía explica el flujo de trabajo del equipo. La idea principal:
 > Cuando la tarea está lista, se une a `main` con un Pull Request (PR).
 
 La rama `main` está protegida. Nadie hace `git push` directo a ella: todo
-entra por Pull Request y lo revisa la otra persona.
+entra por Pull Request. GitHub ya no exige que la otra persona apruebe el PR
+para poder unirlo, pero sigue siendo recomendable que lo revise.
 
 ## El dibujo
 
@@ -74,12 +75,15 @@ Las siguientes veces basta con `git push`.
 
 1. Entra en el repositorio en GitHub. Verás un botón **Compare & pull request**.
 2. Rellena la plantilla (qué cambia, por qué, cómo comprobarlo).
-3. Pide a la otra persona que lo revise (**Reviewers**).
+3. Si quieres que la otra persona lo revise, pídeselo en **Reviewers**
+   (opcional).
 
 ### 5. Revisión y unión
 
-- La otra persona mira los cambios, comenta si hay algo que corregir y, si
-  todo está bien, pulsa **Approve** y después **Merge**.
+- Si hay revisión, la otra persona mira los cambios, comenta si hay algo que
+  corregir y, si todo está bien, pulsa **Approve**.
+- Cuando todo está listo, quien ha abierto el PR (o la otra persona) pulsa
+  **Merge**. GitHub no pide ninguna aprobación para poder unir.
 - Si te piden cambios, los haces en la **misma rama**, `git push`, y el PR se
   actualiza solo.
 - Al unir, GitHub **borra la rama** automáticamente.
@@ -139,7 +143,8 @@ como todo lo demás (por ejemplo, `docs/diario-2026-10-29`).
 En GitHub → **Settings**:
 
 - **Branches → Add branch protection rule** para `main`:
-  - Require a pull request before merging (con 1 aprobación)
+  - Require a pull request before merging (sin exigir aprobaciones: dejar
+    *Required approvals* desactivado)
   - Require conversation resolution before merging
   - Do not allow bypassing the above settings
   - Block force pushes y restrict deletions
