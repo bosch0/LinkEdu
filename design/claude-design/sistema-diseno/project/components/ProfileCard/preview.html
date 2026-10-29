@@ -1,0 +1,38 @@
+<!-- @dsCard group="Tarjetas" height=320 subtitle="docente de centro y docente libre disponible" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>ProfileCard</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 360px)); gap: var(--space-8); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  function Demo() {
+    var a = React.useState(false), b = React.useState(true);
+    return h('div', { className: 'row' },
+      h(L.ProfileCard, {
+        name: 'Lucía Fernández Ortega',
+        role: 'Profesora de Matemáticas · ESO y Bachillerato',
+        place: 'IES Ramiro de Maeztu · Madrid',
+        tags: ['Matemáticas', 'ABP', 'GeoGebra'],
+        connected: a[0],
+        onConnect: function () { a[1](!a[0]); }
+      }),
+      h(L.ProfileCard, {
+        name: 'Javier Morales',
+        role: 'Docente de FP · Desarrollo de Aplicaciones Web',
+        place: 'Docente libre · Valencia',
+        tags: ['Desarrollo Web', 'Bases de datos'],
+        available: true,
+        connected: b[0],
+        onConnect: function () { b[1](!b[0]); }
+      }));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

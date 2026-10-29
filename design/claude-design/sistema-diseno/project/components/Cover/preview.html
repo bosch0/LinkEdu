@@ -1,0 +1,65 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Cover</title>
+<style>
+  body { margin: 0; background: var(--paper); }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--paper); }
+  .cover svg { position: absolute; inset: 0; }
+  .pizarra { fill: var(--pizarra); }
+  .subrayador { fill: var(--subrayador); }
+  .cuaderno { fill: var(--cuaderno); }
+  .ink { fill: var(--ink); }
+  .tint { fill: var(--pizarra-soft); }
+  .plus { fill: var(--pizarra-soft); }
+  .r-l { rx: var(--radius-l); }
+  .r-s { rx: var(--radius-s); }
+  .text { position: absolute; left: 48px; bottom: 48px; max-width: 440px; display: grid; gap: var(--space-2); }
+  .name { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 96px; line-height: 0.92; letter-spacing: -0.02em; color: var(--ink); }
+  .tagline { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+  <!--
+    blocks: pizarra slab 216×264 (space-6 × 9 by 11), subrayador 232×112, cuaderno 112×152, ink 104×88, pizarra-soft tint 216×48; radius-l on the big three, radius-s on ink and tint
+    arrangement: one tall pizarra slab bleeding off the top, with satellites to its right bleeding off the right and bottom edges, the tint under the slab
+    pattern: literal motif, the notebook cuadrícula, as a plus grid cut into the slab in pizarra-soft; the README builds everything on the cuaderno grid
+    scales: pitch space-12 (48px), gaps space-4 (16px), radii radius-l and radius-s, all blocks right of x = 480
+  -->
+  <svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+    <rect class="pizarra r-l" x="520" y="-24" width="216" height="264"/>
+    <rect class="tint r-s" x="520" y="256" width="216" height="48"/>
+    <rect class="subrayador r-l" x="752" y="32" width="232" height="112"/>
+    <rect class="cuaderno r-l" x="752" y="160" width="112" height="152"/>
+    <rect class="ink r-s" x="880" y="160" width="104" height="88"/>
+    <g class="plus">
+      <rect x="555" y="19" width="2" height="12"/><rect x="550" y="24" width="12" height="2"/>
+      <rect x="603" y="19" width="2" height="12"/><rect x="598" y="24" width="12" height="2"/>
+      <rect x="651" y="19" width="2" height="12"/><rect x="646" y="24" width="12" height="2"/>
+      <rect x="699" y="19" width="2" height="12"/><rect x="694" y="24" width="12" height="2"/>
+      <rect x="555" y="67" width="2" height="12"/><rect x="550" y="72" width="12" height="2"/>
+      <rect x="603" y="67" width="2" height="12"/><rect x="598" y="72" width="12" height="2"/>
+      <rect x="651" y="67" width="2" height="12"/><rect x="646" y="72" width="12" height="2"/>
+      <rect x="699" y="67" width="2" height="12"/><rect x="694" y="72" width="12" height="2"/>
+      <rect x="555" y="115" width="2" height="12"/><rect x="550" y="120" width="12" height="2"/>
+      <rect x="603" y="115" width="2" height="12"/><rect x="598" y="120" width="12" height="2"/>
+      <rect x="651" y="115" width="2" height="12"/><rect x="646" y="120" width="12" height="2"/>
+      <rect x="699" y="115" width="2" height="12"/><rect x="694" y="120" width="12" height="2"/>
+      <rect x="555" y="163" width="2" height="12"/><rect x="550" y="168" width="12" height="2"/>
+      <rect x="603" y="163" width="2" height="12"/><rect x="598" y="168" width="12" height="2"/>
+      <rect x="651" y="163" width="2" height="12"/><rect x="646" y="168" width="12" height="2"/>
+      <rect x="699" y="163" width="2" height="12"/><rect x="694" y="168" width="12" height="2"/>
+      <rect x="555" y="211" width="2" height="12"/><rect x="550" y="216" width="12" height="2"/>
+      <rect x="603" y="211" width="2" height="12"/><rect x="598" y="216" width="12" height="2"/>
+      <rect x="651" y="211" width="2" height="12"/><rect x="646" y="216" width="12" height="2"/>
+      <rect x="699" y="211" width="2" height="12"/><rect x="694" y="216" width="12" height="2"/>
+    </g>
+  </svg>
+  <div class="text">
+    <h1 class="name">LinkEdu</h1>
+    <p class="tagline">La red profesional de la educación.</p>
+  </div>
+</div>
+</body>
+</html>

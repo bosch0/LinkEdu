@@ -1,0 +1,20 @@
+<!-- @dsCard group="Formularios" height=200 subtitle="con ayuda y con error" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Input</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-6); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'row' },
+      h(L.Input, { id: 'centro', label: 'Centro educativo', placeholder: 'IES, CEIP, colegio…', hint: 'Si das clase en varios, pon el principal.' }),
+      h(L.Input, { id: 'correo', label: 'Correo del centro', type: 'email', defaultValue: 'lucia@gmail.com', error: 'Ese correo no es de un centro. Usa el de tu centro o regístrate como docente libre.' })));
+</script>
+</body>
+</html>

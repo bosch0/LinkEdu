@@ -1,0 +1,22 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": { "v": 1, "at": "2026-10-29T09:29:25Z" },
+  "title": "LinkEdu",
+  "namespace": "LinkEdu",
+  "libraries": [
+    { "name": "react", "version": "18" },
+    { "name": "react-dom", "version": "18" }
+  ],
+  "sections": {},
+  "groups": [],
+  "assetGroups": {},
+  "blobs": {},
+  "docs": { "readme": "project/README.md", "sections": [] },
+  "lastChange": {
+    "by": "Antonio",
+    "via": "Claude Code",
+    "at": "2026-10-29T09:29:25Z",
+    "note": "Primera versión: colores, tipografía, espacios y 6 componentes."
+  }
+}
