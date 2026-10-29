@@ -1,0 +1,26 @@
+<!-- @dsCard group="Feed" height=340 subtitle="publicación con recurso adjunto" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>PostCard</title>
+<style>body { margin: 0; padding: var(--space-4); background: var(--paper); }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  function Demo() {
+    var s = React.useState(false);
+    return h(L.PostCard, {
+      author: 'Lucía Fernández Ortega',
+      role: 'Profesora de Matemáticas',
+      time: 'hace 2 h',
+      text: 'Esta semana mis alumnos de 3º han calculado la pendiente de la factura de la luz de su casa. Nunca habían entendido tan rápido qué es una función lineal. Os dejo la unidad por si os sirve.',
+      resource: { kind: 'PDF · 18 págs', title: 'Funciones lineales con datos reales' },
+      likes: 124, comments: 18,
+      liked: s[0], onLike: function () { s[1](!s[0]); }
+    });
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

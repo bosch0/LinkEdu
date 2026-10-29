@@ -10,9 +10,8 @@ El **azul** y el **turquesa** del icono se usan para información y para
 nuevo, lo destacado y el gesto del subrayado. Todo se apoya en la cuadrícula
 del cuaderno: pasos de 4px y una retícula de 24px.
 
-> Primera versión, hecha sin manual de marca previo. El logo ya existe (ver
-> "Logo"); todavía no hay set de iconos ni fotografía. Ver "Pendiente" al
-> final.
+> Incluye voz y tono, color, tipografía, espacios, iconos, fotografía,
+> ilustración, logo y 11 componentes.
 
 ## Voz y tono
 
@@ -90,9 +89,59 @@ vacío, nunca en texto de interfaz.
 
 ## Iconografía
 
-Aún no hay set propio. Mientras tanto: iconos de trazo de 2px con extremos
-redondeados, a 20px junto a texto `body` y a 24px sueltos, siempre en
-`currentColor`. Nunca emojis como iconos.
+LinkEdu tiene un set propio de 26 iconos (componente `Icon`; los SVG están en
+`design/assets/iconos/` del repo).
+
+- Trazo de 2px, extremos y uniones redondeados, sobre una rejilla de 24px.
+  Esquinas suaves, a juego con los radios de la interfaz.
+- Siempre de línea. Solo se rellena un icono para marcar que está activo
+  (el corazón de "Me gusta").
+- Toman el color del texto (`currentColor`). En navegación, `ink-muted` en
+  reposo y `marino` cuando están activos. En datos de tarjeta, `azul`.
+- Tamaños: 16px en metadatos, 20px junto a texto `body`, 24px sueltos.
+- Junto a una etiqueta de texto siempre que se pueda. Un icono solo necesita
+  `label` para el lector de pantalla.
+- Nunca emojis como iconos.
+
+## Fotografía
+
+La fotografía enseña a docentes de verdad haciendo su trabajo. Es lo que
+separa a LinkEdu de una web de stock.
+
+- **Personas reales en aulas reales**: pizarras con cosas escritas, mesas en
+  grupo, talleres de FP, patios. Nada de sonrisas posadas mirando a cámara
+  ni de "manos sobre portátil".
+- **Luz natural** de ventana, tonos ligeramente fríos que casan con el marino.
+  Sin filtros de color, sin viñeteado y sin blanco y negro.
+- **Diversidad sin forzarla**: edades, etapas (Infantil, FP, adultos),
+  centros públicos y concertados, ciudades y pueblos.
+- **Encuadre**: plano medio o detalle de manos trabajando, con aire a un lado
+  para poner texto encima. Formatos 4:3 en tarjetas y 16:9 en cabeceras.
+- **Tratamiento en la interfaz**: esquinas `radius-l` y nunca con borde. Si
+  lleva texto encima, una capa de `marino` al 70% y el texto en `on-marino`.
+- **Privacidad**: el alumnado menor no se reconoce nunca (de espaldas,
+  desenfocado o fuera de plano). Toda foto necesita el permiso del centro.
+- **Fotos de perfil**: cara centrada, fondo limpio, recorte circular del
+  `Avatar`. Si no hay, se usan las iniciales.
+
+## Ilustración
+
+La ilustración se construye con las mismas formas que el logo y la portada.
+Se usa en estados vacíos, en la bienvenida y en la landing, nunca para
+decorar una pantalla que ya tiene contenido.
+
+- **Formas planas y geométricas**: rectángulos con `radius-s` y `radius-l`,
+  círculos y píldoras. Una pizarra es un rectángulo marino; el sol, un
+  círculo naranja; un proyecto, píldoras que se tocan.
+- **Solo colores del sistema**: `marino`, `azul`, `turquesa`, `naranja` y
+  `amarillo` sobre `surface-sunken`. Como mucho cuatro por ilustración. Sin
+  degradados, sin sombras y sin contornos.
+- **Personas, si salen, sin rasgos**: siluetas de cabeza y cuerpo hechas con
+  un círculo y una píldora. Nada de caras de dibujos animados.
+- **La cuadrícula del cuaderno** (`space-6`) puede ir de fondo como trama de
+  puntos o cruces en `marino-soft`.
+- Las ilustraciones se dibujan en SVG con clases que apuntan a los tokens,
+  así funcionan en tema claro y oscuro. Ejemplo: el componente `EmptyState`.
 
 ## Logo
 
@@ -116,9 +165,15 @@ Los archivos están en el grupo **Logos** de este sistema y en el repo, en
 - En el texto corrido, el nombre se escribe **LinkEdu**, con la L y la E en
   mayúscula.
 
-## Pendiente
+## Componentes
 
-- Set de iconos.
-- Estilo de fotografía e ilustración.
-- Componentes de proyecto colaborativo, oferta de empleo y publicación del
-  feed.
+| Grupo | Componentes |
+| --- | --- |
+| Acciones | `Button` |
+| Etiquetas | `Tag` |
+| Identidad | `Avatar`, `Icon` |
+| Formularios | `Input` |
+| Tarjetas | `ProfileCard` (docente), `ResourceCard` (recurso), `ProjectCard` (proyecto colaborativo), `JobCard` (oferta de empleo) |
+| Feed | `PostCard` (publicación), `EmptyState` (lista vacía) |
+
+Cada uno tiene su guía y su vista previa en `components/<Nombre>/`.

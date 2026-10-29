@@ -1,0 +1,19 @@
+<!-- @dsCard group="Feed" height=380 subtitle="sin proyectos todavía" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>EmptyState</title>
+<style>body { margin: 0; padding: var(--space-4); background: var(--paper); display: grid; justify-items: center; }</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(L.EmptyState, {
+      title: h(React.Fragment, null, 'Aún no estás en ningún ', h('span', { className: 'le-subrayado' }, 'proyecto')),
+      text: 'Únete a uno de otro centro o crea el tuyo y busca compañeros de tu especialidad.',
+      action: 'Crear proyecto'
+    }));
+</script>
+</body>
+</html>

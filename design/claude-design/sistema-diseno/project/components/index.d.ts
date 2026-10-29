@@ -70,3 +70,83 @@ export declare function Avatar(props: AvatarProps): JSX.Element;
 export declare function Input(props: InputProps): JSX.Element;
 export declare function ProfileCard(props: ProfileCardProps): JSX.Element;
 export declare function ResourceCard(props: ResourceCardProps): JSX.Element;
+
+export type IconName = 'inicio' | 'buscar' | 'red' | 'conectar' | 'perfil' | 'mensajes' | 'notificaciones'
+  | 'proyecto' | 'recurso' | 'empleo' | 'formacion' | 'guardar' | 'compartir' | 'megusta' | 'comentar'
+  | 'calendario' | 'ubicacion' | 'descargar' | 'subir' | 'filtro' | 'ajustes' | 'mas' | 'cerrar'
+  | 'check' | 'flecha' | 'menu';
+
+export interface IconProps {
+  name: IconName;
+  /** 16, 20 (por defecto) o 24. */
+  size?: number;
+  /** Solo si el icono va sin texto al lado. */
+  label?: string;
+  className?: string;
+}
+
+export interface ProjectCardProps {
+  title: string;
+  summary?: string;
+  /** La primera es la materia; el resto, etapas. */
+  tags?: string[];
+  /** Nombres de los centros inscritos. */
+  centres?: string[];
+  /** Plazas totales de centros. */
+  slots?: number;
+  /** "15 de noviembre". */
+  deadline?: string;
+  joined?: boolean;
+  onJoin?: () => void;
+  className?: string;
+}
+
+export interface JobCardProps {
+  title: string;
+  company: string;
+  logo?: string;
+  isNew?: boolean;
+  modality?: 'Remoto' | 'Presencial' | 'Híbrido';
+  tags?: string[];
+  place?: string;
+  hours?: string;
+  /** "28 €/hora". Obligatorio para publicar. */
+  pay?: string;
+  /** "Hace 5 horas". */
+  posted?: string;
+  applied?: boolean;
+  onApply?: () => void;
+  className?: string;
+}
+
+export interface PostCardProps {
+  author: string;
+  role?: string;
+  avatar?: string;
+  /** "hace 2 h". */
+  time: string;
+  text: string;
+  resource?: { kind: string; title: string };
+  likes?: number;
+  comments?: number;
+  liked?: boolean;
+  onLike?: () => void;
+  onComment?: () => void;
+  onShare?: () => void;
+  className?: string;
+}
+
+export interface EmptyStateProps {
+  title: ReactNode;
+  text?: string;
+  /** Texto del botón primary. */
+  action?: string;
+  onAction?: () => void;
+  className?: string;
+}
+
+export declare function Icon(props: IconProps): JSX.Element;
+export declare function ProjectCard(props: ProjectCardProps): JSX.Element;
+export declare function JobCard(props: JobCardProps): JSX.Element;
+export declare function PostCard(props: PostCardProps): JSX.Element;
+export declare function EmptyState(props: EmptyStateProps): JSX.Element;

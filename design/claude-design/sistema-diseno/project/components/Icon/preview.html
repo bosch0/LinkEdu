@@ -1,0 +1,23 @@
+<!-- @dsCard group="Identidad" height=260 subtitle="26 iconos de trazo, 24px" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Icon</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: var(--space-2); }
+  .cell { display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-1); color: var(--marino); }
+  .cell span { font: 500 11px/14px var(--font-mono); color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  var names = ['inicio', 'buscar', 'red', 'conectar', 'perfil', 'mensajes', 'notificaciones', 'proyecto', 'recurso', 'empleo', 'formacion', 'guardar', 'compartir', 'megusta', 'comentar', 'calendario', 'ubicacion', 'descargar', 'subir', 'filtro', 'ajustes', 'mas', 'cerrar', 'check', 'flecha', 'menu'];
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'grid' }, names.map(function (n) {
+      return h('div', { key: n, className: 'cell' }, h(L.Icon, { name: n, size: 24 }), h('span', null, n));
+    })));
+</script>
+</body>
+</html>
