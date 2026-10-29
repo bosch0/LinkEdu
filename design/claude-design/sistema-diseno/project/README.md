@@ -4,10 +4,11 @@ La red profesional de la educación. LinkEdu conecta a docentes del mismo
 perfil, les ayuda a crear proyectos colaborativos y a compartir recursos, y
 deja que las empresas encuentren y contraten a docentes libres.
 
-El sistema parte de los objetos de un aula: la **pizarra** (verde, el color de
-marca), el **subrayador** amarillo (lo que importa) y las líneas azules del
-**cuaderno** (enlaces, información y foco). Todo se apoya en la cuadrícula del
-cuaderno: pasos de 4px y una retícula de 24px.
+Los colores salen del logo. El **marino** de las letras es el color de marca.
+El **azul** y el **turquesa** del icono se usan para información y para
+"disponible". El **naranja** y el **amarillo** son los acentos cálidos: lo
+nuevo, lo destacado y el gesto del subrayado. Todo se apoya en la cuadrícula
+del cuaderno: pasos de 4px y una retícula de 24px.
 
 > Primera versión, hecha sin manual de marca previo. El logo ya existe (ver
 > "Logo"); todavía no hay set de iconos ni fotografía. Ver "Pendiente" al
@@ -35,18 +36,23 @@ cuaderno: pasos de 4px y una retícula de 24px.
 | --- | --- |
 | `paper` / `surface` / `surface-sunken` | Fondo, tarjetas y zonas hundidas |
 | `ink` / `ink-muted` | Texto principal y secundario |
-| `pizarra` | Marca y acción principal. Un botón `primary` por vista |
-| `subrayador` | El acento. Marca **una** cosa por vista: "Disponible", "Nuevo" |
-| `cuaderno` | Enlaces en texto, información y anillo `focus` |
-| `pizarra-soft` / `cuaderno-soft` | Fondos de etiquetas: materia (pizarra) y etapa (cuaderno) |
+| `marino` | Marca y acción principal. Un botón `primary` por vista |
+| `azul` | Enlaces en texto, información y anillo `focus` |
+| `turquesa` | "Disponible": anillo del avatar y etiqueta de estado |
+| `naranja` | El acento. Marca **una** cosa por vista: "Nuevo", "Plazo abierto" |
+| `amarillo` | Solo el gesto del subrayado y la portada |
+| `marino-soft` / `azul-soft` | Fondos de etiquetas: materia (marino) y etapa (azul) |
 | `warning` / `danger` | Plazos que cierran y errores. Solo para estados |
 
 Reglas:
 
 - El texto va siempre en `ink` o `ink-muted` sobre fondos neutros. Sobre
-  `pizarra`, en `on-pizarra`; sobre `subrayador`, en `on-subrayador`.
-- `subrayador` nunca es texto: es un fondo. Si todo está subrayado, nada lo
-  está.
+  `marino`, en `on-marino`; sobre `turquesa`, `naranja` y `amarillo`, en
+  `on-acento`.
+- `turquesa`, `naranja` y `amarillo` nunca son texto: son fondos. Sobre blanco
+  no llegan al contraste mínimo.
+- El logo usa degradados; la interfaz no. Cada token es un color plano.
+- Si todo está destacado en naranja, nada lo está.
 - `line` es decorativo. Los controles llevan `line-strong` (3:1).
 - Los dos temas usan los mismos nombres de token. Nunca pongas un color a mano.
 
@@ -78,7 +84,7 @@ Reglas:
 ## Firma: el subrayado
 
 El gesto propio de LinkEdu es pasar el subrayador por una palabra. Se hace
-con la clase `le-subrayado` (franja de `subrayador` en el 40% inferior del
+con la clase `le-subrayado` (franja de `amarillo` en el 40% inferior del
 texto). Úsalo en titulares de marketing y en la palabra clave de un estado
 vacío, nunca en texto de interfaz.
 
@@ -104,7 +110,7 @@ Los archivos están en el grupo **Logos** de este sistema y en el repo, en
   `surface`).
 - **`-azul`**: a una tinta, azul marino `#073157`. Para fondos claros cuando
   el logo en color sobra o se imprime a una tinta.
-- **`-blanco`**: a una tinta, blanco. Sobre `pizarra`, fotos oscuras y el tema
+- **`-blanco`**: a una tinta, blanco. Sobre `marino`, fotos oscuras y el tema
   oscuro.
 - No cambies sus colores, no lo deformes y no le pongas sombras ni contornos.
 - En el texto corrido, el nombre se escribe **LinkEdu**, con la L y la E en
@@ -112,8 +118,6 @@ Los archivos están en el grupo **Logos** de este sistema y en el repo, en
 
 ## Pendiente
 
-- Revisar si la paleta de la interfaz se ajusta a los colores del logo (azul
-  marino, azul, turquesa y naranja).
 - Set de iconos.
 - Estilo de fotografía e ilustración.
 - Componentes de proyecto colaborativo, oferta de empleo y publicación del

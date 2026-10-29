@@ -2,7 +2,7 @@
 (function () {
   var h = window.React.createElement;
   var fmt = new Intl.NumberFormat('es-ES', { useGrouping: 'always' });
-  var AVATAR_TONES = ['pizarra', 'cuaderno', 'subrayador'];
+  var AVATAR_TONES = ['marino', 'azul', 'neutral'];
 
   function cx() {
     return Array.prototype.filter.call(arguments, Boolean).join(' ');
@@ -73,8 +73,8 @@
           h('p', { className: 'le-profile__role' }, props.role),
           props.place ? h('p', { className: 'le-profile__place' }, props.place) : null)),
       tags.length || props.available ? h('div', { className: 'le-tags' },
-        props.available ? h(Tag, { tone: 'subrayador' }, 'Disponible') : null,
-        tags.map(function (t) { return h(Tag, { key: t, tone: 'pizarra' }, t); })) : null,
+        props.available ? h(Tag, { tone: 'turquesa' }, 'Disponible') : null,
+        tags.map(function (t) { return h(Tag, { key: t, tone: 'marino' }, t); })) : null,
       h('footer', { className: 'le-profile__actions' },
         h(Button, {
           variant: props.connected ? 'secondary' : 'primary',
@@ -93,7 +93,7 @@
         h(Avatar, { name: props.author, size: 's' }),
         h('span', null, props.author)),
       tags.length ? h('div', { className: 'le-tags' },
-        tags.map(function (t, i) { return h(Tag, { key: t, tone: i === 0 ? 'pizarra' : 'cuaderno' }, t); })) : null,
+        tags.map(function (t, i) { return h(Tag, { key: t, tone: i === 0 ? 'marino' : 'azul' }, t); })) : null,
       h('footer', { className: 'le-resource__foot' },
         h('p', { className: 'le-resource__stats' },
           fmt.format(props.downloads || 0) + ' descargas · ' + fmt.format(props.saves || 0) + ' guardados'),

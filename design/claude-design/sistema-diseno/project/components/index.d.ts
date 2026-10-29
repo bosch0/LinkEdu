@@ -1,15 +1,15 @@
 import type { ReactNode, ButtonHTMLAttributes, InputHTMLAttributes } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary: la acción principal (una por vista). highlight: llamada destacada en marketing. */
+  /** primary (marino): la acción principal, una por vista. highlight (naranja): llamada destacada en marketing. */
   variant?: 'primary' | 'secondary' | 'quiet' | 'highlight' | 'danger';
   size?: 'm' | 's';
   children: ReactNode;
 }
 
 export interface TagProps {
-  /** pizarra: materia. cuaderno: etapa. subrayador: estado destacado (uno por tarjeta). */
-  tone?: 'neutral' | 'pizarra' | 'cuaderno' | 'subrayador';
+  /** marino: materia. azul: etapa. turquesa: disponible. naranja: nuevo o destacado (uno por tarjeta). */
+  tone?: 'neutral' | 'marino' | 'azul' | 'turquesa' | 'naranja';
   className?: string;
   children: ReactNode;
 }
@@ -19,7 +19,7 @@ export interface AvatarProps {
   name: string;
   src?: string;
   size?: 's' | 'm' | 'l';
-  /** Anillo pizarra: disponible para proyectos o contratación. */
+  /** Anillo turquesa: disponible para proyectos o contratación. */
   available?: boolean;
   className?: string;
 }

@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap");
 
-/* Firma: el subrayador */
+/* Firma: el subrayado */
 .le-subrayado {
-  background: linear-gradient(transparent 60%, var(--subrayador) 60%);
+  background: linear-gradient(transparent 60%, var(--amarillo) 60%);
   padding: 0 0.1em;
 }
 
@@ -23,14 +23,14 @@
 .le-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .le-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .le-btn--s { min-height: 36px; padding: 0 var(--space-4); font-size: 14px; }
-.le-btn--primary { background: var(--pizarra); color: var(--on-pizarra); }
-.le-btn--primary:hover:not(:disabled) { background: var(--pizarra-hover); }
+.le-btn--primary { background: var(--marino); color: var(--on-marino); }
+.le-btn--primary:hover:not(:disabled) { background: var(--marino-hover); }
 .le-btn--secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
 .le-btn--secondary:hover:not(:disabled) { border-color: var(--ink); }
-.le-btn--quiet { background: transparent; color: var(--pizarra); }
-.le-btn--quiet:hover:not(:disabled) { background: var(--pizarra-soft); }
-.le-btn--highlight { background: var(--subrayador); color: var(--on-subrayador); }
-.le-btn--highlight:hover:not(:disabled) { border-color: var(--on-subrayador); }
+.le-btn--quiet { background: transparent; color: var(--marino); }
+.le-btn--quiet:hover:not(:disabled) { background: var(--marino-soft); }
+.le-btn--highlight { background: var(--naranja); color: var(--on-acento); }
+.le-btn--highlight:hover:not(:disabled) { border-color: var(--on-acento); }
 .le-btn--danger { background: transparent; color: var(--danger); border-color: var(--danger); }
 @media (prefers-reduced-motion: reduce) { .le-btn { transition: none; } }
 
@@ -45,9 +45,10 @@
   white-space: nowrap;
 }
 .le-tag--neutral { background: var(--surface-sunken); color: var(--ink); }
-.le-tag--pizarra { background: var(--pizarra-soft); color: var(--pizarra); }
-.le-tag--cuaderno { background: var(--cuaderno-soft); color: var(--cuaderno); }
-.le-tag--subrayador { background: var(--subrayador); color: var(--on-subrayador); }
+.le-tag--marino { background: var(--marino-soft); color: var(--marino); }
+.le-tag--azul { background: var(--azul-soft); color: var(--azul); }
+.le-tag--naranja { background: var(--naranja); color: var(--on-acento); }
+.le-tag--turquesa { background: var(--turquesa); color: var(--on-acento); }
 
 /* Avatar */
 .le-avatar {
@@ -63,10 +64,10 @@
 .le-avatar--s { width: 32px; height: 32px; font-size: 13px; }
 .le-avatar--m { width: 48px; height: 48px; font-size: 18px; }
 .le-avatar--l { width: 72px; height: 72px; font-size: 26px; }
-.le-avatar--pizarra { background: var(--pizarra-soft); color: var(--pizarra); }
-.le-avatar--cuaderno { background: var(--cuaderno-soft); color: var(--cuaderno); }
-.le-avatar--subrayador { background: var(--subrayador); color: var(--on-subrayador); }
-.le-avatar--available { box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px var(--pizarra); }
+.le-avatar--marino { background: var(--marino-soft); color: var(--marino); }
+.le-avatar--azul { background: var(--azul-soft); color: var(--azul); }
+.le-avatar--neutral { background: var(--surface-sunken); color: var(--ink); }
+.le-avatar--available { box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px var(--turquesa); }
 
 /* Input */
 .le-field { display: grid; gap: var(--space-1); max-width: 360px; font-family: var(--font-sans); }
