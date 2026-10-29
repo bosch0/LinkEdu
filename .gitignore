@@ -1,8 +1,37 @@
 # Dependencias de la app
 node_modules/
 
+# Resultado de compilar la app (se genera solo)
+dist/
+build/
+.angular/
+
 # Vídeos (pesan demasiado para git)
 *.mp4
 *.mov
 *.avi
 *.mkv
+
+# Claves y contraseñas: NUNCA se suben
+.env
+.env.*
+!.env.example
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales de Office (se crean al tener un .docx abierto)
+~$*
+
+# Configuración personal del editor
+.vscode/
+.idea/
+
+# Registros de errores
+*.log
+npm-debug.log*
+
+# Configuración personal de Claude (la compartida sí se sube)
+.claude/settings.local.json

@@ -1,0 +1,11 @@
+# Git decide el final de línea según el sistema (evita avisos en Windows)
+* text=auto
+
+# Archivos binarios: git no intenta comparar su contenido
+*.docx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.fig binary
