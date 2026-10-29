@@ -41,7 +41,7 @@
   "lastChange": {
     "by": "Antonio",
     "via": "Claude Code",
-    "at": "2026-10-29T11:20:00Z",
-    "note": "Añade 26 iconos, fotografía, ilustración y los componentes de proyecto, oferta, publicación y estado vacío."
+    "at": "2026-10-29T13:20:00Z",
+    "note": "Adapta el sistema al estilo de la página de inicio (tarjetas planas de 12px, paneles marino, avatares cuadrados, la franja, SearchField) y quita el tema oscuro: la app solo tendrá tema claro."
   }
 }

@@ -1,9 +1,11 @@
 import type { ReactNode, ButtonHTMLAttributes, InputHTMLAttributes } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary (marino): la acción principal, una por vista. highlight (naranja): llamada destacada en marketing. */
-  variant?: 'primary' | 'secondary' | 'quiet' | 'highlight' | 'danger';
+  /** primary (marino): la acción principal, una por vista. tonal: elegir tipo. inverse: dentro de un panel. highlight (naranja): llamada destacada en marketing. */
+  variant?: 'primary' | 'secondary' | 'tonal' | 'quiet' | 'inverse' | 'highlight' | 'danger';
   size?: 'm' | 's';
+  /** Botón redondo solo con icono. Pon aria-label. */
+  round?: boolean;
   children: ReactNode;
 }
 
@@ -18,7 +20,8 @@ export interface AvatarProps {
   /** Nombre completo: da las iniciales, el color y la etiqueta accesible. */
   name: string;
   src?: string;
-  size?: 's' | 'm' | 'l';
+  /** s 36px, m 48px, l 64px, xl 80px. */
+  size?: 's' | 'm' | 'l' | 'xl';
   /** Anillo turquesa: disponible para proyectos o contratación. */
   available?: boolean;
   className?: string;
@@ -30,6 +33,13 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   hint?: string;
   /** Si hay error, sustituye a hint y marca el campo. */
   error?: string;
+  /** Redondo y de 48px: solo para el campo de publicar. */
+  pill?: boolean;
+}
+
+export interface SearchFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** Nombre para el lector de pantalla. Por defecto, "Buscar". */
+  label?: string;
 }
 
 export interface ProfileCardProps {
@@ -68,6 +78,7 @@ export declare function Button(props: ButtonProps): JSX.Element;
 export declare function Tag(props: TagProps): JSX.Element;
 export declare function Avatar(props: AvatarProps): JSX.Element;
 export declare function Input(props: InputProps): JSX.Element;
+export declare function SearchField(props: SearchFieldProps): JSX.Element;
 export declare function ProfileCard(props: ProfileCardProps): JSX.Element;
 export declare function ResourceCard(props: ResourceCardProps): JSX.Element;
 
@@ -114,6 +125,8 @@ export interface JobCardProps {
   pay?: string;
   /** "Hace 5 horas". */
   posted?: string;
+  /** Oferta destacada: la tarjeta pasa a panel marino. Una por pantalla. */
+  featured?: boolean;
   applied?: boolean;
   onApply?: () => void;
   className?: string;
@@ -126,7 +139,8 @@ export interface PostCardProps {
   /** "hace 2 h". */
   time: string;
   text: string;
-  resource?: { kind: string; title: string };
+  /** kind: formato corto ("PDF"). detail: "24 páginas · Tecnología · 4º ESO". */
+  resource?: { kind: string; title: string; detail?: string };
   likes?: number;
   comments?: number;
   liked?: boolean;

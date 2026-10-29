@@ -17,10 +17,12 @@
   .text { position: absolute; left: 48px; bottom: 48px; max-width: 440px; display: grid; gap: var(--space-2); }
   .name { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 96px; line-height: 0.92; letter-spacing: -0.02em; color: var(--ink); }
   .tagline { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+  .cover .le-franja { position: absolute; top: 0; left: 0; right: 0; z-index: 1; }
 </style>
 </head>
 <body>
 <div class="cover">
+  <div class="le-franja" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
   <!--
     blocks: the logo's colours. marino slab 216×264 (space-6 × 9 by 11), naranja 232×112, turquesa 112×152, amarillo 104×88, azul strip 216×48; radius-l on the big three, radius-s on amarillo and azul
     arrangement: one tall marino slab bleeding off the top, with satellites to its right bleeding off the right and bottom edges, the azul strip under the slab

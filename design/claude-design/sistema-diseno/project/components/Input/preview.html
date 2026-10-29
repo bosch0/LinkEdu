@@ -1,4 +1,4 @@
-<!-- @dsCard group="Formularios" height=200 subtitle="con ayuda y con error" -->
+<!-- @dsCard group="Formularios" height=300 subtitle="con ayuda, con error y en píldora" -->
 <!doctype html>
 <html>
 <head><meta charset="utf-8"><title>Input</title>
@@ -14,7 +14,8 @@
   ReactDOM.createRoot(document.getElementById('root')).render(
     h('div', { className: 'row' },
       h(L.Input, { id: 'centro', label: 'Centro educativo', placeholder: 'IES, CEIP, colegio…', hint: 'Si das clase en varios, pon el principal.' }),
-      h(L.Input, { id: 'correo', label: 'Correo del centro', type: 'email', defaultValue: 'lucia@gmail.com', error: 'Ese correo no es de un centro. Usa el de tu centro o regístrate como docente libre.' })));
+      h(L.Input, { id: 'correo', label: 'Correo del centro', type: 'email', defaultValue: 'lucia@gmail.com', error: 'Ese correo no es de un centro. Usa el de tu centro o regístrate como docente libre.' }),
+      h(L.Input, { id: 'publicar', label: 'Escribe una publicación', pill: true, placeholder: 'Comparte un recurso o una idea con tu claustro' })));
 </script>
 </body>
 </html>

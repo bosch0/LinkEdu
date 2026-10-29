@@ -1,0 +1,19 @@
+<!-- @dsCard group="Formularios" height=104 subtitle="buscador de la cabecera" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>SearchField</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .bar { display: flex; align-items: center; padding: var(--space-3) var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface); }
+  .bar .le-search { flex: 1; max-width: 420px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'bar' }, h(L.SearchField, {})));
+</script>
+</body>
+</html>
