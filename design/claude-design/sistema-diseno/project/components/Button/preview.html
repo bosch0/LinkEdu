@@ -1,4 +1,4 @@
-<!-- @dsCard group="Acciones" height=120 subtitle="primary, secondary, quiet, highlight, danger" -->
+<!-- @dsCard group="Acciones" height=200 subtitle="primary, secondary, tonal, quiet, inverse, highlight, danger y redondo" -->
 <!doctype html>
 <html>
 <head><meta charset="utf-8"><title>Button</title>
@@ -6,6 +6,7 @@
   body { margin: 0; padding: var(--space-4); background: var(--paper); }
   .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
   .col { display: grid; gap: var(--space-4); }
+  .panel { padding: var(--space-4) var(--space-5); border-radius: var(--radius-m); background: var(--panel); }
 </style>
 </head>
 <body>
@@ -15,13 +16,15 @@
   ReactDOM.createRoot(document.getElementById('root')).render(
     h('div', { className: 'col' },
       h('div', { className: 'row' },
-        h(L.Button, { variant: 'primary' }, 'Publicar proyecto'),
-        h(L.Button, { variant: 'secondary' }, 'Guardar borrador'),
-        h(L.Button, { variant: 'quiet' }, 'Cancelar')),
+        h(L.Button, { variant: 'primary' }, 'Publicar'),
+        h(L.Button, { variant: 'secondary' }, h(L.Icon, { name: 'mas' }), 'Crear proyecto'),
+        h(L.Button, { variant: 'tonal', size: 's' }, h(L.Icon, { name: 'proyecto' }), 'Proyecto'),
+        h(L.Button, { variant: 'quiet' }, h(L.Icon, { name: 'compartir' }), 'Compartir'),
+        h(L.Button, { variant: 'secondary', round: true, 'aria-label': 'Conectar con Marta Ruiz' }, h(L.Icon, { name: 'conectar' }))),
       h('div', { className: 'row' },
+        h('div', { className: 'panel' }, h(L.Button, { variant: 'inverse' }, 'Ver oferta')),
         h(L.Button, { variant: 'highlight' }, 'Únete gratis'),
         h(L.Button, { variant: 'danger' }, 'Abandonar proyecto'),
-        h(L.Button, { variant: 'primary', size: 's' }, 'Conectar'),
         h(L.Button, { variant: 'primary', disabled: true }, 'Enviando…'))));
 </script>
 </body>

@@ -6,7 +6,7 @@ Lo que hay en `project/` es la fuente del sistema. Es lo que se publica en el
 artifact:
 
 - `README.md`: el manual (voz, color, tipografía, espacios, firma visual).
-- `tokens.json`: colores (tema claro y oscuro), tipos, espacios, radios y sombra.
+- `tokens.json`: colores (solo tema claro: la app no tiene modo oscuro), tipos, espacios, radios y sombra.
 - `components/`: los componentes (`bundle.js` y `bundle.css`) con su guía y su
   vista previa en cada carpeta.
 - `design-system.json`: el índice del artifact. No hace falta tocarlo a mano.

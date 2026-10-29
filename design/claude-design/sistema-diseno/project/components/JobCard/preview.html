@@ -1,4 +1,4 @@
-<!-- @dsCard group="Tarjetas" height=360 subtitle="oferta nueva y oferta inscrita" -->
+<!-- @dsCard group="Tarjetas" height=360 subtitle="oferta destacada en panel y oferta inscrita" -->
 <!doctype html>
 <html>
 <head><meta charset="utf-8"><title>JobCard</title>
@@ -17,7 +17,7 @@
       h(L.JobCard, {
         title: 'Docente de programación para bootcamp',
         company: 'Academia Códigos',
-        isNew: true, modality: 'Híbrido', tags: ['JavaScript', 'React'],
+        featured: true, isNew: true, modality: 'Híbrido', tags: ['JavaScript', 'React'],
         place: 'Madrid · 2 días presenciales', hours: '12 h/semana, de tarde', pay: '28 €/hora',
         posted: 'Hace 5 horas',
         applied: a[0], onApply: function () { a[1](!a[0]); }

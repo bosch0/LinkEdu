@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"LinkEdu","components":[{"name":"Icon"},{"name":"Button"},{"name":"Tag"},{"name":"Avatar"},{"name":"Input"},{"name":"ProfileCard"},{"name":"ResourceCard"},{"name":"ProjectCard"},{"name":"JobCard"},{"name":"PostCard"},{"name":"EmptyState"}]} */
+/* @ds-bundle: {"format":4,"namespace":"LinkEdu","components":[{"name":"Icon"},{"name":"Button"},{"name":"Tag"},{"name":"Avatar"},{"name":"Input"},{"name":"SearchField"},{"name":"ProfileCard"},{"name":"ResourceCard"},{"name":"ProjectCard"},{"name":"JobCard"},{"name":"PostCard"},{"name":"EmptyState"}]} */
 (function () {
   var h = window.React.createElement;
   var fmt = new Intl.NumberFormat('es-ES', { useGrouping: 'always' });
@@ -30,9 +30,10 @@
 
   function Button(props) {
     var variant = props.variant || 'secondary';
-    var rest = omit(props, ['variant', 'size', 'className', 'children']);
+    var rest = omit(props, ['variant', 'size', 'round', 'className', 'children']);
     return h('button', Object.assign({ type: 'button' }, rest, {
-      className: cx('le-btn', 'le-btn--' + variant, props.size === 's' && 'le-btn--s', props.className)
+      className: cx('le-btn', 'le-btn--' + variant, props.size === 's' && 'le-btn--s',
+        props.round && 'le-btn--round', props.className)
     }), props.children);
   }
 
@@ -53,14 +54,24 @@
   function Input(props) {
     var msg = props.error || props.hint;
     var msgId = props.id + '-msg';
-    var rest = omit(props, ['label', 'hint', 'error', 'className']);
-    return h('div', { className: cx('le-field', props.error && 'le-field--error', props.className) },
+    var rest = omit(props, ['label', 'hint', 'error', 'pill', 'className']);
+    return h('div', { className: cx('le-field', props.error && 'le-field--error', props.pill && 'le-field--pill', props.className) },
       h('label', { htmlFor: props.id, className: 'le-field__label' }, props.label),
       h('input', Object.assign({ className: 'le-field__input' }, rest, {
         'aria-invalid': props.error ? 'true' : undefined,
         'aria-describedby': msg ? msgId : undefined
       })),
       msg ? h('p', { id: msgId, className: 'le-field__msg' }, msg) : null);
+  }
+
+  // Buscador de la cabecera: píldora hundida con la lupa delante.
+  function SearchField(props) {
+    var rest = omit(props, ['label', 'className']);
+    return h('label', { className: cx('le-search', props.className) },
+      h(Icon, { name: 'buscar' }),
+      h('input', Object.assign({ type: 'search', placeholder: 'Buscar en LinkEdu' }, rest, {
+        'aria-label': props.label || 'Buscar'
+      })));
   }
 
   function ProfileCard(props) {
@@ -198,7 +209,7 @@
       props.hours && ['calendario', props.hours],
       props.pay && ['empleo', props.pay]
     ].filter(Boolean);
-    return h('article', { className: cx('le-card', 'le-job', props.className) },
+    return h('article', { className: cx('le-card', 'le-job', props.featured && 'le-card--panel', props.className) },
       h('header', { className: 'le-profile__head' },
         h(Avatar, { name: props.company, src: props.logo, size: 'm' }),
         h('div', { className: 'le-profile__id' },
@@ -214,7 +225,7 @@
       h('footer', { className: 'le-card__foot' },
         h('p', { className: 'le-meta' }, props.posted || ''),
         h(Button, {
-          variant: props.applied ? 'secondary' : 'primary',
+          variant: props.featured ? 'inverse' : props.applied ? 'secondary' : 'primary',
           size: 's',
           'aria-pressed': props.applied ? 'true' : 'false',
           onClick: props.onApply
@@ -231,17 +242,19 @@
           h('p', { className: 'le-meta' }, props.role ? props.role + ' · ' + props.time : props.time))),
       h('p', { className: 'le-post__text' }, props.text),
       props.resource ? h('div', { className: 'le-post__attach' },
-        h('span', { className: 'le-post__attach-icon' }, h(Icon, { name: 'recurso' })),
-        h('div', { className: 'le-profile__id' },
-          h('p', { className: 'le-resource__kind' }, props.resource.kind),
-          h('p', { className: 'le-post__attach-title' }, props.resource.title))) : null,
+        h('span', { className: 'le-post__attach-kind' }, props.resource.kind),
+        h('div', { className: 'le-post__attach-body' },
+          h('p', { className: 'le-post__attach-title' }, props.resource.title),
+          props.resource.detail ? h('p', { className: 'le-meta' }, props.resource.detail) : null),
+        h(Icon, { name: 'descargar' })) : null,
+      // Solo la cifra a la vista; el nombre de la acción va en aria-label.
       h('footer', { className: 'le-post__actions' },
-        h(Button, { variant: 'quiet', size: 's', 'aria-pressed': props.liked ? 'true' : 'false', onClick: props.onLike },
-          h(Icon, { name: 'megusta', size: 18, className: props.liked ? 'le-icon--filled' : undefined }), 'Me gusta · ' + fmt.format(likes)),
-        h(Button, { variant: 'quiet', size: 's', onClick: props.onComment },
-          h(Icon, { name: 'comentar', size: 18 }), 'Comentar · ' + fmt.format(props.comments || 0)),
-        h(Button, { variant: 'quiet', size: 's', onClick: props.onShare },
-          h(Icon, { name: 'compartir', size: 18 }), 'Compartir')));
+        h(Button, { variant: 'quiet', 'aria-label': 'Me gusta, ' + fmt.format(likes), 'aria-pressed': props.liked ? 'true' : 'false', onClick: props.onLike },
+          h(Icon, { name: 'megusta', className: props.liked ? 'le-icon--filled' : undefined }), fmt.format(likes)),
+        h(Button, { variant: 'quiet', 'aria-label': 'Comentar, ' + fmt.format(props.comments || 0) + ' comentarios', onClick: props.onComment },
+          h(Icon, { name: 'comentar' }), fmt.format(props.comments || 0)),
+        h(Button, { variant: 'quiet', onClick: props.onShare },
+          h(Icon, { name: 'compartir' }), 'Compartir')));
   }
 
   // Ilustración del sistema: formas planas del logo sobre la cuadrícula.
@@ -276,6 +289,7 @@
     Tag: Tag,
     Avatar: Avatar,
     Input: Input,
+    SearchField: SearchField,
     ProfileCard: ProfileCard,
     ResourceCard: ResourceCard
   });
