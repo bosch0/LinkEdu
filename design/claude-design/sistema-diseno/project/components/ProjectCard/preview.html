@@ -1,0 +1,39 @@
+<!-- @dsCard group="Tarjetas" height=380 subtitle="abierto e inscrito" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>ProjectCard</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 360px)); gap: var(--space-8); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  function Demo() {
+    var a = React.useState(false), b = React.useState(true);
+    return h('div', { className: 'row' },
+      h(L.ProjectCard, {
+        title: 'Huerto escolar con sensores',
+        summary: 'Medimos humedad y temperatura del huerto con Arduino y comparamos los datos entre tres comunidades.',
+        tags: ['Tecnología', '2º ESO', '3º ESO'],
+        centres: ['IES Ramiro de Maeztu', 'CEIP Los Almendros', 'IES Lope de Vega'],
+        slots: 5,
+        deadline: '15 de noviembre',
+        joined: a[0], onJoin: function () { a[1](!a[0]); }
+      }),
+      h(L.ProjectCard, {
+        title: 'Podcast bilingüe entre institutos',
+        summary: 'Cada centro graba un episodio al mes en inglés sobre su ciudad.',
+        tags: ['Inglés', 'Bachillerato'],
+        centres: ['IES Juan de Mairena', 'Colegio San Gabriel', 'IES Clara Campoamor', 'IES Isaac Albéniz'],
+        slots: 6,
+        deadline: '30 de noviembre',
+        joined: b[0], onJoin: function () { b[1](!b[0]); }
+      }));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

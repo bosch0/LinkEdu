@@ -1,4 +1,4 @@
-<!-- @dsCard group="Etiquetas" height=72 subtitle="materia, etapa, estado y neutra" -->
+<!-- @dsCard group="Etiquetas" height=72 subtitle="materia, etapa, disponible, nuevo y neutra" -->
 <!doctype html>
 <html>
 <head><meta charset="utf-8"><title>Tag</title>
@@ -10,11 +10,12 @@
   var L = window.LinkEdu, h = React.createElement;
   ReactDOM.createRoot(document.getElementById('root')).render(
     h('div', { className: 'le-tags' },
-      h(L.Tag, { tone: 'subrayador' }, 'Disponible'),
-      h(L.Tag, { tone: 'pizarra' }, 'Matemáticas'),
-      h(L.Tag, { tone: 'pizarra' }, 'Desarrollo Web'),
-      h(L.Tag, { tone: 'cuaderno' }, '3º ESO'),
-      h(L.Tag, { tone: 'cuaderno' }, 'FP Grado Superior'),
+      h(L.Tag, { tone: 'turquesa' }, 'Disponible'),
+      h(L.Tag, { tone: 'marino' }, 'Matemáticas'),
+      h(L.Tag, { tone: 'marino' }, 'Desarrollo Web'),
+      h(L.Tag, { tone: 'azul' }, '3º ESO'),
+      h(L.Tag, { tone: 'azul' }, 'FP Grado Superior'),
+      h(L.Tag, { tone: 'naranja' }, 'Nuevo'),
       h(L.Tag, { tone: 'neutral' }, 'ABP'),
       h(L.Tag, { tone: 'neutral' }, 'Inglés B2')));
 </script>

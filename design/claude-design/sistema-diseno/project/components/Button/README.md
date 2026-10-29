@@ -2,10 +2,10 @@
 
 Botón con el verbo primero ("Conectar", "Publicar proyecto"), en minúsculas salvo la inicial.
 
-- `primary` (pizarra): la acción para la que existe la vista. Solo uno por vista.
+- `primary` (marino): la acción para la que existe la vista. Solo uno por vista.
 - `secondary`: acciones de apoyo. Borde `line-strong`.
 - `quiet`: acciones de bajo peso dentro de tarjetas ("Ver perfil", "Guardar").
-- `highlight` (subrayador): solo en landing y campañas, nunca dentro de la app.
+- `highlight` (naranja): solo en landing y campañas, nunca dentro de la app.
 - `danger`: borrar o abandonar un proyecto. Pide confirmación en la propia vista.
 - `size="s"` solo dentro de tarjetas densas. El tamaño normal mide 44px de alto.
 

@@ -1,0 +1,37 @@
+<!-- @dsCard group="Tarjetas" height=360 subtitle="oferta nueva y oferta inscrita" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>JobCard</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 360px)); gap: var(--space-8); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  function Demo() {
+    var a = React.useState(false), b = React.useState(true);
+    return h('div', { className: 'row' },
+      h(L.JobCard, {
+        title: 'Docente de programación para bootcamp',
+        company: 'Academia Códigos',
+        isNew: true, modality: 'Híbrido', tags: ['JavaScript', 'React'],
+        place: 'Madrid · 2 días presenciales', hours: '12 h/semana, de tarde', pay: '28 €/hora',
+        posted: 'Hace 5 horas',
+        applied: a[0], onApply: function () { a[1](!a[0]); }
+      }),
+      h(L.JobCard, {
+        title: 'Refuerzo de Matemáticas para ESO',
+        company: 'Centro de Estudios Delta',
+        modality: 'Presencial', tags: ['Matemáticas', 'ESO'],
+        place: 'Sevilla', hours: '8 h/semana', pay: '18 €/hora',
+        posted: 'Hace 3 días',
+        applied: b[0], onApply: function () { b[1](!b[0]); }
+      }));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

@@ -4,13 +4,14 @@ La red profesional de la educación. LinkEdu conecta a docentes del mismo
 perfil, les ayuda a crear proyectos colaborativos y a compartir recursos, y
 deja que las empresas encuentren y contraten a docentes libres.
 
-El sistema parte de los objetos de un aula: la **pizarra** (verde, el color de
-marca), el **subrayador** amarillo (lo que importa) y las líneas azules del
-**cuaderno** (enlaces, información y foco). Todo se apoya en la cuadrícula del
-cuaderno: pasos de 4px y una retícula de 24px.
+Los colores salen del logo. El **marino** de las letras es el color de marca.
+El **azul** y el **turquesa** del icono se usan para información y para
+"disponible". El **naranja** y el **amarillo** son los acentos cálidos: lo
+nuevo, lo destacado y el gesto del subrayado. Todo se apoya en la cuadrícula
+del cuaderno: pasos de 4px y una retícula de 24px.
 
-> Primera versión, hecha sin manual de marca previo. Todavía no hay logo, set
-> de iconos ni fotografía. Ver "Pendiente" al final.
+> Incluye voz y tono, color, tipografía, espacios, iconos, fotografía,
+> ilustración, logo y 11 componentes.
 
 ## Voz y tono
 
@@ -34,18 +35,23 @@ cuaderno: pasos de 4px y una retícula de 24px.
 | --- | --- |
 | `paper` / `surface` / `surface-sunken` | Fondo, tarjetas y zonas hundidas |
 | `ink` / `ink-muted` | Texto principal y secundario |
-| `pizarra` | Marca y acción principal. Un botón `primary` por vista |
-| `subrayador` | El acento. Marca **una** cosa por vista: "Disponible", "Nuevo" |
-| `cuaderno` | Enlaces en texto, información y anillo `focus` |
-| `pizarra-soft` / `cuaderno-soft` | Fondos de etiquetas: materia (pizarra) y etapa (cuaderno) |
+| `marino` | Marca y acción principal. Un botón `primary` por vista |
+| `azul` | Enlaces en texto, información y anillo `focus` |
+| `turquesa` | "Disponible": anillo del avatar y etiqueta de estado |
+| `naranja` | El acento. Marca **una** cosa por vista: "Nuevo", "Plazo abierto" |
+| `amarillo` | Solo el gesto del subrayado y la portada |
+| `marino-soft` / `azul-soft` | Fondos de etiquetas: materia (marino) y etapa (azul) |
 | `warning` / `danger` | Plazos que cierran y errores. Solo para estados |
 
 Reglas:
 
 - El texto va siempre en `ink` o `ink-muted` sobre fondos neutros. Sobre
-  `pizarra`, en `on-pizarra`; sobre `subrayador`, en `on-subrayador`.
-- `subrayador` nunca es texto: es un fondo. Si todo está subrayado, nada lo
-  está.
+  `marino`, en `on-marino`; sobre `turquesa`, `naranja` y `amarillo`, en
+  `on-acento`.
+- `turquesa`, `naranja` y `amarillo` nunca son texto: son fondos. Sobre blanco
+  no llegan al contraste mínimo.
+- El logo usa degradados; la interfaz no. Cada token es un color plano.
+- Si todo está destacado en naranja, nada lo está.
 - `line` es decorativo. Los controles llevan `line-strong` (3:1).
 - Los dos temas usan los mismos nombres de token. Nunca pongas un color a mano.
 
@@ -77,25 +83,97 @@ Reglas:
 ## Firma: el subrayado
 
 El gesto propio de LinkEdu es pasar el subrayador por una palabra. Se hace
-con la clase `le-subrayado` (franja de `subrayador` en el 40% inferior del
+con la clase `le-subrayado` (franja de `amarillo` en el 40% inferior del
 texto). Úsalo en titulares de marketing y en la palabra clave de un estado
 vacío, nunca en texto de interfaz.
 
 ## Iconografía
 
-Aún no hay set propio. Mientras tanto: iconos de trazo de 2px con extremos
-redondeados, a 20px junto a texto `body` y a 24px sueltos, siempre en
-`currentColor`. Nunca emojis como iconos.
+LinkEdu tiene un set propio de 26 iconos (componente `Icon`; los SVG están en
+`design/assets/iconos/` del repo).
+
+- Trazo de 2px, extremos y uniones redondeados, sobre una rejilla de 24px.
+  Esquinas suaves, a juego con los radios de la interfaz.
+- Siempre de línea. Solo se rellena un icono para marcar que está activo
+  (el corazón de "Me gusta").
+- Toman el color del texto (`currentColor`). En navegación, `ink-muted` en
+  reposo y `marino` cuando están activos. En datos de tarjeta, `azul`.
+- Tamaños: 16px en metadatos, 20px junto a texto `body`, 24px sueltos.
+- Junto a una etiqueta de texto siempre que se pueda. Un icono solo necesita
+  `label` para el lector de pantalla.
+- Nunca emojis como iconos.
+
+## Fotografía
+
+La fotografía enseña a docentes de verdad haciendo su trabajo. Es lo que
+separa a LinkEdu de una web de stock.
+
+- **Personas reales en aulas reales**: pizarras con cosas escritas, mesas en
+  grupo, talleres de FP, patios. Nada de sonrisas posadas mirando a cámara
+  ni de "manos sobre portátil".
+- **Luz natural** de ventana, tonos ligeramente fríos que casan con el marino.
+  Sin filtros de color, sin viñeteado y sin blanco y negro.
+- **Diversidad sin forzarla**: edades, etapas (Infantil, FP, adultos),
+  centros públicos y concertados, ciudades y pueblos.
+- **Encuadre**: plano medio o detalle de manos trabajando, con aire a un lado
+  para poner texto encima. Formatos 4:3 en tarjetas y 16:9 en cabeceras.
+- **Tratamiento en la interfaz**: esquinas `radius-l` y nunca con borde. Si
+  lleva texto encima, una capa de `marino` al 70% y el texto en `on-marino`.
+- **Privacidad**: el alumnado menor no se reconoce nunca (de espaldas,
+  desenfocado o fuera de plano). Toda foto necesita el permiso del centro.
+- **Fotos de perfil**: cara centrada, fondo limpio, recorte circular del
+  `Avatar`. Si no hay, se usan las iniciales.
+
+## Ilustración
+
+La ilustración se construye con las mismas formas que el logo y la portada.
+Se usa en estados vacíos, en la bienvenida y en la landing, nunca para
+decorar una pantalla que ya tiene contenido.
+
+- **Formas planas y geométricas**: rectángulos con `radius-s` y `radius-l`,
+  círculos y píldoras. Una pizarra es un rectángulo marino; el sol, un
+  círculo naranja; un proyecto, píldoras que se tocan.
+- **Solo colores del sistema**: `marino`, `azul`, `turquesa`, `naranja` y
+  `amarillo` sobre `surface-sunken`. Como mucho cuatro por ilustración. Sin
+  degradados, sin sombras y sin contornos.
+- **Personas, si salen, sin rasgos**: siluetas de cabeza y cuerpo hechas con
+  un círculo y una píldora. Nada de caras de dibujos animados.
+- **La cuadrícula del cuaderno** (`space-6`) puede ir de fondo como trama de
+  puntos o cruces en `marino-soft`.
+- Las ilustraciones se dibujan en SVG con clases que apuntan a los tokens,
+  así funcionan en tema claro y oscuro. Ejemplo: el componente `EmptyState`.
 
 ## Logo
 
-Todavía no existe. Hasta que se diseñe, el nombre se escribe **LinkEdu** (con
-la L y la E en mayúscula) en Bricolage Grotesque 800, color `ink`.
+Los archivos están en el grupo **Logos** de este sistema y en el repo, en
+`design/assets/logo/`. Hay cuatro versiones, cada una en tres colores:
 
-## Pendiente
+| Versión | Archivo | Cuándo usarla |
+| --- | --- | --- |
+| Horizontal | `linkedu-horizontal` | Cabecera de la web, firmas, documentos |
+| Vertical | `linkedu-vertical` | Portadas, pantalla de carga, redes sociales |
+| Icono | `linkedu-icono` | Favicon, icono de app, avatar de la marca |
+| Texto | `linkedu-texto` | Espacios estrechos donde el icono no se lee |
 
-- Logo e isotipo, y su versión monocroma.
-- Set de iconos.
-- Estilo de fotografía e ilustración.
-- Componentes de proyecto colaborativo, oferta de empleo y publicación del
-  feed.
+- **Color** (sin sufijo): la versión principal, sobre fondos claros (`paper`,
+  `surface`).
+- **`-azul`**: a una tinta, azul marino `#073157`. Para fondos claros cuando
+  el logo en color sobra o se imprime a una tinta.
+- **`-blanco`**: a una tinta, blanco. Sobre `marino`, fotos oscuras y el tema
+  oscuro.
+- No cambies sus colores, no lo deformes y no le pongas sombras ni contornos.
+- En el texto corrido, el nombre se escribe **LinkEdu**, con la L y la E en
+  mayúscula.
+
+## Componentes
+
+| Grupo | Componentes |
+| --- | --- |
+| Acciones | `Button` |
+| Etiquetas | `Tag` |
+| Identidad | `Avatar`, `Icon` |
+| Formularios | `Input` |
+| Tarjetas | `ProfileCard` (docente), `ResourceCard` (recurso), `ProjectCard` (proyecto colaborativo), `JobCard` (oferta de empleo) |
+| Feed | `PostCard` (publicación), `EmptyState` (lista vacía) |
+
+Cada uno tiene su guía y su vista previa en `components/<Nombre>/`.
