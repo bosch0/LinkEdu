@@ -1,0 +1,28 @@
+<!-- @dsCard group="Acciones" height=120 subtitle="primary, secondary, quiet, highlight, danger" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Button</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .col { display: grid; gap: var(--space-4); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'col' },
+      h('div', { className: 'row' },
+        h(L.Button, { variant: 'primary' }, 'Publicar proyecto'),
+        h(L.Button, { variant: 'secondary' }, 'Guardar borrador'),
+        h(L.Button, { variant: 'quiet' }, 'Cancelar')),
+      h('div', { className: 'row' },
+        h(L.Button, { variant: 'highlight' }, 'Únete gratis'),
+        h(L.Button, { variant: 'danger' }, 'Abandonar proyecto'),
+        h(L.Button, { variant: 'primary', size: 's' }, 'Conectar'),
+        h(L.Button, { variant: 'primary', disabled: true }, 'Enviando…'))));
+</script>
+</body>
+</html>

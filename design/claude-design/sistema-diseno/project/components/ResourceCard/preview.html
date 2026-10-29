@@ -1,0 +1,37 @@
+<!-- @dsCard group="Tarjetas" height=320 subtitle="unidad didáctica y presentación" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>ResourceCard</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 360px)); gap: var(--space-8); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  function Demo() {
+    var a = React.useState(false), b = React.useState(true);
+    return h('div', { className: 'row' },
+      h(L.ResourceCard, {
+        kind: 'PDF', detail: '18 págs',
+        title: 'Unidad didáctica: funciones lineales con datos reales',
+        author: 'Lucía Fernández Ortega',
+        tags: ['Matemáticas', '3º ESO'],
+        downloads: 1248, saves: 96,
+        saved: a[0], onSave: function () { a[1](!a[0]); }
+      }),
+      h(L.ResourceCard, {
+        kind: 'Presentación', detail: '24 diapositivas',
+        title: 'Introducción a Git y GitHub para el aula',
+        author: 'Javier Morales',
+        tags: ['Desarrollo Web', 'FP Grado Superior'],
+        downloads: 532, saves: 41,
+        saved: b[0], onSave: function () { b[1](!b[0]); }
+      }));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

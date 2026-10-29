@@ -1,0 +1,23 @@
+<!-- @dsCard group="Identidad" height=112 subtitle="s, m, l y disponible" -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Avatar</title>
+<style>
+  body { margin: 0; padding: var(--space-4); background: var(--paper); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: center; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var L = window.LinkEdu, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'row' },
+      h(L.Avatar, { name: 'Lucía Fernández', size: 's' }),
+      h(L.Avatar, { name: 'Javier Morales', size: 'm' }),
+      h(L.Avatar, { name: 'Aitana Ruiz', size: 'm' }),
+      h(L.Avatar, { name: 'Lucía Fernández', size: 'l' }),
+      h(L.Avatar, { name: 'Javier Morales', size: 'l', available: true })));
+</script>
+</body>
+</html>
