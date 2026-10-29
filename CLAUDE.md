@@ -21,11 +21,29 @@ LinkEdu/
 ├── design/       Diseño UI/UX hecho con Claude Design y assets finales
 ├── video/        Guion y notas del vídeo final (Iván)
 ├── memoria/      Diario diario del proyecto (ver más abajo)
-└── proyecto.md   Descripción y objetivos del proyecto
+├── proyecto.md      Descripción y objetivos del proyecto
+├── README.md        Presentación del repo para GitHub
+└── CONTRIBUTING.md  Guía de cómo trabajar con Git (ramas y Pull Requests)
 ```
 
 Cada carpeta tiene un `README.md` que explica qué va dentro. Pon cada archivo
 nuevo en su carpeta y no mezcles código con documentos o diseño.
+
+## Flujo de Git
+
+La rama `main` está protegida: **no se hace push directo a `main`**. Cada
+tarea va en su propia rama, creada desde `main`, y se une con un Pull Request
+que revisa la otra persona. La guía completa está en `CONTRIBUTING.md`.
+
+- Antes de crear una rama: `git switch main` y `git pull`.
+- Nombre de rama: `tipo/descripcion-corta` (`feature/`, `fix/`, `diseno/`,
+  `docs/`, `video/`, `chore/`). Una rama = una sola tarea.
+- Si el usuario pide un cambio y está en `main`, crea antes la rama
+  correspondiente; no hagas commits en `main`.
+- No borres ramas remotas ni fuerces pushes sin que el usuario lo pida.
+- Los commits en español, en presente ("Añade...", "Corrige...").
+- Los cambios del diario (`memoria/diario/`) también van en una rama
+  (por ejemplo `docs/diario-AAAA-MM-DD`) y entran por Pull Request.
 
 ## Memoria del proyecto
 
