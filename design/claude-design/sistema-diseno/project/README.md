@@ -9,8 +9,9 @@ marca), el **subrayador** amarillo (lo que importa) y las líneas azules del
 **cuaderno** (enlaces, información y foco). Todo se apoya en la cuadrícula del
 cuaderno: pasos de 4px y una retícula de 24px.
 
-> Primera versión, hecha sin manual de marca previo. Todavía no hay logo, set
-> de iconos ni fotografía. Ver "Pendiente" al final.
+> Primera versión, hecha sin manual de marca previo. El logo ya existe (ver
+> "Logo"); todavía no hay set de iconos ni fotografía. Ver "Pendiente" al
+> final.
 
 ## Voz y tono
 
@@ -89,12 +90,30 @@ redondeados, a 20px junto a texto `body` y a 24px sueltos, siempre en
 
 ## Logo
 
-Todavía no existe. Hasta que se diseñe, el nombre se escribe **LinkEdu** (con
-la L y la E en mayúscula) en Bricolage Grotesque 800, color `ink`.
+Los archivos están en el grupo **Logos** de este sistema y en el repo, en
+`design/assets/logo/`. Hay cuatro versiones, cada una en tres colores:
+
+| Versión | Archivo | Cuándo usarla |
+| --- | --- | --- |
+| Horizontal | `linkedu-horizontal` | Cabecera de la web, firmas, documentos |
+| Vertical | `linkedu-vertical` | Portadas, pantalla de carga, redes sociales |
+| Icono | `linkedu-icono` | Favicon, icono de app, avatar de la marca |
+| Texto | `linkedu-texto` | Espacios estrechos donde el icono no se lee |
+
+- **Color** (sin sufijo): la versión principal, sobre fondos claros (`paper`,
+  `surface`).
+- **`-azul`**: a una tinta, azul marino `#073157`. Para fondos claros cuando
+  el logo en color sobra o se imprime a una tinta.
+- **`-blanco`**: a una tinta, blanco. Sobre `pizarra`, fotos oscuras y el tema
+  oscuro.
+- No cambies sus colores, no lo deformes y no le pongas sombras ni contornos.
+- En el texto corrido, el nombre se escribe **LinkEdu**, con la L y la E en
+  mayúscula.
 
 ## Pendiente
 
-- Logo e isotipo, y su versión monocroma.
+- Revisar si la paleta de la interfaz se ajusta a los colores del logo (azul
+  marino, azul, turquesa y naranja).
 - Set de iconos.
 - Estilo de fotografía e ilustración.
 - Componentes de proyecto colaborativo, oferta de empleo y publicación del

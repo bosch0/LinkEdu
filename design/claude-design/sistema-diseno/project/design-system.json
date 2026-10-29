@@ -9,14 +9,39 @@
     { "name": "react-dom", "version": "18" }
   ],
   "sections": {},
-  "groups": [],
-  "assetGroups": {},
+  "groups": ["Logos"],
+  "assetGroups": {
+    "Logos": {
+      "name": "Logos",
+      "tile": "l",
+      "order": [
+        "linkedu-horizontal.svg", "linkedu-horizontal-azul.svg", "linkedu-horizontal-blanco.svg",
+        "linkedu-vertical.svg", "linkedu-vertical-azul.svg", "linkedu-vertical-blanco.svg",
+        "linkedu-icono.svg", "linkedu-icono-azul.svg", "linkedu-icono-blanco.svg",
+        "linkedu-texto.svg", "linkedu-texto-azul.svg", "linkedu-texto-blanco.svg"
+      ],
+      "files": {
+        "linkedu-horizontal.svg": { "name": "linkedu-horizontal.svg", "blob": "1ec720f184eb60e8411ecb15937a8793", "size": 27039, "type": "image/svg+xml" },
+        "linkedu-horizontal-azul.svg": { "name": "linkedu-horizontal-azul.svg", "blob": "d925bb0fcb05a81213bc86ac6ff076f6", "size": 26186, "type": "image/svg+xml" },
+        "linkedu-horizontal-blanco.svg": { "name": "linkedu-horizontal-blanco.svg", "blob": "4b7fb7f5498b1db3cade45a90de5b13e", "size": 26186, "type": "image/svg+xml" },
+        "linkedu-vertical.svg": { "name": "linkedu-vertical.svg", "blob": "b632b4f7a6142c98701872344a57a3af", "size": 26997, "type": "image/svg+xml" },
+        "linkedu-vertical-azul.svg": { "name": "linkedu-vertical-azul.svg", "blob": "a2e32125e004fc3e8658f5f067f36266", "size": 26144, "type": "image/svg+xml" },
+        "linkedu-vertical-blanco.svg": { "name": "linkedu-vertical-blanco.svg", "blob": "eb18706fe711e9dcd20a2e4ecae30853", "size": 26144, "type": "image/svg+xml" },
+        "linkedu-icono.svg": { "name": "linkedu-icono.svg", "blob": "fa5a6b66fda7dd5f4626907fb097eefe", "size": 23604, "type": "image/svg+xml" },
+        "linkedu-icono-azul.svg": { "name": "linkedu-icono-azul.svg", "blob": "7f78164be3243d5a4dbef6f457f75847", "size": 22751, "type": "image/svg+xml" },
+        "linkedu-icono-blanco.svg": { "name": "linkedu-icono-blanco.svg", "blob": "450d75c9f5ea6318df60fda39bd6478e", "size": 22751, "type": "image/svg+xml" },
+        "linkedu-texto.svg": { "name": "linkedu-texto.svg", "blob": "2edf91e1e43be7fe78a0da869e508143", "size": 3507, "type": "image/svg+xml" },
+        "linkedu-texto-azul.svg": { "name": "linkedu-texto-azul.svg", "blob": "a457f609e93544753e2dfa49c296dd71", "size": 3507, "type": "image/svg+xml" },
+        "linkedu-texto-blanco.svg": { "name": "linkedu-texto-blanco.svg", "blob": "1a5fadf24a74be77244ea7e0da1d2852", "size": 3507, "type": "image/svg+xml" }
+      }
+    }
+  },
   "blobs": {},
   "docs": { "readme": "project/README.md", "sections": [] },
   "lastChange": {
     "by": "Antonio",
     "via": "Claude Code",
-    "at": "2026-10-29T09:29:25Z",
-    "note": "Primera versión: colores, tipografía, espacios y 6 componentes."
+    "at": "2026-10-29T10:15:00Z",
+    "note": "Añade el logo (12 variantes) y actualiza el manual."
   }
 }
