@@ -13,7 +13,7 @@ del cuaderno: pasos de 4px y una retícula de 24px.
 El estilo es **plano y ordenado**: tarjetas blancas con borde fino sobre un
 fondo gris azulado, sin sombras, con esquinas de 12px y algún panel en marino
 para lo que importa. La referencia es la página de inicio del canvas
-"LinkEdu · Página principal".
+"LinkEdu · Diseño de la app".
 
 > Incluye voz y tono, color, tipografía, espacios, composición de pantalla,
 > iconos, fotografía, ilustración, logo y 12 componentes.
@@ -108,7 +108,7 @@ Reglas:
 ## Composición de pantalla
 
 La pantalla de la app tiene siempre la misma estructura (ver el canvas
-"LinkEdu · Página principal"):
+"LinkEdu · Diseño de la app"):
 
 1. **La franja** de 6px arriba del todo.
 2. **Cabecera** en `surface` con borde inferior `line`: logo horizontal
@@ -125,6 +125,15 @@ La pantalla de la app tiene siempre la misma estructura (ver el canvas
 4. Las tarjetas de una columna van separadas `space-4`. Las columnas se
    estiran a la misma altura: la última tarjeta de cada una crece.
 5. En móvil las columnas se apilan en este orden: centro, izquierda, derecha.
+6. Una pieza ancha, como un mapa, puede unir el centro y la derecha. Debajo
+   vuelven las tarjetas, en filas que ocupan todo el ancho.
+
+**Regla obligatoria: ninguna parte en blanco.** Toda pantalla queda rellena
+de principio a fin, sin huecos vacíos en ninguna columna ni dentro de las
+tarjetas. Si sobra sitio, no se deja aire: las filas de una lista crecen con
+`flex: 1`, la última tarjeta se estira o se añade contenido útil. Las zonas
+vacías de un mapa llevan trama de puntos. Vale para todas las pantallas y
+todos los estados: filtros, listas cortas y resultados vacíos incluidos.
 
 La navegación (`le-nav`) va en `label` con icono de 20px. El enlace activo
 lleva `aria-current="page"`, color `marino` y una raya de 3px debajo; el resto
@@ -202,7 +211,7 @@ decorar una pantalla que ya tiene contenido.
 ## Logo
 
 Los archivos están en el grupo **Logos** de este sistema y en el repo, en
-`design/assets/logo/`. Hay cuatro versiones, cada una en tres colores:
+`design/assets/logo/`. Hay cinco versiones, cada una en tres colores:
 
 | Versión | Archivo | Cuándo usarla |
 | --- | --- | --- |
@@ -210,6 +219,7 @@ Los archivos están en el grupo **Logos** de este sistema y en el repo, en
 | Vertical | `linkedu-vertical` | Portadas, pantalla de carga, redes sociales |
 | Icono | `linkedu-icono` | Favicon, icono de app, avatar de la marca |
 | Texto | `linkedu-texto` | Espacios estrechos donde el icono no se lee |
+| Integrado | `linkedu-integrado` | La palabra con el icono haciendo de "e", sin icono aparte |
 
 - **Color** (sin sufijo): la versión principal, sobre fondos claros (`paper`,
   `surface`).

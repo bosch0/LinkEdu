@@ -1,47 +1,150 @@
 {
   "v": 3,
   "layout": "files",
-  "createdOnFiles": { "v": 1, "at": "2026-10-29T09:29:25Z" },
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-29T09:29:25Z"
+  },
   "title": "LinkEdu",
   "namespace": "LinkEdu",
   "libraries": [
-    { "name": "react", "version": "18" },
-    { "name": "react-dom", "version": "18" }
+    {
+      "name": "react",
+      "version": "18"
+    },
+    {
+      "name": "react-dom",
+      "version": "18"
+    }
   ],
   "sections": {},
-  "groups": ["Logos"],
+  "groups": [
+    "Logos"
+  ],
   "assetGroups": {
     "Logos": {
       "name": "Logos",
       "tile": "l",
       "order": [
-        "linkedu-horizontal.svg", "linkedu-horizontal-azul.svg", "linkedu-horizontal-blanco.svg",
-        "linkedu-vertical.svg", "linkedu-vertical-azul.svg", "linkedu-vertical-blanco.svg",
-        "linkedu-icono.svg", "linkedu-icono-azul.svg", "linkedu-icono-blanco.svg",
-        "linkedu-texto.svg", "linkedu-texto-azul.svg", "linkedu-texto-blanco.svg"
+        "linkedu-horizontal.svg",
+        "linkedu-horizontal-azul.svg",
+        "linkedu-horizontal-blanco.svg",
+        "linkedu-vertical.svg",
+        "linkedu-vertical-azul.svg",
+        "linkedu-vertical-blanco.svg",
+        "linkedu-icono.svg",
+        "linkedu-icono-azul.svg",
+        "linkedu-icono-blanco.svg",
+        "linkedu-texto.svg",
+        "linkedu-texto-azul.svg",
+        "linkedu-texto-blanco.svg",
+        "linkedu-integrado.svg",
+        "linkedu-integrado-azul.svg",
+        "linkedu-integrado-blanco.svg"
       ],
       "files": {
-        "linkedu-horizontal.svg": { "name": "linkedu-horizontal.svg", "blob": "1ec720f184eb60e8411ecb15937a8793", "size": 27039, "type": "image/svg+xml" },
-        "linkedu-horizontal-azul.svg": { "name": "linkedu-horizontal-azul.svg", "blob": "d925bb0fcb05a81213bc86ac6ff076f6", "size": 26186, "type": "image/svg+xml" },
-        "linkedu-horizontal-blanco.svg": { "name": "linkedu-horizontal-blanco.svg", "blob": "4b7fb7f5498b1db3cade45a90de5b13e", "size": 26186, "type": "image/svg+xml" },
-        "linkedu-vertical.svg": { "name": "linkedu-vertical.svg", "blob": "b632b4f7a6142c98701872344a57a3af", "size": 26997, "type": "image/svg+xml" },
-        "linkedu-vertical-azul.svg": { "name": "linkedu-vertical-azul.svg", "blob": "a2e32125e004fc3e8658f5f067f36266", "size": 26144, "type": "image/svg+xml" },
-        "linkedu-vertical-blanco.svg": { "name": "linkedu-vertical-blanco.svg", "blob": "eb18706fe711e9dcd20a2e4ecae30853", "size": 26144, "type": "image/svg+xml" },
-        "linkedu-icono.svg": { "name": "linkedu-icono.svg", "blob": "fa5a6b66fda7dd5f4626907fb097eefe", "size": 23604, "type": "image/svg+xml" },
-        "linkedu-icono-azul.svg": { "name": "linkedu-icono-azul.svg", "blob": "7f78164be3243d5a4dbef6f457f75847", "size": 22751, "type": "image/svg+xml" },
-        "linkedu-icono-blanco.svg": { "name": "linkedu-icono-blanco.svg", "blob": "450d75c9f5ea6318df60fda39bd6478e", "size": 22751, "type": "image/svg+xml" },
-        "linkedu-texto.svg": { "name": "linkedu-texto.svg", "blob": "2edf91e1e43be7fe78a0da869e508143", "size": 3507, "type": "image/svg+xml" },
-        "linkedu-texto-azul.svg": { "name": "linkedu-texto-azul.svg", "blob": "a457f609e93544753e2dfa49c296dd71", "size": 3507, "type": "image/svg+xml" },
-        "linkedu-texto-blanco.svg": { "name": "linkedu-texto-blanco.svg", "blob": "1a5fadf24a74be77244ea7e0da1d2852", "size": 3507, "type": "image/svg+xml" }
+        "linkedu-horizontal.svg": {
+          "name": "linkedu-horizontal.svg",
+          "blob": "bd514ac8d1f29348ab92904a8a1ecf95",
+          "size": 16218,
+          "type": "image/svg+xml"
+        },
+        "linkedu-horizontal-azul.svg": {
+          "name": "linkedu-horizontal-azul.svg",
+          "blob": "fc325376eb3d5cc41153d826de7e55e4",
+          "size": 5075,
+          "type": "image/svg+xml"
+        },
+        "linkedu-horizontal-blanco.svg": {
+          "name": "linkedu-horizontal-blanco.svg",
+          "blob": "7c14f860964331aa70bc641faee8018e",
+          "size": 5075,
+          "type": "image/svg+xml"
+        },
+        "linkedu-vertical.svg": {
+          "name": "linkedu-vertical.svg",
+          "blob": "db18ec1ac14030bf1c5e7582af240c99",
+          "size": 16168,
+          "type": "image/svg+xml"
+        },
+        "linkedu-vertical-azul.svg": {
+          "name": "linkedu-vertical-azul.svg",
+          "blob": "19f92e66e918aae7c32580833c28152c",
+          "size": 5025,
+          "type": "image/svg+xml"
+        },
+        "linkedu-vertical-blanco.svg": {
+          "name": "linkedu-vertical-blanco.svg",
+          "blob": "286ac19e282dc0184329cb5f771fd62e",
+          "size": 5025,
+          "type": "image/svg+xml"
+        },
+        "linkedu-icono.svg": {
+          "name": "linkedu-icono.svg",
+          "blob": "b643a81ebdb28d3e7bde14ae97c8b4bd",
+          "size": 12765,
+          "type": "image/svg+xml"
+        },
+        "linkedu-icono-azul.svg": {
+          "name": "linkedu-icono-azul.svg",
+          "blob": "e9c6109e7d525c6281eb309ffb3432a8",
+          "size": 1622,
+          "type": "image/svg+xml"
+        },
+        "linkedu-icono-blanco.svg": {
+          "name": "linkedu-icono-blanco.svg",
+          "blob": "667e32cecbb9f00572a351dd0d940519",
+          "size": 1622,
+          "type": "image/svg+xml"
+        },
+        "linkedu-texto.svg": {
+          "name": "linkedu-texto.svg",
+          "blob": "dd959262551bb9c9fe53e26461fcda1b",
+          "size": 3507,
+          "type": "image/svg+xml"
+        },
+        "linkedu-texto-azul.svg": {
+          "name": "linkedu-texto-azul.svg",
+          "blob": "94dbf6a60aa9e0101677156aeb124aaa",
+          "size": 3507,
+          "type": "image/svg+xml"
+        },
+        "linkedu-texto-blanco.svg": {
+          "name": "linkedu-texto-blanco.svg",
+          "blob": "e6c98adc806979a677d537b6ef8f4507",
+          "size": 3507,
+          "type": "image/svg+xml"
+        },
+        "linkedu-integrado.svg": {
+          "name": "linkedu-integrado.svg",
+          "blob": "f58faa63aaa194e183eb751fec0c0144",
+          "size": 15326,
+          "type": "image/svg+xml"
+        },
+        "linkedu-integrado-azul.svg": {
+          "name": "linkedu-integrado-azul.svg",
+          "blob": "d38a5f73c1f7facfa776aa2ab2425f74",
+          "size": 4183,
+          "type": "image/svg+xml"
+        },
+        "linkedu-integrado-blanco.svg": {
+          "name": "linkedu-integrado-blanco.svg",
+          "blob": "4461155af86b03ed39e42356c95dede4",
+          "size": 4183,
+          "type": "image/svg+xml"
+        }
       }
     }
   },
   "blobs": {},
-  "docs": { "readme": "project/README.md", "sections": [] },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
   "lastChange": {
     "by": "Antonio",
     "via": "Claude Code",
-    "at": "2026-10-29T13:20:00Z",
-    "note": "Adapta el sistema al estilo de la página de inicio (tarjetas planas de 12px, paneles marino, avatares cuadrados, la franja, SearchField) y quita el tema oscuro: la app solo tendrá tema claro."
+    "at": "2026-11-05T12:20:24.529Z",
+    "note": "Actualiza todos los logos a la versión actual y añade la versión integrada."
   }
 }
