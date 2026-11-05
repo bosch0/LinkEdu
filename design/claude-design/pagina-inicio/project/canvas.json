@@ -1,0 +1,48 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "title": "LinkEdu · Inicio",
+      "w": 1440,
+      "x": 0,
+      "y": 0,
+      "is_interactive": true
+    },
+    "Red.dc.html": {
+      "expand": "fill",
+      "h": 1190,
+      "is_interactive": true,
+      "title": "LinkEdu · Mi red",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-29T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/UYFcsEQgzgfYWSX5DtJ9BN",
+      "copiedAt": "2026-10-29T12:00:00Z",
+      "namespace": "linkedu",
+      "title": "LinkEdu",
+      "version": "1793267847-9c21"
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [],
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Red.dc.html"
+  ],
+  "pages": [],
+  "title": "LinkEdu · Diseño de la app"
+}

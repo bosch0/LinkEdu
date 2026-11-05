@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>LinkEdu · Inicio</title>
+<script src="./support.js"></script>
+<script src="ds/linkedu/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap">
+<style>
+body{margin:0;background:#ebf0f5}
+a{color:#0a6a99}a:hover{color:#073157}
+button:focus-visible,a:focus-visible{outline:3px solid #fcb527;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #ebf0f5; color: #0c1d2e; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column">
+  <div aria-hidden="true" style="display: flex; height: 6px"><span style="flex: 4; background: #073157"></span><span style="flex: 2; background: #0a6a99"></span><span style="flex: 2; background: #21bcaa"></span><span style="flex: 1; background: #fcb527"></span><span style="flex: 1; background: #fb8d2b"></span></div>
+  <header style="background: #ffffff; padding: 12px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; border-bottom: 1px solid #d3dce6">
+    <img src="/_blob/eabbd7006c84557248a0839677dab3bc" alt="LinkEdu" style="height: 44px">
+    <label style="flex: 1 1 260px; max-width: 420px; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 999px; background: #ebf0f5; color: #4a5b6c">
+      <x-import component-from-global-scope="LinkEdu.Icon" name="buscar"></x-import>
+      <input type="search" placeholder="Buscar en LinkEdu" aria-label="Buscar" style="border: 0; outline: 0; flex: 1; font: inherit; color: #0c1d2e; background: transparent">
+    </label>
+    <div style="flex: 1"></div>
+    <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 28px; font-weight: 700">
+      <a href="#" onClick="{{stop}}" style="height: 44px; display: flex; align-items: center; gap: 8px; color: #073157; text-decoration: none; box-shadow: inset 0 -3px 0 #073157"><x-import component-from-global-scope="LinkEdu.Icon" name="inicio"></x-import>Inicio</a>
+      <a href="Red.dc.html" style="height: 44px; display: flex; align-items: center; gap: 8px; color: #4a5b6c; text-decoration: none"><x-import component-from-global-scope="LinkEdu.Icon" name="red"></x-import>Mi red</a>
+      <a href="#" onClick="{{stop}}" style="height: 44px; display: flex; align-items: center; gap: 8px; color: #4a5b6c; text-decoration: none"><x-import component-from-global-scope="LinkEdu.Icon" name="proyecto"></x-import>Proyectos</a>
+      <a href="#" onClick="{{stop}}" style="height: 44px; display: flex; align-items: center; gap: 8px; color: #4a5b6c; text-decoration: none"><x-import component-from-global-scope="LinkEdu.Icon" name="recurso"></x-import>Recursos</a>
+      <a href="#" onClick="{{stop}}" style="height: 44px; display: flex; align-items: center; gap: 8px; color: #4a5b6c; text-decoration: none"><x-import component-from-global-scope="LinkEdu.Icon" name="empleo"></x-import>Empleo</a>
+    </nav>
+    <img src="/_blob/318f5935fdaf85b36293d86ef5c3f2b6" alt="Tu perfil: Lucía Fernández Ortega" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover">
+  </header>
+
+  <main style="flex: 1; padding: 20px 32px; display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+    <aside style="flex: 1 1 260px; max-width: 290px; display: flex; flex-direction: column; gap: 16px">
+      <section style="background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; overflow: hidden">
+        <div style="height: 56px; background: #0b4876"></div>
+        <div style="padding: 0 20px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px">
+          <img src="/_blob/318f5935fdaf85b36293d86ef5c3f2b6" alt="" style="width: 80px; height: 80px; margin-top: -40px; border-radius: 20px; border: 4px solid #ffffff; object-fit: cover">
+          <h2 style="margin: 4px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; line-height: 26px; font-weight: 700">Lucía Fernández Ortega</h2>
+          <p style="margin: 0; font-size: 14px; line-height: 20px; color: #4a5b6c">Profesora de Matemáticas · ESO y Bachillerato<br>IES Ramiro de Maeztu · Madrid</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #d3dce6; text-align: center">
+          <div style="padding: 10px 4px"><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; color: #073157">214</strong><br><span style="font-size: 13px; color: #4a5b6c">conexiones</span></div>
+          <div style="padding: 10px 4px; border-left: 1px solid #d3dce6; border-right: 1px solid #d3dce6"><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; color: #073157">9</strong><br><span style="font-size: 13px; color: #4a5b6c">recursos</span></div>
+          <div style="padding: 10px 4px"><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; color: #073157">86</strong><br><span style="font-size: 13px; color: #4a5b6c">visitas</span></div>
+        </div>
+      </section>
+      <section style="background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px">
+        <h2 style="margin: 0 0 4px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; line-height: 24px; font-weight: 600">Tus proyectos</h2>
+        <sc-for list="{{mine}}" as="m" hint-placeholder-count="3">
+          <a href="#" onClick="{{stop}}" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #ebf0f5; color: #0c1d2e; text-decoration: none">
+            <span style="width: 8px; height: 32px; border-radius: 999px; background: {{m.color}}"></span>
+            <span style="flex: 1; font-size: 14px; line-height: 20px"><strong>{{m.title}}</strong><br><span style="color: #4a5b6c">{{m.meta}}</span></span>
+          </a>
+        </sc-for>
+        <a href="#" onClick="{{stop}}" style="margin-top: 8px; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #073157; border-radius: 8px; color: #073157; font-weight: 700; text-decoration: none"><x-import component-from-global-scope="LinkEdu.Icon" name="mas"></x-import>Crear proyecto</a>
+      </section>
+      <section style="flex: 1; background: #073157; color: #ffffff; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px">
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; line-height: 24px; font-weight: 600">Tus grupos</h2>
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+          <a href="#" onClick="{{stop}}" style="display: flex; align-items: center; gap: 10px; color: #ffffff; text-decoration: none; font-size: 14px; line-height: 20px">
+            <span style="width: 10px; height: 10px; border-radius: 999px; background: {{g.color}}"></span>
+            <span style="flex: 1"><strong>{{g.name}}</strong></span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #a3cdef">{{g.count}}</span>
+          </a>
+        </sc-for>
+        <a href="#" onClick="{{stop}}" style="color: #fcb527; font-weight: 700; font-size: 14px">Explorar grupos →</a>
+      </section>
+    </aside>
+
+    <section style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+      <div style="background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 18px 24px; display: flex; flex-direction: column; gap: 12px">
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; line-height: 36px; font-weight: 700">Buenos días, Lucía</h1>
+        <div style="display: flex; gap: 12px; align-items: center">
+          <img src="/_blob/318f5935fdaf85b36293d86ef5c3f2b6" alt="" style="width: 44px; height: 44px; border-radius: 11px; object-fit: cover">
+          <label style="flex: 1; display: flex; align-items: center; height: 48px; padding: 0 18px; border: 1px solid #7a8b9c; border-radius: 999px; color: #4a5b6c">
+            <input type="text" placeholder="Comparte un recurso o una idea con tu claustro" aria-label="Escribe una publicación" style="border: 0; outline: 0; flex: 1; font: inherit; background: transparent">
+          </label>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; font-weight: 700">
+          <button type="button" style="height: 40px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border: 0; border-radius: 8px; background: #e3f1f9; color: #0a6a99; font: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="recurso"></x-import>Recurso</button>
+          <button type="button" style="height: 40px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border: 0; border-radius: 8px; background: #dfe8f2; color: #073157; font: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="proyecto"></x-import>Proyecto</button>
+          <button type="button" style="height: 40px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border: 0; border-radius: 8px; background: #ebf0f5; color: #0c1d2e; font: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="calendario"></x-import>Evento</button>
+          <div style="flex: 1"></div>
+          <button type="submit" style="height: 40px; padding: 0 20px; border: 0; border-radius: 8px; background: #073157; color: #ffffff; font: inherit; cursor: pointer">Publicar</button>
+        </div>
+      </div>
+
+      <article style="background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 18px 24px; display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <img src="/_blob/4b045af20015bcef2e4206fed41e32cc" alt="" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover">
+          <span style="flex: 1; font-size: 14px; line-height: 20px"><strong style="font-size: 16px">Javier Molina</strong><br><span style="color: #4a5b6c">Profesor de Tecnología · FP · hace 2 h</span></span>
+          <button type="button" aria-label="Más opciones" style="width: 44px; height: 44px; border: 0; background: transparent; color: #4a5b6c; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></button>
+        </div>
+        <p style="margin: 0; font-size: 17px; line-height: 26px">He subido la unidad didáctica de robótica con Arduino que usamos en 4º de ESO. Es libre: adáptala a tu grupo y cuéntame qué tal.</p>
+        <a href="#" onClick="{{stop}}" style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: #f6f8fb; border: 1px solid #d3dce6; border-radius: 8px; color: #0c1d2e; text-decoration: none">
+          <span style="width: 44px; height: 52px; border-radius: 6px; background: #073157; color: #ffffff; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px">PDF</span>
+          <span style="flex: 1"><strong>Robótica con Arduino: 6 sesiones</strong><br><span style="font-size: 14px; color: #4a5b6c">24 páginas · Tecnología · 4º ESO</span></span>
+          <x-import component-from-global-scope="LinkEdu.Icon" name="descargar"></x-import>
+        </a>
+        <div style="display: flex; gap: 4px; border-top: 1px solid #ebf0f5; padding-top: 4px; font-size: 14px; font-weight: 700; color: #4a5b6c">
+          <button type="button" style="flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="megusta"></x-import>48</button>
+          <button type="button" style="flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="comentar"></x-import>12</button>
+          <button type="button" style="flex: 1; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="compartir"></x-import>Compartir</button>
+        </div>
+      </article>
+
+      <div style="flex: 1; display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+        <article style="flex: 3 1 340px; background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 18px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #fb8d2b; color: #0c1d2e; font-size: 13px; font-weight: 700">Plazo abierto</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #4a5b6c">PROYECTO COLABORATIVO</span>
+          </div>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; line-height: 28px; font-weight: 700">Ciencia ciudadana: medimos el aire del barrio</h2>
+          <p style="margin: 0; color: #4a5b6c">Tres centros de Madrid y Valencia montan sensores de bajo coste y comparan sus datos.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
+            <div style="display: flex">
+              <img src="/_blob/a2ac8ec29daeb20c4d28dc3f35572f2b" alt="" style="width: 36px; height: 36px; border-radius: 9px; border: 2px solid #ffffff; object-fit: cover">
+              <img src="/_blob/28657f050501adb743b2d5c79a3f7273" alt="" style="width: 36px; height: 36px; margin-left: -10px; border-radius: 9px; border: 2px solid #ffffff; object-fit: cover">
+              <img src="/_blob/8904087697c797924c37a5f66f5b2ec5" alt="" style="width: 36px; height: 36px; margin-left: -10px; border-radius: 9px; border: 2px solid #ffffff; object-fit: cover">
+            </div>
+            <span style="flex: 1; font-size: 14px; color: #4a5b6c">3 de 5 centros · hasta el 15 nov</span>
+            <a href="#" onClick="{{stop}}" style="height: 44px; padding: 0 20px; display: flex; align-items: center; border-radius: 8px; background: #073157; color: #ffffff; font-weight: 700; text-decoration: none">Unirme</a>
+          </div>
+        </article>
+        <section style="flex: 2 1 240px; background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px">
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; line-height: 24px; font-weight: 600">Recursos de tu materia</h2>
+          <sc-for list="{{resources}}" as="r" hint-placeholder-count="3">
+            <a href="#" onClick="{{stop}}" style="display: flex; align-items: center; gap: 10px; color: #0c1d2e; text-decoration: none; font-size: 14px; line-height: 20px">
+              <span style="width: 36px; height: 36px; flex: none; border-radius: 8px; background: #e3f1f9; color: #0a6a99; display: flex; align-items: center; justify-content: center"><x-import component-from-global-scope="LinkEdu.Icon" name="recurso" size="{{n16}}"></x-import></span>
+              <span style="flex: 1"><strong>{{r.title}}</strong><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4a5b6c">{{r.meta}}</span></span>
+            </a>
+          </sc-for>
+        </section>
+      </div>
+    </section>
+
+    <aside style="flex: 1 1 300px; max-width: 340px; display: flex; flex-direction: column; gap: 16px">
+      <section style="background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; line-height: 24px; font-weight: 600">Docentes de tu perfil</h2>
+        <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <img src="{{p.photo}}" alt="" style="width: 44px; height: 44px; border-radius: 11px; object-fit: cover">
+            <span style="flex: 1; min-width: 0; font-size: 14px; line-height: 20px"><strong>{{p.name}}</strong><br><span style="color: #4a5b6c">{{p.role}}</span></span>
+            <button type="button" aria-label="Conectar con {{p.name}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #073157; background: #ffffff; color: #073157; display: flex; align-items: center; justify-content: center; cursor: pointer"><x-import component-from-global-scope="LinkEdu.Icon" name="conectar"></x-import></button>
+          </div>
+        </sc-for>
+      </section>
+      <section style="background: #073157; color: #ffffff; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: #a3cdef">EMPLEO · NUEVO</span>
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; line-height: 25px; font-weight: 600">Docente de Matemáticas para refuerzo online</h2>
+        <p style="margin: 0; font-size: 14px; color: #dfe8f2">Academia Pitágoras · Remoto · 6 h/semana</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; line-height: 34px; font-weight: 800">28 €/hora</span>
+          <a href="#" onClick="{{stop}}" style="height: 44px; padding: 0 18px; display: flex; align-items: center; border-radius: 8px; background: #ffffff; color: #073157; font-weight: 700; text-decoration: none">Ver oferta</a>
+        </div>
+      </section>
+      <section style="flex: 1; background: #ffffff; border: 1px solid #d3dce6; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px">
+        <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; line-height: 24px; font-weight: 600">Próximos eventos</h2>
+        <sc-for list="{{events}}" as="e" hint-placeholder-count="3">
+          <a href="#" onClick="{{stop}}" style="display: flex; align-items: center; gap: 12px; color: #0c1d2e; text-decoration: none; font-size: 14px; line-height: 20px">
+            <span style="width: 48px; flex: none; border-radius: 8px; overflow: hidden; text-align: center; border: 1px solid #d3dce6">
+              <span style="display: block; background: {{e.color}}; color: {{e.ink}}; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 18px">{{e.month}}</span>
+              <span style="display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; line-height: 26px; font-weight: 700">{{e.day}}</span>
+            </span>
+            <span style="flex: 1"><strong>{{e.title}}</strong><br><span style="color: #4a5b6c">{{e.meta}}</span></span>
+          </a>
+        </sc-for>
+      </section>
+    </aside>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      n16: 16,
+      stop: function (e) { e.preventDefault(); },
+      mine: [
+        { title: 'Matemáticas en el mercado', meta: '4 centros · activo', color: '#21bcaa' },
+        { title: 'Radio escolar FP + ESO', meta: '2 centros · activo', color: '#0a6a99' },
+        { title: 'Olimpiada de estadística', meta: 'Borrador', color: '#fcb527' }
+      ],
+      groups: [
+        { name: 'Matemáticas ESO', count: '1.204', color: '#21bcaa' },
+        { name: 'ABP en Madrid', count: '386', color: '#fcb527' },
+        { name: 'Docentes libres', count: '2.117', color: '#fb8d2b' },
+        { name: 'Evaluación con rúbricas', count: '642', color: '#7fb9e6' }
+      ],
+      resources: [
+        { title: 'Funciones lineales con datos reales', meta: 'PDF · 1.248 descargas' },
+        { title: 'Probabilidad con dados y cartas', meta: 'PRESENTACIÓN · 640' },
+        { title: 'Rúbrica de ABP para ESO', meta: 'DOC · 811 descargas' }
+      ],
+      people: [
+        { name: 'Marta Ruiz Delgado', role: 'Lengua · Primaria', photo: '/_blob/a2ac8ec29daeb20c4d28dc3f35572f2b' },
+        { name: 'Carlos Pérez Nieto', role: 'Matemáticas · Bachillerato', photo: '/_blob/28657f050501adb743b2d5c79a3f7273' },
+        { name: 'Nuria Gil Soler', role: 'Matemáticas · ESO', photo: '/_blob/8904087697c797924c37a5f66f5b2ec5' },
+        { name: 'Andrés López Vega', role: 'Matemáticas · FP', photo: '/_blob/9618de49960139cb7668470de955337d' }
+      ],
+      events: [
+        { month: 'OCT', day: '29', title: 'Sensores: sesión con 3 centros', meta: 'Hoy · 17:30 · En línea', color: '#073157', ink: '#ffffff' },
+        { month: 'NOV', day: '04', title: 'Webinar: evaluar con rúbricas', meta: '18:30 · En línea', color: '#0a6a99', ink: '#ffffff' },
+        { month: 'NOV', day: '12', title: 'Encuentro de docentes de Madrid', meta: '17:00 · Madrid', color: '#fb8d2b', ink: '#0c1d2e' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
