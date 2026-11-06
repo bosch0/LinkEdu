@@ -1,15 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="76.5 89 820 820" role="img" aria-labelledby="t">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760.0 760.0" role="img" aria-labelledby="t">
 <title id="t">LinkEdu (icono)</title>
-<defs><mask id="m" maskUnits="userSpaceOnUse" x="-700" y="-700" width="1400" height="1400"><rect x="-700" y="-700" width="1400" height="1400" fill="#fff"/><g transform="rotate(-15) translate(0 -75) scale(0.8)"><rect x="-242" y="-700" width="484" height="500" fill="#000"/><path fill="#000" stroke="#000" stroke-width="52" stroke-linejoin="round" d="M -202 -277.3 L 0 -217 L 202 -277.3 L 202 -200 Q 0 -136 -202 -200 Z"/></g></mask></defs>
-<g transform="translate(535 574)">
-<g mask="url(#m)"><g transform="scale(.8) rotate(-20)">
- <path fill="none" stroke="#ffffff" stroke-width="130" stroke-linecap="round" stroke-linejoin="round" d="M -275 0 L 275 0 A 275 275 0 1 0 38.3 272.3"/>
- <circle cx="204.4" cy="184" r="65" fill="#ffffff"/>
-</g></g>
-<g transform="rotate(-15) translate(0 -75) scale(0.8)">
- <path fill="#ffffff" stroke="#ffffff" stroke-width="12" stroke-linejoin="round" d="M -335 -345 L 0 -445 L 335 -345 L 0 -245 Z"/>
- <path fill="#ffffff" stroke="#ffffff" stroke-width="12" stroke-linejoin="round" d="M -202 -277.3 L 0 -217 L 202 -277.3 L 202 -200 Q 0 -136 -202 -200 Z"/>
- <g transform="rotate(15 301.5 -341)"><path fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round" d="M 301.5 -341 V -271"/><circle cx="301.5" cy="-271" r="23" fill="#ffffff"/><path fill="#ffffff" d="M 292.5 -259 L 310.5 -259 Q 315.5 -223 327.5 -197 Q 301.5 -185 275.5 -197 Q 287.5 -223 292.5 -259 Z"/></g>
-</g>
+<g transform="translate(-178.50 -528.00)">
+<g transform=""><path fill="#ffffff" fill-rule="evenodd" d="M483.3,1183.5C416.1,1174.8 357.3,1143.2 318.5,1095.0C280.7,1047.9 262.0,994.6 262.0,934.0C262.0,870.9 282.5,807.0 318.9,757.0C386.5,663.9 499.7,616.7 610.6,635.5C714.7,653.1 793.1,718.8 830.8,820.0C841.3,848.1 841.4,856.0 831.6,863.5C828.7,865.7 762.2,894.0 717.5,912.0C710.9,914.6 686.6,924.8 663.5,934.5C612.7,955.9 566.0,974.9 556.5,978.1C545.5,981.8 536.1,981.3 510.0,975.6C487.1,970.5 479.5,967.8 474.1,962.7C464.3,953.4 464.6,937.6 474.8,928.9C477.0,927.0 485.5,921.9 493.6,917.6C501.8,913.2 517.0,904.8 527.5,898.9C538.0,893.1 550.5,886.2 555.5,883.7C560.5,881.3 572.1,875.1 581.5,870.0C590.9,864.9 609.8,854.7 623.5,847.3C665.5,824.6 676.0,818.8 676.0,818.3C676.0,816.8 666.0,805.3 657.9,797.4C631.0,771.5 597.9,758.5 558.5,758.6C538.9,758.6 530.1,760.0 511.5,766.1C433.1,791.6 387.4,879.8 412.2,958.0C428.0,1008.0 470.3,1045.4 522.9,1056.0C538.2,1059.0 553.3,1060.0 586.4,1060.0C621.3,1060.0 624.1,1060.4 637.5,1067.3C668.5,1083.2 681.1,1123.3 664.8,1154.3C658.0,1167.4 642.4,1179.8 628.4,1183.4C620.1,1185.5 499.7,1185.6 483.3,1183.5Z"/><circle cx="780.4" cy="1059.2" r="74.5" fill="#ffffff"/></g>
 </g>
 </svg>
