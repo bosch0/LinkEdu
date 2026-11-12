@@ -211,10 +211,11 @@ decorar una pantalla que ya tiene contenido.
 ## Logo
 
 Los archivos están en el grupo **Logos** de este sistema y en el repo, en
-`design/assets/logo/`. Hay cinco versiones, cada una en tres colores:
+`design/assets/logo/`. Hay seis versiones, cada una en tres colores:
 
 | Versión | Archivo | Cuándo usarla |
 | --- | --- | --- |
+| Completo | `linkedu-completo` | Portadas, presentación y vídeo: es la única con el eslogan «Red educativa conectada» |
 | Horizontal | `linkedu-horizontal` | Cabecera de la web, firmas, documentos |
 | Vertical | `linkedu-vertical` | Portadas, pantalla de carga, redes sociales |
 | Icono | `linkedu-icono` | Favicon, icono de app, avatar de la marca |
@@ -223,7 +224,7 @@ Los archivos están en el grupo **Logos** de este sistema y en el repo, en
 
 - **Color** (sin sufijo): la versión principal, sobre fondos claros (`paper`,
   `surface`).
-- **`-azul`**: a una tinta, azul marino `#073157`. Para fondos claros cuando
+- **`-azul`**: a una tinta, azul marino del logo `#102344`. Para fondos claros cuando
   el logo en color sobra o se imprime a una tinta.
 - **`-blanco`**: a una tinta, blanco. Sobre `marino`, paneles y fotos oscuras.
 - No cambies sus colores, no lo deformes y no le pongas sombras ni contornos.
