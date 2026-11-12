@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import { Avisos } from '../../compartido/avisos';
 import { DatosFlujo, Flujo } from '../../compartido/flujo/flujo';
 import { Icono } from '../../compartido/icono/icono';
@@ -15,10 +16,11 @@ import {
   TipoPerfil,
   VALIDACIONES_EMPRESA,
 } from '../../datos/perfil';
+import { perfilDe, rutaPerfilDeFoto } from '../../datos/personas';
 
 @Component({
   selector: 'app-perfil',
-  imports: [RouterLink, Icono, Ventana, Flujo],
+  imports: [RouterLink, Icono, Ventana, Flujo, ABRE_PERFIL],
   templateUrl: './perfil.html',
   host: { class: 'flex flex-1 flex-col' },
 })
@@ -36,8 +38,19 @@ export class Perfil {
     foto: (FOTOS as Record<string, string>)[p.id],
   }));
 
+  // Id de la persona cuando se abre /perfil/:id (sin id = tu perfil, con el selector de ejemplos)
+  id = input<string>();
+  protected rutaPerfil = rutaPerfilDeFoto;
+
   // ---------- Estado ----------
   protected tipo = signal<TipoPerfil>('Profesora');
+  // Perfil de otra persona (null = el tuyo o uno de los ejemplos)
+  protected otro = computed(() => {
+    const id = this.id();
+    return id && id !== 'lucia' ? perfilDe(id) : null;
+  });
+  // Clave para guardar el estado de cada perfil por separado (pestaña, me gusta, seguir...)
+  protected clave = computed(() => (this.otro() ? 'p:' + this.id() : this.tipo()));
   private pestanaPorTipo = signal<Record<string, string>>({});
   protected meGusta = signal<Record<string, boolean>>({});
   protected abiertos = signal<Record<string, boolean>>({});
@@ -63,13 +76,13 @@ export class Perfil {
 
   // ---------- Datos calculados ----------
   protected perfil = computed(() => {
-    const base = PERFILES[this.tipo()];
-    const e = this.ediciones()[this.tipo()];
+    const base = this.otro()?.perfil ?? PERFILES[this.tipo()];
+    const e = this.ediciones()[this.clave()];
     return { ...base, titular: e?.titular ?? base.titular, acerca: e?.acerca ?? base.acerca };
   });
-  protected extras = computed(() => EXTRAS[this.tipo()]);
+  protected extras = computed(() => this.otro()?.extras ?? EXTRAS[this.tipo()]);
   protected pestana = computed(
-    () => this.pestanaPorTipo()[this.tipo()] ?? this.perfil().pestanas[0][0],
+    () => this.pestanaPorTipo()[this.clave()] ?? this.perfil().pestanas[0][0],
   );
 
   protected habilidades = computed(() =>
@@ -82,7 +95,7 @@ export class Perfil {
 
   protected publicaciones = computed(() =>
     this.perfil().publicaciones.map((p, i) => {
-      const clave = this.tipo() + i;
+      const clave = this.clave() + i;
       const mios = this.propios()[clave] ?? [];
       return {
         ...p,
@@ -139,7 +152,7 @@ export class Perfil {
   // Acciones del encabezado (cambian según sea tu perfil, el de otra persona o una empresa)
   protected accionPrincipal = computed(() => {
     const p = this.perfil();
-    const sigue = !!this.siguiendo()[this.tipo()];
+    const sigue = !!this.siguiendo()[this.clave()];
     if (p.propio)
       return {
         texto: 'Editar perfil',
@@ -166,6 +179,15 @@ export class Perfil {
   });
 
   protected conversacion = computed(() => {
+    const otro = this.otro()?.perfil;
+    if (otro && otro.esPersona) {
+      const saludo = {
+        mio: false,
+        texto: `¡Hola, Lucía! Gracias por pasarte por mi perfil. ¿Te apetece que colaboremos en algún proyecto?`,
+        hora: 'Ayer, 17:45',
+      };
+      return [saludo, ...this.mensajesChat().map((texto) => ({ mio: true, texto, hora: 'Ahora' }))];
+    }
     const base = [
       {
         mio: false,
@@ -181,16 +203,24 @@ export class Perfil {
   protected enlace = computed(
     () =>
       'linkedu.es/' +
-      (this.tipo() === 'Empresa'
-        ? 'empresa/academia-pitagoras'
-        : this.tipo() === 'Alumno'
-          ? 'alex-romero'
-          : 'lucia-fernandez'),
+      (this.otro()
+        ? this.perfil()
+            .nombre.toLowerCase()
+            .normalize('NFD')
+            .replace(/[̀-ͯ]/g, '')
+            .split(' ')
+            .slice(0, 2)
+            .join('-')
+        : this.tipo() === 'Empresa'
+          ? 'empresa/academia-pitagoras'
+          : this.tipo() === 'Alumno'
+            ? 'alex-romero'
+            : 'lucia-fernandez'),
   );
 
   // ===== Acciones =====
   protected elegirPestana(id: string) {
-    this.pestanaPorTipo.update((p) => ({ ...p, [this.tipo()]: id }));
+    this.pestanaPorTipo.update((p) => ({ ...p, [this.clave()]: id }));
   }
 
   protected pulsarPrincipal() {
@@ -200,8 +230,8 @@ export class Perfil {
       this.edAcerca.set(p.acerca);
       this.vEditar.abrir(null);
     } else {
-      this.siguiendo.update((s) => ({ ...s, [this.tipo()]: !s[this.tipo()] }));
-      if (this.siguiendo()[this.tipo()])
+      this.siguiendo.update((s) => ({ ...s, [this.clave()]: !s[this.clave()] }));
+      if (this.siguiendo()[this.clave()])
         this.avisos.mostrar(
           p.esPersona ? `Solicitud enviada a ${p.nombre}` : `Ahora sigues a ${p.nombre}`,
           p.esPersona ? 'conectar' : 'check',
@@ -236,7 +266,7 @@ export class Perfil {
     e.preventDefault();
     this.ediciones.update((x) => ({
       ...x,
-      [this.tipo()]: {
+      [this.clave()]: {
         titular: this.edTitular().trim() || this.perfil().titular,
         acerca: this.edAcerca().trim() || this.perfil().acerca,
       },
@@ -267,7 +297,7 @@ export class Perfil {
   }
 
   protected alternarLateral(id: string, nombre: string) {
-    const clave = this.tipo() + id;
+    const clave = this.clave() + id;
     this.siguiendoLateral.update((s) => ({ ...s, [clave]: !s[clave] }));
     if (this.siguiendoLateral()[clave]) this.avisos.mostrar(`Ahora sigues a ${nombre}`, 'check');
   }

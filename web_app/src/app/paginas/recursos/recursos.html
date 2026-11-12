@@ -21,7 +21,7 @@
           <span class="flex-1">{{ t.texto }}</span>
           <span
             class="min-w-[28px] rounded-full px-2 text-center font-mono text-xs leading-5.5 transition-colors"
-            [class]="pestana() === t.id && !coleccionActual() ? 'bg-marino-hover' : 'bg-sunken'"
+            [class]="pestana() === t.id && !coleccionActual() ? 'bg-marino-claro' : 'bg-sunken'"
             >{{ t.n }}</span
           >
         </button>
@@ -145,7 +145,7 @@
       <button
         type="button"
         class="presionar h-12 rounded-lg font-bold hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
-        [class]="premium() ? 'bg-marino-hover text-white' : 'bg-naranja text-ink'"
+        [class]="premium() ? 'bg-marino-claro text-white' : 'bg-naranja text-ink'"
         (click)="abrirPremium()"
       >
         {{ premium() ? 'Gestionar suscripción' : 'Hazte Premium' }}
@@ -166,7 +166,7 @@
               <button
                 type="button"
                 animate.enter="animate-pop"
-                class="presionar flex h-8 items-center gap-1 rounded-full bg-sunken px-2.5 text-[13px] font-bold text-ink hover:bg-line"
+                class="presionar flex h-10 items-center gap-1 rounded-full bg-sunken px-2.5 text-[13px] font-bold text-ink hover:bg-line"
                 (click)="coleccion.set(null)"
               >
                 <app-icono nombre="cerrar" [tam]="14" />Quitar colección
@@ -199,7 +199,7 @@
             @for (k of tiposFiltro; track k) {
               <button
                 type="button"
-                class="presionar h-9 rounded-full border px-3.5"
+                class="presionar h-10 rounded-full border px-3.5"
                 [class]="
                   tipoFiltro() === k
                     ? 'border-marino bg-marino text-white'
@@ -221,7 +221,7 @@
             @for (p of preciosFiltro; track p.id) {
               <button
                 type="button"
-                class="presionar h-8 rounded-full px-3"
+                class="presionar h-10 rounded-full px-3"
                 [class]="
                   precioFiltro() === p.id
                     ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -346,8 +346,8 @@
                   class="presionar relative z-5 flex h-10 w-10 flex-none items-center justify-center rounded-lg border bg-white"
                   [class]="
                     favs()[t.r.id]
-                      ? 'border-naranja text-naranja'
-                      : 'border-line text-ink-muted hover:border-naranja hover:text-naranja'
+                      ? 'border-naranja text-naranja-oscuro'
+                      : 'border-line text-ink-muted hover:border-naranja hover:text-naranja-oscuro'
                   "
                   [attr.aria-pressed]="!!favs()[t.r.id]"
                   [attr.aria-label]="
@@ -460,7 +460,8 @@
                   <span class="min-w-0 flex-1 text-[13px] leading-4.5"
                     ><strong class="text-sm">{{ r.titulo }}</strong
                     ><br /><span class="text-ink-muted"
-                      >{{ r.autor }} · {{ r.coste ? euros(r.coste) : 'Gratis' }}</span
+                      ><span data-nombre>{{ r.autor }}</span> ·
+                      {{ r.coste ? euros(r.coste) : 'Gratis' }}</span
                     ></span
                   >
                 </span>
@@ -545,7 +546,7 @@
                   <td class="pt-2 pb-2 pl-2 text-right">
                     <button
                       type="button"
-                      class="presionar h-9 rounded-lg border border-line-strong bg-white px-3 text-sm font-bold text-marino hover:border-marino hover:bg-marino-soft"
+                      class="presionar h-10 rounded-lg border border-line-strong bg-white px-3 text-sm font-bold text-marino hover:border-marino hover:bg-marino-soft"
                       [attr.aria-label]="'Editar ' + m.titulo"
                       (click)="abrirEdicion(m)"
                     >
@@ -579,7 +580,7 @@
           }}</span>
           <button
             type="button"
-            class="presionar h-9 rounded-lg bg-marino px-3.5 text-sm font-bold text-white hover:bg-marino-hover"
+            class="presionar h-10 rounded-lg bg-marino px-3.5 text-sm font-bold text-white hover:bg-marino-hover"
             (click)="abrirPremium()"
           >
             {{ premium() ? 'Gestionar' : 'Ver Premium' }}
@@ -635,7 +636,7 @@
               } @else {
                 <button
                   type="button"
-                  class="presionar flex h-8 items-center gap-1.5 self-start rounded-lg bg-sunken px-2.5 text-[13px] font-bold text-marino hover:bg-marino-soft"
+                  class="presionar flex h-10 items-center gap-1.5 self-start rounded-lg bg-sunken px-2.5 text-[13px] font-bold text-marino hover:bg-marino-soft"
                   (click)="responder(c.id)"
                 >
                   <app-icono nombre="comentar" [tam]="14" />Responder
@@ -688,7 +689,7 @@
           >
           <button
             type="button"
-            class="presionar flex h-8 w-8 flex-none items-center justify-center rounded-full bg-white text-ink-muted hover:text-danger"
+            class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-ink-muted hover:text-danger"
             aria-label="Quitar archivo"
             (click)="subArchivo.set('')"
           >
@@ -836,7 +837,7 @@
             >
             <button
               type="button"
-              class="presionar h-8 self-start rounded-lg bg-naranja px-3 text-[13px] font-bold text-ink"
+              class="presionar h-10 self-start rounded-lg bg-naranja px-3 text-[13px] font-bold text-ink"
               (click)="abrirPremium()"
             >
               Ver Premium
@@ -894,13 +895,13 @@
         >
           <span
             class="w-5.5 flex-none font-display text-[22px] font-extrabold"
-            [class]="t.n === 1 ? 'text-naranja' : 'text-marino'"
+            [class]="t.n === 1 ? 'text-naranja-oscuro' : 'text-marino'"
             >{{ t.n }}</span
           >
           <img class="h-9 w-9 flex-none rounded-[9px] object-cover" [src]="t.r.foto" alt="" />
           <span class="min-w-0 flex-1 text-sm leading-5"
             ><strong>{{ t.r.titulo }}</strong
-            ><br /><span class="text-ink-muted">{{ t.r.autor }}</span></span
+            ><br /><span class="text-ink-muted" data-nombre>{{ t.r.autor }}</span></span
           >
           <span
             class="flex items-center gap-0.5 font-mono text-xs text-azul transition-transform duration-200 group-hover:-translate-y-0.5"
@@ -976,7 +977,7 @@
         <ul class="flex list-none flex-col gap-1.5 text-sm leading-5">
           @for (i of incluye(r); track i) {
             <li class="flex gap-2">
-              <span class="flex-none text-turquesa"><app-icono nombre="check" [tam]="18" /></span
+              <span class="flex-none text-verde"><app-icono nombre="check" [tam]="18" /></span
               >{{ i }}
             </li>
           }
@@ -1005,7 +1006,7 @@
               class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] bg-white px-4 font-bold"
               [class]="
                 favs()[r.id]
-                  ? 'border-naranja text-naranja'
+                  ? 'border-naranja text-naranja-oscuro'
                   : 'border-line-strong text-ink hover:border-naranja'
               "
               [attr.aria-pressed]="!!favs()[r.id]"
@@ -1056,7 +1057,8 @@
         <span class="text-sm leading-5"
           ><strong class="text-base">{{ r.titulo }}</strong
           ><br /><span class="text-ink-muted"
-            >{{ r.autor }} · {{ r.tipo }} · {{ r.detalle.toLowerCase() }}</span
+            ><span data-nombre>{{ r.autor }}</span> · {{ r.tipo }} ·
+            {{ r.detalle.toLowerCase() }}</span
           ></span
         >
       </div>
@@ -1262,7 +1264,7 @@
         [class]="
           premium()
             ? confirmarCancelar()
-              ? 'bg-danger text-white hover:opacity-90'
+              ? 'bg-danger text-white hover:bg-[#8c1d17]'
               : 'border-[1.5px] border-danger bg-white text-danger hover:bg-danger hover:text-white'
             : 'bg-naranja text-ink hover:bg-[#e97f1e]'
         "

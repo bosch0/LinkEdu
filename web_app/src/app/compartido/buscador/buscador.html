@@ -27,11 +27,16 @@
         class="flex w-full items-center gap-3 px-4 py-2 text-left transition-colors hover:bg-paper"
         (click)="ir(r)"
       >
-        <span
-          class="flex h-9 w-9 flex-none items-center justify-center rounded-[10px] bg-azul-soft text-azul"
-        >
-          <app-icono [nombre]="r.icono" [tam]="18" />
-        </span>
+        @if (r.foto) {
+          <!-- Las personas siempre con su foto real -->
+          <img class="h-9 w-9 flex-none rounded-full object-cover" [src]="r.foto" alt="" />
+        } @else {
+          <span
+            class="flex h-9 w-9 flex-none items-center justify-center rounded-[10px] bg-azul-soft text-azul"
+          >
+            <app-icono [nombre]="r.icono" [tam]="18" />
+          </span>
+        }
         <span class="min-w-0 flex-1 text-sm leading-5">
           <strong class="block truncate">{{ r.titulo }}</strong>
           <span class="block truncate text-ink-muted">{{ r.detalle }}</span>

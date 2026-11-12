@@ -552,7 +552,7 @@ export const PROYECTOS: Record<string, Proyecto> = {
     corto: 'Escape room',
     visibilidad: 'Público',
     estado: 'Activo',
-    color: 'bg-marino-hover',
+    color: 'bg-marino-claro',
     resumen:
       'Retos de lógica y álgebra en formato escape room para 1º y 2º de ESO, con pistas que se comparten entre centros.',
     centros: '2 centros · Málaga y Valladolid',

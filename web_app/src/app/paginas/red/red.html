@@ -142,7 +142,7 @@
             <p class="text-sm leading-5 text-marino-soft">{{ v.pista }}</p>
           </div>
           <div
-            class="flex flex-wrap items-center gap-1 rounded-full bg-marino-hover p-1 text-sm font-bold"
+            class="flex flex-wrap items-center gap-1 rounded-full bg-marino-claro p-1 text-sm font-bold"
             role="group"
             aria-label="Zona del mapa"
           >
@@ -165,10 +165,12 @@
         </div>
 
         <!-- ===== El mapa ===== -->
+        <!-- Lo que se mueve con el zoom va aparte (vmMapa) para que el resto de la pantalla no se recalcule -->
+        @let m = vmMapa()!;
         <div
           #mapa
-          class="relative aspect-[1000/480] w-full touch-pan-y overflow-hidden rounded-lg bg-[radial-gradient(#0a3d68_1px,transparent_1.2px)] bg-[length:21px_21px] select-none"
-          [style.background-position]="v.mapa.marGX + ' ' + v.mapa.marGY"
+          class="relative aspect-[1000/420] w-full touch-pan-y overflow-hidden rounded-lg bg-[radial-gradient(#0a3d68_1px,transparent_1.2px)] bg-[length:21px_21px] select-none"
+          [style.background-position]="m.mapa.marGX + ' ' + m.mapa.marGY"
           [style.cursor]="cursor()"
           (pointerdown)="empezarArrastre($event)"
           (pointermove)="moverArrastre($event)"
@@ -186,10 +188,10 @@
           @for (vuelta of [v.tick]; track vuelta) {
             <svg
               class="absolute top-0 left-0 h-full w-full"
-              [attr.viewBox]="v.mapa.caja"
+              [attr.viewBox]="m.mapa.caja"
               aria-hidden="true"
             >
-              @for (l of v.lineas; track $index) {
+              @for (l of m.lineas; track $index) {
                 <path
                   class="fill-none [stroke-linecap:round] transition-[opacity,stroke] duration-200"
                   [class]="
@@ -203,7 +205,7 @@
                   [style.animation-delay.ms]="l.retraso"
                 ></path>
               }
-              @for (l of v.pulsos; track $index) {
+              @for (l of m.pulsos; track $index) {
                 <path
                   class="animate-viajar fill-none stroke-white [stroke-linecap:round]"
                   [attr.d]="l.d"
@@ -217,17 +219,17 @@
               }
             </svg>
 
-            @if (v.mapa.canarias) {
+            @if (m.mapa.canarias) {
               <span
                 class="absolute font-mono text-[11px] leading-4 tracking-[0.08em] text-cielo max-sm:hidden"
-                [style.left]="v.mapa.canariasLeft"
-                [style.top]="v.mapa.canariasTop"
+                [style.left]="m.mapa.canariasLeft"
+                [style.top]="m.mapa.canariasTop"
                 >CANARIAS</span
               >
             }
 
             <!-- Puntos de contactos recomendados -->
-            @for (r of v.nodosRec; track r.ciudad) {
+            @for (r of m.nodosRec; track r.ciudad) {
               <span
                 class="absolute h-0 w-0 transition-opacity duration-200"
                 [style.left]="r.left"
@@ -248,7 +250,7 @@
             }
 
             <!-- Bolas de países o ciudades -->
-            @for (c of v.nodos; track c.id) {
+            @for (c of m.nodos; track c.id) {
               <button
                 type="button"
                 class="absolute -mt-5.5 -ml-5.5 flex h-11 w-11 items-center justify-center rounded-full transition-opacity duration-200"
@@ -288,49 +290,50 @@
           }
 
           <!-- Tú (el centro del mapa) -->
-          @if (v.hub.mostrar) {
+          @if (m.hub.mostrar) {
             <button
               type="button"
               class="absolute max-sm:scale-60"
-              [attr.aria-label]="v.hub.aria"
-              [attr.aria-pressed]="v.hub.activo"
-              [style.left]="v.hub.left"
-              [style.top]="v.hub.top"
-              [style.width.px]="v.hub.px"
-              [style.height.px]="v.hub.px"
-              [style.margin]="-v.hub.px / 2 + 'px 0 0 ' + -v.hub.px / 2 + 'px'"
-              (click)="elegir(v.hub.id)"
-              (mouseenter)="entrar(v.hub.id)"
+              [attr.aria-label]="m.hub.aria"
+              [attr.aria-pressed]="m.hub.activo"
+              [style.left]="m.hub.left"
+              [style.top]="m.hub.top"
+              [style.width.px]="m.hub.px"
+              [style.height.px]="m.hub.px"
+              [style.margin]="-m.hub.px / 2 + 'px 0 0 ' + -m.hub.px / 2 + 'px'"
+              (click)="elegir(m.hub.id)"
+              (mouseenter)="entrar(m.hub.id)"
               (mouseleave)="salir()"
-              (focus)="entrar(v.hub.id)"
+              (focus)="entrar(m.hub.id)"
               (blur)="salir()"
             >
-              @if (v.hub.activo) {
+              @if (m.hub.activo) {
                 <span
                   class="absolute top-0 left-0 animate-latir rounded-xl border-2 border-amarillo"
                   aria-hidden="true"
-                  [style.width.px]="v.hub.px"
-                  [style.height.px]="v.hub.px"
+                  [style.width.px]="m.hub.px"
+                  [style.height.px]="m.hub.px"
                 ></span>
               }
               <img
                 class="block rounded-xl border-[3px] object-cover transition-colors duration-200"
-                [class]="v.hub.activo ? 'border-amarillo' : 'border-white'"
+                [class]="m.hub.activo ? 'border-amarillo' : 'border-white'"
                 [src]="fotoPerfil"
                 alt=""
-                [style.width.px]="v.hub.px"
-                [style.height.px]="v.hub.px"
+                data-sin-perfil
+                [style.width.px]="m.hub.px"
+                [style.height.px]="m.hub.px"
               />
               <span
                 class="absolute top-full left-1/2 mt-[3px] -translate-x-1/2 rounded-sm bg-marino px-1 font-sans text-[13px] leading-4.5 font-bold whitespace-nowrap text-white max-sm:hidden"
-                >{{ v.hub.nombre }} · {{ v.hub.n }}</span
+                >{{ m.hub.nombre }} · {{ m.hub.n }}</span
               >
             </button>
           }
 
           <!-- Zoom -->
           <div
-            class="absolute top-2.5 right-2.5 flex flex-col items-center gap-0.5 rounded-xl bg-marino-hover p-1 text-white"
+            class="absolute top-2.5 right-2.5 flex flex-col items-center gap-0.5 rounded-xl bg-marino-claro p-1 text-white"
             role="group"
             aria-label="Zoom del mapa"
           >
@@ -338,19 +341,19 @@
               type="button"
               class="presionar flex h-11 w-11 items-center justify-center rounded-lg hover:bg-white/15 disabled:opacity-40"
               aria-label="Acercar"
-              [disabled]="v.enMax"
+              [disabled]="m.enMax"
               (click)="acercar()"
             >
               <app-icono nombre="mas" />
             </button>
             <span class="font-mono text-xs leading-4 text-cielo" aria-live="polite">{{
-              v.zoomEtiqueta
+              m.zoomEtiqueta
             }}</span>
             <button
               type="button"
               class="presionar flex h-11 w-11 items-center justify-center rounded-lg hover:bg-white/15 disabled:opacity-40"
               aria-label="Alejar"
-              [disabled]="v.enMin"
+              [disabled]="m.enMin"
               (click)="alejar()"
             >
               <svg
@@ -535,7 +538,7 @@
         @for (f of [-1, 0, 1, 2]; track f) {
           <button
             type="button"
-            class="presionar h-9 rounded-full border px-3.5"
+            class="presionar h-10 rounded-full border px-3.5"
             [class]="
               filtroContactos() === f
                 ? 'border-marino bg-marino text-white'
@@ -568,7 +571,7 @@
             >
             <button
               type="button"
-              class="presionar flex h-9 items-center justify-center gap-2 rounded-lg border border-marino text-sm font-bold text-marino hover:bg-marino hover:text-white"
+              class="presionar flex h-10 items-center justify-center gap-2 rounded-lg border border-marino text-sm font-bold text-marino hover:bg-marino hover:text-white"
               (click)="abrirMensaje(p.nombre)"
             >
               <app-icono nombre="mensajes" [tam]="16" />Mensaje
@@ -589,7 +592,7 @@
                 />
                 <button
                   type="submit"
-                  class="presionar h-9 rounded-full bg-marino px-3 text-sm font-bold text-white hover:bg-marino-hover"
+                  class="presionar h-10 rounded-full bg-marino px-3 text-sm font-bold text-white hover:bg-marino-hover"
                 >
                   Enviar
                 </button>
