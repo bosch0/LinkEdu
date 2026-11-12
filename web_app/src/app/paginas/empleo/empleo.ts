@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import { Component, computed, inject, signal } from '@angular/core';
 import { Avisos } from '../../compartido/avisos';
 import { Confeti } from '../../compartido/confeti/confeti';
@@ -47,7 +48,7 @@ const ANUNCIO_INICIAL: Anuncio = {
 
 @Component({
   selector: 'app-empleo',
-  imports: [Icono, Ventana, Confeti],
+  imports: [Icono, Ventana, Confeti, ABRE_PERFIL],
   templateUrl: './empleo.html',
   host: { class: 'flex flex-1 flex-col' },
 })

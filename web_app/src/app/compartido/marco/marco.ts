@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../abre-perfil';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FOTOS } from '../../datos/fotos';
@@ -7,7 +8,7 @@ import { Icono } from '../icono/icono';
 /** Marco común de todas las pantallas: franja de colores + cabecera + el contenido de cada página. */
 @Component({
   selector: 'app-marco',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icono, Buscador],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icono, Buscador, ABRE_PERFIL],
   templateUrl: './marco.html',
 })
 export class Marco {

@@ -3,7 +3,7 @@
   <aside class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4">
     <!-- Tarjeta de perfil -->
     <section class="animate-subir overflow-hidden rounded-xl border border-line bg-white">
-      <div class="h-14 bg-marino-hover"></div>
+      <div class="h-14 bg-marino-claro"></div>
       <div class="flex flex-col items-center gap-1 px-5 pb-4 text-center">
         <img
           class="-mt-10 h-20 w-20 rounded-[20px] border-4 border-white object-cover"
@@ -115,7 +115,7 @@
       }
       <button
         type="button"
-        class="group mt-1 flex h-9 items-center gap-1.5 self-start text-sm font-bold text-amarillo"
+        class="group mt-1 flex h-10 items-center gap-1.5 self-start text-sm font-bold text-amarillo"
         (click)="ventanaGrupos.abrir(null)"
       >
         Explorar grupos
@@ -178,7 +178,7 @@
               etiquetas[t].clases +
               (tipo() === t
                 ? ' border-current shadow-[0_2px_8px_rgba(7,49,87,0.15)]'
-                : ' border-transparent opacity-80 hover:opacity-100')
+                : ' border-transparent hover:border-line-strong')
             "
             [attr.aria-pressed]="tipo() === t"
             (click)="tipo.set(t)"
@@ -264,7 +264,7 @@
           <button
             type="button"
             class="presionar flex h-11 flex-1 items-center justify-center gap-2 rounded-lg hover:bg-paper"
-            [class.text-naranja]="p.meGusta()"
+            [class.text-naranja-oscuro]="p.meGusta()"
             [attr.aria-pressed]="p.meGusta()"
             (click)="alternarMeGusta(p)"
           >
@@ -303,12 +303,14 @@
             animate.enter="animate-subir"
             animate.leave="animate-menu-fuera"
             class="group flex items-center gap-2.5 text-left"
+            data-sin-perfil
             (click)="p.abierto.set(true)"
           >
             <img
               class="h-8 w-8 flex-none rounded-lg object-cover"
               [src]="p.hilo()[0].foto"
               alt=""
+              data-sin-perfil
             />
             <span
               class="min-w-0 flex-1 rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] bg-paper px-3 py-2 text-sm leading-5 transition-colors group-hover:bg-sunken"
@@ -392,9 +394,7 @@
           <span class="rounded-full bg-azul-soft px-2.5 py-0.5 text-azul">3º y 4º de ESO</span>
         </div>
       </div>
-      <div
-        class="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-[10px] bg-paper px-4 py-3.5"
-      >
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-[10px] bg-paper px-4 py-3.5">
         <!-- Plazas y equipo -->
         <div class="flex flex-[1_1_240px] flex-col gap-2">
           <span class="text-[13px] leading-4.5 text-ink-muted"
@@ -658,7 +658,7 @@
         </span>
         <button
           type="button"
-          class="presionar h-9 flex-none rounded-full border border-marino px-3.5 text-[13px] font-bold"
+          class="presionar h-10 flex-none rounded-full border border-marino px-3.5 text-[13px] font-bold"
           [class]="
             estado.gruposUnidos()[g.id]
               ? 'bg-white text-marino hover:bg-marino-soft'

@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import { Component, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Avisos } from '../../compartido/avisos';
@@ -71,7 +72,7 @@ const miles = (n: number) =>
 
 @Component({
   selector: 'app-recursos',
-  imports: [Icono, Ventana, Confeti],
+  imports: [Icono, Ventana, Confeti, ABRE_PERFIL],
   templateUrl: './recursos.html',
   host: { class: 'flex flex-1 flex-col' },
 })

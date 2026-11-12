@@ -16,7 +16,7 @@
         @for (f of filtros; track f.id) {
           <button
             type="button"
-            class="presionar h-9 flex-1 rounded-full"
+            class="presionar h-10 flex-1 rounded-full"
             [class]="
               filtro() === f.id
                 ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -91,7 +91,7 @@
             <span class="font-bold">{{ s.nombre }}</span>
             <span class="font-mono text-xs text-cielo">{{ s.n }}</span>
             <span
-              class="col-[1/-1] h-1.5 overflow-hidden rounded-full bg-marino-hover"
+              class="col-[1/-1] h-1.5 overflow-hidden rounded-full bg-marino-claro"
               aria-hidden="true"
             >
               <span
@@ -382,7 +382,7 @@
               >
               <button
                 type="button"
-                class="presionar flex h-9 items-center gap-1.5 self-start rounded-full border border-marino px-3.5 text-[13px] font-bold"
+                class="presionar flex h-10 items-center gap-1.5 self-start rounded-full border border-marino px-3.5 text-[13px] font-bold"
                 [class]="
                   peticionEnviada()
                     ? 'bg-marino text-white'
@@ -445,7 +445,7 @@
                 @for (k of m.habilidades; track k.nombre) {
                   <button
                     type="button"
-                    class="presionar flex h-9 items-center gap-1.5 rounded-full border pr-1.5 pl-3"
+                    class="presionar flex h-10 items-center gap-1.5 rounded-full border pr-1.5 pl-3"
                     [class]="
                       k.mia
                         ? 'border-marino bg-marino text-white'
@@ -511,7 +511,7 @@
           <h2 class="font-display text-[17px] leading-6 font-semibold">Tareas en curso</h2>
           <button
             type="button"
-            class="presionar group flex h-9 items-center gap-1.5 rounded-lg bg-azul-soft px-3 text-sm font-bold text-marino hover:bg-marino hover:text-white"
+            class="presionar group flex h-10 items-center gap-1.5 rounded-lg bg-azul-soft px-3 text-sm font-bold text-marino hover:bg-marino hover:text-white"
             (click)="ventanaTablero.abrir(null)"
           >
             Ver tablero completo
@@ -567,7 +567,7 @@
       >
         <button
           type="button"
-          class="presionar h-9 flex-1 rounded-full"
+          class="presionar h-10 flex-1 rounded-full"
           [class]="
             pestana() === 'recibidas'
               ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -580,7 +580,7 @@
         </button>
         <button
           type="button"
-          class="presionar h-9 flex-1 rounded-full"
+          class="presionar h-10 flex-1 rounded-full"
           [class]="
             pestana() === 'enviadas'
               ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -677,7 +677,7 @@
             @if (s.estado === 'Pendiente') {
               <button
                 type="button"
-                class="presionar flex h-9 w-9 flex-none items-center justify-center rounded-full bg-sunken text-ink-muted hover:bg-line hover:text-danger"
+                class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full bg-sunken text-ink-muted hover:bg-line hover:text-danger"
                 [attr.aria-label]="'Cancelar invitación a ' + s.persona.nombre"
                 (click)="cancelarInvitacion(s.id)"
               >
@@ -713,7 +713,7 @@
           >
           <button
             type="button"
-            class="presionar h-9 rounded-full border border-marino bg-white px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
+            class="presionar h-10 rounded-full border border-marino bg-white px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
             [attr.aria-label]="'Invitar a ' + c.persona.nombre"
             (click)="invitar(c.id)"
           >
@@ -895,7 +895,7 @@
             >
             <button
               type="button"
-              class="presionar h-9 rounded-full border border-marino px-3 text-[13px] font-bold"
+              class="presionar h-10 rounded-full border border-marino px-3 text-[13px] font-bold"
               [class]="
                 formEquipo()[w]
                   ? 'bg-marino text-white'
@@ -1028,7 +1028,7 @@
             @for (i of ideasMensaje; track i) {
               <button
                 type="button"
-                class="presionar flex h-8.5 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-[13px] text-ink hover:border-marino hover:bg-marino-soft"
+                class="presionar flex h-10 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-[13px] text-ink hover:border-marino hover:bg-marino-soft"
                 (click)="usarIdea(i)"
               >
                 <app-icono nombre="mas" [tam]="14" />{{ i }}
@@ -1163,7 +1163,7 @@
                 @if (t.estado > 0) {
                   <button
                     type="button"
-                    class="presionar flex h-8 w-8 -scale-x-100 items-center justify-center rounded-lg border border-line bg-white text-ink-muted hover:border-marino hover:text-marino"
+                    class="presionar flex h-10 w-10 -scale-x-100 items-center justify-center rounded-lg border border-line bg-white text-ink-muted hover:border-marino hover:text-marino"
                     [attr.aria-label]="'Devolver «' + t.titulo + '» a la columna anterior'"
                     (click)="moverTarea(t.clave, t.estado - 1)"
                   >
@@ -1173,7 +1173,7 @@
                 @if (t.estado < 2) {
                   <button
                     type="button"
-                    class="presionar flex h-8 w-8 items-center justify-center rounded-lg bg-marino text-white hover:bg-marino-hover"
+                    class="presionar flex h-10 w-10 items-center justify-center rounded-lg bg-marino text-white hover:bg-marino-hover"
                     [attr.aria-label]="'Pasar «' + t.titulo + '» a la siguiente columna'"
                     (click)="moverTarea(t.clave, t.estado + 1)"
                   >

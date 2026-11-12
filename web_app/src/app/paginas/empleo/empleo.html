@@ -12,7 +12,7 @@
           @for (r of roles; track r) {
             <button
               type="button"
-              class="presionar h-9 flex-1 rounded-full"
+              class="presionar h-10 flex-1 rounded-full"
               [class]="
                 rol() === r
                   ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -82,7 +82,7 @@
         @if (lateral().puedeAnadir) {
           <button
             type="button"
-            class="presionar flex h-8 w-8 items-center justify-center rounded-full bg-marino text-white transition-transform duration-200 hover:rotate-90 hover:bg-marino-hover"
+            class="presionar flex h-10 w-10 items-center justify-center rounded-full bg-marino text-white transition-transform duration-200 hover:rotate-90 hover:bg-marino-hover"
             aria-label="Publicar oferta nueva"
             (click)="abrirPublicar()"
           >
@@ -206,7 +206,7 @@
             @for (f of filtros; track f) {
               <button
                 type="button"
-                class="presionar h-8 rounded-full border px-3"
+                class="presionar h-10 rounded-full border px-3"
                 [class]="
                   filtro() === f
                     ? 'border-marino bg-marino text-white'
@@ -554,7 +554,7 @@
             >
             <button
               type="button"
-              class="presionar flex h-9 items-center gap-1.5 rounded-lg bg-azul-soft px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
+              class="presionar flex h-10 items-center gap-1.5 rounded-lg bg-azul-soft px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
               (click)="vChat.abrir(v.quien)"
             >
               <app-icono nombre="mensajes" [tam]="16" />Escribir
@@ -600,7 +600,7 @@
           >
           <button
             type="button"
-            class="presionar h-8.5 flex-none rounded-full border border-marino px-3 text-[13px] font-bold"
+            class="presionar h-10 flex-none rounded-full border border-marino px-3 text-[13px] font-bold"
             [class]="
               m.activo ? 'bg-marino text-white' : 'bg-white text-marino hover:bg-marino-soft'
             "
@@ -695,7 +695,7 @@
             track r
           ) {
             <span class="flex gap-2 text-sm leading-5"
-              ><span class="flex-none text-turquesa"><app-icono nombre="check" [tam]="18" /></span
+              ><span class="flex-none text-verde"><app-icono nombre="check" [tam]="18" /></span
               >{{ r }}</span
             >
           }
@@ -713,7 +713,8 @@
             track r
           ) {
             <span class="flex gap-2 text-sm leading-5"
-              ><span class="flex-none text-naranja"><app-icono nombre="mas" [tam]="18" /></span
+              ><span class="flex-none text-naranja-oscuro"
+                ><app-icono nombre="mas" [tam]="18" /></span
               >{{ r }}</span
             >
           }
@@ -954,11 +955,14 @@
       @if (retirarConfirmado()) {
         <div
           animate.enter="animate-subir"
-          class="animate-sacudir rounded-[10px] bg-[#fff4e8] px-3.5 py-3 text-sm leading-5"
+          class="flex animate-sacudir gap-2.5 rounded-[10px] border-l-4 border-danger bg-[#fff4e8] px-3.5 py-3 text-sm leading-5"
           role="alert"
         >
-          <strong>¿Seguro que quieres retirarla?</strong> {{ w.empresa }} dejará de verla y no
-          podrás recuperarla.
+          <span class="flex-none text-danger"><app-icono nombre="aviso" [tam]="20" /></span>
+          <span
+            ><strong>Atención: ¿seguro que quieres retirarla?</strong> {{ w.empresa }} dejará de
+            verla y no podrás recuperarla.</span
+          >
         </div>
       }
       <div class="flex flex-wrap justify-end gap-3 border-t border-sunken pt-4">
@@ -976,7 +980,7 @@
             !w.puedeRetirar
               ? 'bg-marino text-white'
               : retirarConfirmado()
-                ? 'bg-danger text-white'
+                ? 'bg-danger text-white hover:bg-[#8c1d17]'
                 : 'border-[1.5px] border-danger bg-white text-danger hover:bg-danger hover:text-white'
           "
           (click)="accionRetirar()"
@@ -1167,7 +1171,7 @@
             @for (v of modosAnuncio; track v) {
               <button
                 type="button"
-                class="presionar h-9 rounded-lg px-3"
+                class="presionar h-10 rounded-lg px-3"
                 [class]="
                   borradorAnuncio().modo === v
                     ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
@@ -1628,7 +1632,7 @@
         >
         <button
           type="button"
-          class="presionar flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-bold"
+          class="presionar flex h-10 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-bold"
           [class]="
             f[4]
               ? 'border-turquesa bg-turquesa text-ink'
@@ -1653,7 +1657,7 @@
       >
       <button
         type="button"
-        class="presionar flex h-9 items-center gap-1.5 rounded-full border border-marino bg-white px-3.5 text-[13px] font-bold text-marino hover:bg-marino-soft"
+        class="presionar flex h-10 items-center gap-1.5 rounded-full border border-marino bg-white px-3.5 text-[13px] font-bold text-marino hover:bg-marino-soft"
         (click)="vChat.abrir('irene'); vLlamada.cerrar()"
       >
         <app-icono nombre="mensajes" [tam]="16" />Abrir chat
@@ -1697,7 +1701,7 @@
         >
         <button
           type="button"
-          class="presionar flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-bold"
+          class="presionar flex h-10 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-bold"
           [class]="
             facturas()[f[0]]
               ? 'border-turquesa bg-turquesa text-ink'

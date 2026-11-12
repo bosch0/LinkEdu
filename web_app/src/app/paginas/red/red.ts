@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import {
   Component,
   ElementRef,
@@ -23,6 +24,14 @@ import {
 } from '../../datos/red';
 
 // El mapa mide 1000 x 480 "unidades". El zoom y el desplazamiento se guardan en esas unidades.
+const MUNDO_ALTO = 480;
+// La ventana del mapa solo enseña 420 de alto (se recorta mar arriba y abajo) para que el mapa
+// sea más bajo y se lleguen antes a los contactos recomendados.
+const ALTO = 420;
+// Desplazamiento vertical inicial de cada vista, para que su contenido quede centrado.
+// En España se baja un poco más para que se vean la costa norte y el recuadro de Canarias.
+const Y_INICIAL: Record<string, number> = { espana: 56 };
+const yInicial = (vista: string) => Y_INICIAL[vista] ?? (MUNDO_ALTO - ALTO) / 2;
 interface Zoom {
   z: number;
   x: number;
@@ -50,7 +59,7 @@ const ETIQUETAS_RELACION = ['Mi materia', 'Proyectos', 'Grupos'];
 
 @Component({
   selector: 'app-red',
-  imports: [Icono, Ventana],
+  imports: [Icono, Ventana, ABRE_PERFIL],
   templateUrl: './red.html',
   host: { class: 'flex flex-1 flex-col' },
 })
@@ -69,7 +78,7 @@ export class Red {
   protected hoverLugar = signal<string | null>(null);
   protected hoverRec = signal<string | null>(null);
   protected expandido = signal(false);
-  protected zoom = signal<Zoom>({ z: 1, x: 0, y: 0 });
+  protected zoom = signal<Zoom>({ z: 1, x: 0, y: yInicial('global') });
   private anchoMapa = signal(1026);
   private pintado = signal<{ view: string; z: number; x: number; y: number } | null>(null);
   protected respondidas = signal<Record<string, 'ok' | 'no'>>({});
@@ -90,6 +99,8 @@ export class Red {
   private tierraObservada: HTMLCanvasElement | null = null;
   private rutas: Record<string, { land: Path2D; hi: Path2D }> = {};
   private temporizador: ReturnType<typeof setTimeout> | undefined;
+  private cuadroPintar = 0; // repintado pendiente para el siguiente fotograma
+  private baldosa: HTMLCanvasElement | null = null; // baldosa de puntos que se repite
   private animacion = 0;
   private arrastre: {
     px: number;
@@ -138,16 +149,26 @@ export class Red {
       const igual = !!hecho && hecho.view === view;
       if (igual && hecho.z === now.z && hecho.x === now.x && hecho.y === now.y) return;
       const ancho = 1000 / now.z;
-      const alto = 480 / now.z;
+      const alto = ALTO / now.z;
       // Si nos salimos de lo ya pintado, se repinta ya; si no, se espera un poco
       const fuera =
         !igual ||
         now.x < hecho.x - 250 / hecho.z ||
-        now.y < hecho.y - 120 / hecho.z ||
+        now.y < hecho.y - ALTO / 4 / hecho.z ||
         now.x + ancho > hecho.x + 1250 / hecho.z ||
-        now.y + alto > hecho.y + 600 / hecho.z;
+        now.y + alto > hecho.y + (ALTO * 1.25) / hecho.z;
+      // Fuera de lo pintado: se repinta en el siguiente fotograma (como mucho una vez por fotograma).
+      // Dentro: se espera a que el zoom pare y se repinta para que los puntos queden nítidos.
       clearTimeout(this.temporizador);
-      this.temporizador = setTimeout(() => this.pintarTierra(), fuera ? 0 : 140);
+      if (fuera) {
+        if (!this.cuadroPintar)
+          this.cuadroPintar = requestAnimationFrame(() => {
+            this.cuadroPintar = 0;
+            this.pintarTierra();
+          });
+      } else {
+        this.temporizador = setTimeout(() => this.pintarTierra(), 120);
+      }
     });
   }
 
@@ -172,21 +193,51 @@ export class Red {
   private porcentaje(p: { x: number; y: number }, v: Zoom) {
     return {
       left: (((p.x - v.x) * v.z) / 10).toFixed(2) + '%',
-      top: (((p.y - v.y) * v.z) / 4.8).toFixed(2) + '%',
+      // El % de alto va sobre lo que enseña la ventana (ALTO), no sobre el mundo entero
+      top: ((((p.y - v.y) * v.z) / ALTO) * 100).toFixed(2) + '%',
     };
   }
 
-  // Rejilla de puntos (la "tierra" del mapa se dibuja con puntos)
-  private rejilla(paso: number, izq: number, arriba: number, der: number, abajo: number) {
+  // Patrón de puntos al tresbolillo (la "tierra" del mapa se dibuja con puntos).
+  // En vez de dibujar miles de puntos uno a uno, se dibuja una baldosa pequeña con unos
+  // pocos y el canvas la repite: pintar el mapa pasa de decenas de milisegundos a casi nada.
+  // "paso" y "grosor" van en unidades del mapa; "escala" pasa de unidades a píxeles reales.
+  private patronPuntos(
+    ctx: CanvasRenderingContext2D,
+    paso: number,
+    grosor: number,
+    escala: number,
+    color: string,
+  ) {
     const fila = (paso * Math.sqrt(3)) / 2;
-    let out = '';
-    for (let k = Math.floor(arriba / fila) - 1; k * fila <= abajo + fila; k++) {
-      const desp = k % 2 ? paso / 2 : 0;
-      let j = Math.floor((izq - desp) / paso) - 1;
-      out += `M${(j * paso + desp).toFixed(3)} ${(k * fila).toFixed(3)}h0`;
-      for (j++; j * paso + desp <= der + paso; j++) out += `m${paso} 0h0`;
+    // Baldosa de 4 columnas x 4 filas al tamaño real en pantalla, para que los puntos salgan nítidos
+    const anchoReal = 4 * paso * escala;
+    const altoReal = 4 * fila * escala;
+    const tw = Math.max(4, Math.round(anchoReal));
+    const th = Math.max(4, Math.round(altoReal));
+    const baldosa = (this.baldosa ??= document.createElement('canvas'));
+    baldosa.width = tw;
+    baldosa.height = th;
+    const b = baldosa.getContext('2d')!;
+    const col = tw / 4;
+    const fil = th / 4;
+    const radio = ((grosor * escala) / 2) * (tw / anchoReal);
+    b.fillStyle = color;
+    b.beginPath();
+    // Se pintan también los puntos de los bordes para que la baldosa empalme sin cortes
+    for (let k = 0; k <= 4; k++) {
+      for (let j = -1; j <= 4; j++) {
+        const x = j * col + (k % 2 ? col / 2 : 0);
+        const y = k * fil;
+        b.moveTo(x + radio, y);
+        b.arc(x, y, radio, 0, Math.PI * 2);
+      }
     }
-    return out;
+    b.fill();
+    // createPattern copia la baldosa, así que se puede reutilizar el mismo canvas
+    const patron = ctx.createPattern(baldosa, 'repeat')!;
+    patron.setTransform(new DOMMatrix().scale((4 * paso) / tw, (4 * fila) / th));
+    return patron;
   }
 
   private lugares(view: string, profundo: boolean): Lugar[] {
@@ -221,12 +272,20 @@ export class Red {
     const w = canvas.parentElement.clientWidth;
     const h = canvas.parentElement.clientHeight;
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(w * 1.5 * ratio);
-    canvas.height = Math.round(h * 1.5 * ratio);
+    const cw = Math.round(w * 1.5 * ratio);
+    const ch = Math.round(h * 1.5 * ratio);
+    // Cambiar el tamaño del canvas reserva memoria nueva: solo se hace si el mapa ha cambiado de tamaño
+    if (canvas.width !== cw || canvas.height !== ch) {
+      canvas.width = cw;
+      canvas.height = ch;
+    }
     const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, cw, ch);
     const escala = (w / 1000) * now.z * ratio;
     const ancho = 1000 / now.z;
-    const alto = 480 / now.z;
+    const alto = ALTO / now.z;
     const izq = now.x - ancho / 4;
     const arriba = now.y - alto / 4;
     ctx.setTransform(escala, 0, 0, escala, -izq * escala, -arriba * escala);
@@ -246,31 +305,25 @@ export class Red {
     const hueco = (view === 'global' ? 7 : 8) / Math.pow(2, nivel);
     const parte = Math.log(now.z) / Math.LN2 - nivel;
     const fino = parte * parte * (3 - 2 * parte);
-    const gruesa = new Path2D(
-      this.rejilla(hueco, izq, arriba, izq + ancho * 1.5, arriba + alto * 1.5),
-    );
-    const densa =
-      fino > 0
-        ? new Path2D(this.rejilla(hueco / 2, izq, arriba, izq + ancho * 1.5, arriba + alto * 1.5))
-        : null;
     const puntoClaro = view === 'global' ? '#7cc8f2' : '#5aa5d6';
-    ctx.lineWidth = (view === 'global' ? 3.2 : 3.4) / now.z;
+    const grosor = (view === 'global' ? 3.2 : 3.4) / now.z;
     (
       [
         [rutas.land, '#2f79ad'],
         [rutas.hi, puntoClaro],
       ] as [Path2D, string][]
     ).forEach(([ruta, color]) => {
-      ctx.save();
-      ctx.clip(ruta);
-      ctx.strokeStyle = color;
-      ctx.stroke(gruesa);
-      if (densa) {
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = this.patronPuntos(ctx, hueco, grosor, escala, color);
+      ctx.fill(ruta);
+      // Al acercar, la rejilla el doble de densa aparece poco a poco
+      if (fino > 0) {
         ctx.globalAlpha = fino;
-        ctx.stroke(densa);
+        ctx.fillStyle = this.patronPuntos(ctx, hueco / 2, grosor, escala, color);
+        ctx.fill(ruta);
       }
-      ctx.restore();
     });
+    ctx.globalAlpha = 1;
     const contorno = Math.min(0.35, (now.z - 1.5) / 5);
     if (contorno > 0) {
       ctx.globalAlpha = contorno;
@@ -292,7 +345,7 @@ export class Red {
     if (!hecho || hecho.view !== view) return 'none';
     const k = now.z / hecho.z;
     const w = 1000 * px;
-    const h = 480 * px;
+    const h = ALTO * px;
     const dx = (hecho.x - now.x) * now.z * px + (w / 4) * (1 - k);
     const dy = (hecho.y - now.y) * now.z * px + (h / 4) * (1 - k);
     return `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) scale(${k.toFixed(5)})`;
@@ -304,11 +357,11 @@ export class Red {
     const nuevo = Math.min(12, Math.max(1, z));
     const limita = (n: number, max: number) => Math.min(max, Math.max(0, n));
     const ancho = 1000 / nuevo;
-    const alto = 480 / nuevo;
+    const alto = ALTO / nuevo;
     this.zoom.set({
       z: nuevo,
       x: limita(v.x + (fx * 1000) / v.z - fx * ancho, 1000 - ancho),
-      y: limita(v.y + (fy * 480) / v.z - fy * alto, 480 - alto),
+      y: limita(v.y + (fy * ALTO) / v.z - fy * alto, MUNDO_ALTO - alto),
     });
   }
 
@@ -316,9 +369,11 @@ export class Red {
   private deslizar(objetivo: number, hacia?: { x: number; y: number }) {
     const v = this.zoom();
     const desdeX = v.x + 500 / v.z;
-    const desdeY = v.y + 240 / v.z;
-    const aX = hacia ? hacia.x : desdeX;
-    const aY = hacia ? hacia.y : desdeY;
+    const desdeY = v.y + ALTO / 2 / v.z;
+    // Al volver al zoom inicial, el mapa se recoloca centrado como al principio
+    const vuelve = objetivo <= 1 && !hacia;
+    const aX = hacia ? hacia.x : vuelve ? 500 : desdeX;
+    const aY = hacia ? hacia.y : vuelve ? yInicial(this.vista()) + ALTO / 2 : desdeY;
     let inicio: number | null = null;
     cancelAnimationFrame(this.animacion);
     const paso = (ahora: number) => {
@@ -327,12 +382,12 @@ export class Red {
       const e = t * (2 - t);
       const z = v.z * Math.pow(objetivo / v.z, e);
       const ancho = 1000 / z;
-      const alto = 480 / z;
+      const alto = ALTO / z;
       const limita = (n: number, max: number) => Math.min(max, Math.max(0, n));
       this.zoom.set({
         z,
         x: limita(desdeX + (aX - desdeX) * e - ancho / 2, 1000 - ancho),
-        y: limita(desdeY + (aY - desdeY) * e - alto / 2, 480 - alto),
+        y: limita(desdeY + (aY - desdeY) * e - alto / 2, MUNDO_ALTO - alto),
       });
       if (t < 1) this.animacion = requestAnimationFrame(paso);
     };
@@ -377,7 +432,7 @@ export class Red {
       x: v.x,
       y: v.y,
       sx: 1000 / v.z / caja.width,
-      sy: 480 / v.z / caja.height,
+      sy: ALTO / v.z / caja.height,
     };
   }
 
@@ -392,7 +447,7 @@ export class Red {
     this.zoom.set({
       z: v.z,
       x: Math.min(1000 - 1000 / v.z, Math.max(0, g.x - dx * g.sx)),
-      y: Math.min(480 - 480 / v.z, Math.max(0, g.y - dy * g.sy)),
+      y: Math.min(MUNDO_ALTO - ALTO / v.z, Math.max(0, g.y - dy * g.sy)),
     });
   }
 
@@ -424,7 +479,7 @@ export class Red {
   // ============ Acciones ============
   protected ir(vista: string) {
     cancelAnimationFrame(this.animacion);
-    this.zoom.set({ z: 1, x: 0, y: 0 });
+    this.zoom.set({ z: 1, x: 0, y: yInicial(vista) });
     this.pintado.set(null);
     this.vista.set(vista);
     this.tick.update((t) => t + 1);
@@ -518,22 +573,25 @@ export class Red {
   }
 
   // ============ Todo lo que se pinta (se recalcula solo cuando cambia algo) ============
-  protected vm = computed(() => {
+  // Se reparte en tres partes para que el zoom vaya fluido:
+  //  - base: datos del mapa que NO dependen del zoom (lugares, líneas, recomendados...).
+  //  - vmMapa: solo lo que se mueve con el zoom (posiciones, grosores, etiquetas).
+  //  - vm: el resto de la pantalla (listas, detalle, invitaciones). No se recalcula al hacer zoom.
+
+  // Solo cambia al cruzar el zoom 5 (en el mapa global se pasa de países a ciudades)
+  private profundo = computed(() => this.vista() === 'global' && this.zoom().z >= 5);
+
+  private base = computed(() => {
     const datos = this.datos();
     if (!datos) return null;
     const view = this.vista();
-    const tick = this.tick();
     const filtro = this.filtro();
     const sel = this.seleccion();
     const hoverLugar = this.hoverLugar();
     const hoverRec = this.hoverRec();
     const enviadas = this.enviadas();
-    const respondidas = this.respondidas();
-    const expandido = this.expandido();
-    const now = this.zoom();
-    const anchoPx = this.anchoMapa();
+    const profundo = this.profundo();
 
-    const profundo = view === 'global' && now.z >= 5;
     const lugares = this.lugares(view, profundo);
     const porId: Record<string, Lugar> = {};
     lugares.forEach((c) => (porId[c.id] = c));
@@ -545,8 +603,9 @@ export class Red {
     const foco = recActiva ? null : (hoverLugar ?? sel);
     const esFoco = (id: string) => foco === id;
     const viaDe = (r: (typeof RECOMENDADOS)[number]) => (profundo ? (r.viaCiudad ?? r.via) : r.via);
+    const porPais = view === 'global' && !profundo;
 
-    // ----- líneas y pulsos -----
+    // ----- líneas y pulsos (el grosor final se calcula con el zoom en vmMapa) -----
     const estadoLinea = (toca: boolean, enCamino: boolean, n: number, base: number) => {
       if (n === 0) return { stroke: '#d6e9f7', opacity: 0.06 };
       if (recActiva)
@@ -559,17 +618,10 @@ export class Red {
       punteada: boolean;
       stroke: string;
       opacity: number;
-      ancho: string;
+      grosor: number;
       retraso: number;
     }[] = [];
-    const pulsos: {
-      d: string;
-      dash: string;
-      ancho: string;
-      opacity: number;
-      retraso: number;
-      duracion: number;
-    }[] = [];
+    const pulsos: { d: string; opacity: number; retraso: number; duracion: number }[] = [];
     const malla = profundo
       ? PAISES.flatMap((p) => p.malla)
       : view === 'global'
@@ -585,7 +637,7 @@ export class Red {
         punteada: false,
         stroke: st.stroke,
         opacity: st.opacity,
-        ancho: (1.2 / now.z).toFixed(2),
+        grosor: 1.2,
         retraso: 900 + i * 60,
       });
     });
@@ -605,14 +657,12 @@ export class Red {
         punteada: false,
         stroke: st.stroke,
         opacity: st.opacity,
-        ancho: ((profundo ? 1 : 1.2 + n / escalaAncho) / now.z).toFixed(2),
+        grosor: profundo ? 1 : 1.2 + n / escalaAncho,
         retraso: profundo ? i * 12 : i * 70,
       });
       if (n > 0 && (!profundo || i < 12)) {
         pulsos.push({
           d,
-          dash: (0.035 / now.z).toFixed(4) + ' ' + (1 - 0.035 / now.z).toFixed(4),
-          ancho: (3.2 / now.z).toFixed(2),
           opacity: st.opacity < 0.3 ? 0.2 : 0.9,
           retraso: i * 530,
           duracion: 3.4 + (i % 4) * 0.7,
@@ -627,10 +677,47 @@ export class Red {
         punteada: !enviadas[r.id],
         stroke: '#fb8d2b',
         opacity: recActiva && !activa ? 0.2 : 1,
-        ancho: ((activa ? 2.6 : 1.8) / now.z).toFixed(2),
+        grosor: activa ? 2.6 : 1.8,
         retraso: 0,
       });
     });
+
+    return {
+      datos,
+      view,
+      filtro,
+      sel,
+      hoverLugar,
+      hoverRec,
+      enviadas,
+      profundo,
+      lugares,
+      porId,
+      cuenta,
+      centro,
+      esInicio,
+      enVista,
+      recActiva,
+      esFoco,
+      viaDe,
+      porPais,
+      lineas,
+      pulsos,
+    };
+  });
+
+  // ----- Lo que depende del zoom: se recalcula en cada paso del zoom, por eso es lo mínimo -----
+  protected vmMapa = computed(() => {
+    const b = this.base();
+    if (!b) return null;
+    const now = this.zoom();
+    const anchoPx = this.anchoMapa();
+    const { view, profundo, lugares, cuenta, centro, esInicio, enVista, recActiva, esFoco } = b;
+
+    const lineas = b.lineas.map((l) => ({ ...l, ancho: (l.grosor / now.z).toFixed(2) }));
+    const dash = (0.035 / now.z).toFixed(4) + ' ' + (1 - 0.035 / now.z).toFixed(4);
+    const anchoPulso = (3.2 / now.z).toFixed(2);
+    const pulsos = b.pulsos.map((l) => ({ ...l, dash, ancho: anchoPulso }));
 
     // ----- bolas, etiquetas (se colocan evitando que se pisen) -----
     const encoge = profundo ? Math.max(0.65, Math.min(1, now.z / 8)) : 1;
@@ -641,11 +728,11 @@ export class Red {
       y: (p.y - now.y) * now.z * px,
     });
     const mapaW = 1000 * px;
-    const mapaH = 480 * px;
+    const mapaH = ALTO * px;
     const ocupados: { x: number; y: number; w: number; h: number }[] = [];
-    const choca = (b: { x: number; y: number; w: number; h: number }) =>
+    const choca = (c: { x: number; y: number; w: number; h: number }) =>
       ocupados.some(
-        (o) => b.x < o.x + o.w && o.x < b.x + b.w && b.y < o.y + o.h && o.y < b.y + b.h,
+        (o) => c.x < o.x + o.w && o.x < c.x + c.w && c.y < o.y + o.h && o.y < c.y + c.h,
       );
     const cajaEtiqueta = (
       at: { x: number; y: number },
@@ -674,10 +761,10 @@ export class Red {
         opuesto[lado],
         ...((lado === 't' || lado === 'b' ? ['r', 'l'] : ['t', 'b']) as Lado[]),
       ];
-      const libre = (b: { x: number; y: number; w: number; h: number }) => {
-        const bajoZoom = b.x + b.w > mapaW - 70 && b.y < 130;
+      const libre = (c: { x: number; y: number; w: number; h: number }) => {
+        const bajoZoom = c.x + c.w > mapaW - 70 && c.y < 130;
         return (
-          b.x >= 0 && b.y >= 0 && b.x + b.w <= mapaW && b.y + b.h <= mapaH && !bajoZoom && !choca(b)
+          c.x >= 0 && c.y >= 0 && c.x + c.w <= mapaW && c.y + c.h <= mapaH && !bajoZoom && !choca(c)
         );
       };
       for (let i = 0; i < 4; i++) {
@@ -690,7 +777,7 @@ export class Red {
       return this.estiloEtiqueta(lado, hueco - (p.gapFix || 0)) + (forzar ? '' : '; display: none');
     };
     const atenuado = (c: Lugar) =>
-      cuenta(c) === 0 ? 0.35 : recActiva && viaDe(recActiva) !== c.id ? 0.4 : 1;
+      cuenta(c) === 0 ? 0.35 : recActiva && b.viaDe(recActiva) !== c.id ? 0.4 : 1;
     const nodosLugares = esInicio ? lugares.slice(1) : lugares;
     const tamBola = (c: Lugar) => {
       const n = cuenta(c);
@@ -709,7 +796,7 @@ export class Red {
     const etiquetaDe: Record<string, string> = {};
     nodosLugares
       .slice()
-      .sort((a, b) => (esFoco(b.id) ? 1 : 0) - (esFoco(a.id) ? 1 : 0) || cuenta(b) - cuenta(a))
+      .sort((x, y) => (esFoco(y.id) ? 1 : 0) - (esFoco(x.id) ? 1 : 0) || cuenta(y) - cuenta(x))
       .forEach((c) => {
         etiquetaDe[c.id] = colocar(
           { ...c, gapFix: 22 },
@@ -719,7 +806,6 @@ export class Red {
           esFoco(c.id),
         );
       });
-    const porPais = view === 'global' && !profundo;
     const nodos = nodosLugares.map((c, i) => {
       const n = cuenta(c);
       const caja = this.porcentaje(c, now);
@@ -729,7 +815,7 @@ export class Red {
         nombre: c.nombre,
         n: String(n),
         activo: esFoco(c.id),
-        aria: `${c.nombre}, ${n} contactos${porPais ? '. Abrir su mapa' : ''}`,
+        aria: `${c.nombre}, ${n} contactos${b.porPais ? '. Abrir su mapa' : ''}`,
         left: caja.left,
         top: caja.top,
         tab: at.x >= 0 && at.y >= 0 && at.x <= mapaW && at.y <= mapaH ? 0 : -1,
@@ -747,13 +833,61 @@ export class Red {
       nombre: centro.nombre,
       n: String(cuenta(centro)),
       activo: esFoco(centro.id),
-      aria: `${centro.nombre}, ${porPais ? 'tu país, ' : 'tu ciudad, '}${cuenta(centro)} contactos`,
+      aria: `${centro.nombre}, ${b.porPais ? 'tu país, ' : 'tu ciudad, '}${cuenta(centro)} contactos`,
       left: hubCaja.left,
       top: hubCaja.top,
     };
+    const nodosRec = enVista.map((r) => {
+      const p = b.datos.pos[view][r.id];
+      const caja = this.porcentaje({ x: p[0], y: p[1] }, now);
+      const activo = recActiva === r;
+      const texto = r.pais && !profundo ? r.pais : r.ciudad;
+      return {
+        ciudad: texto,
+        left: caja.left,
+        top: caja.top,
+        enviada: !!b.enviadas[r.id],
+        escala: activo ? 1.5 : 1,
+        opacity: recActiva && !activo ? 0.3 : 1,
+        etiqueta: colocar({ x: p[0], y: p[1] }, r.lado, texto, 9, activo),
+      };
+    });
+
+    const insetPos = this.porcentaje({ x: 26, y: 376 }, now);
+    const mapa = {
+      caja: `${now.x.toFixed(1)} ${now.y.toFixed(1)} ${(1000 / now.z).toFixed(1)} ${(ALTO / now.z).toFixed(1)}`,
+      marGX: (-(now.x * now.z * px) % 21).toFixed(1) + 'px',
+      marGY: (-(now.y * now.z * px) % 21).toFixed(1) + 'px',
+      canariasLeft: insetPos.left,
+      canariasTop: insetPos.top,
+      canarias: view === 'espana',
+    };
+
+    return {
+      mapa,
+      lineas,
+      pulsos,
+      nodos,
+      hub,
+      nodosRec,
+      zoomEtiqueta: Math.round(now.z * 100) + '%',
+      enMin: now.z <= 1,
+      enMax: now.z >= 12,
+    };
+  });
+
+  // ----- El resto de la pantalla: no depende del zoom -----
+  protected vm = computed(() => {
+    const b = this.base();
+    if (!b) return null;
+    const tick = this.tick();
+    const respondidas = this.respondidas();
+    const expandido = this.expandido();
+    const { view, filtro, sel, hoverLugar, hoverRec, enviadas, lugares, porId, cuenta } = b;
+    const { centro, esInicio, enVista, porPais } = b;
 
     // ----- lista de países/ciudades -----
-    const ordenados = lugares.slice().sort((a, b) => cuenta(b) - cuenta(a));
+    const ordenados = lugares.slice().sort((x, y) => cuenta(y) - cuenta(x));
     const maximo = Math.max(cuenta(ordenados[0]), 1);
     const sustantivo = porPais ? 'países' : 'ciudades';
     const filas = (expandido ? ordenados : ordenados.slice(0, 5)).map((c) => ({
@@ -787,7 +921,7 @@ export class Red {
       ['espana', 'Mi país'],
     ];
     if (extranjero) listaZonas.push([view, PAISES.find((c) => c.id === view)!.nombre]);
-    const zonas = listaZonas.map((s) => ({ id: s[0], etiqueta: s[1], activa: view === s[0] }));
+    const zonas = listaZonas.map((z) => ({ id: z[0], etiqueta: z[1], activa: view === z[0] }));
 
     // ----- panel de detalle -----
     const mostrado = porId[hoverLugar ?? sel ?? ''] ?? centro;
@@ -822,28 +956,13 @@ export class Red {
       enviada: !!enviadas[r.id],
       resaltada: hoverRec === r.id,
     }));
-    const nodosRec = enVista.map((r) => {
-      const p = datos.pos[view][r.id];
-      const caja = this.porcentaje({ x: p[0], y: p[1] }, now);
-      const activo = recActiva === r;
-      const texto = r.pais && !profundo ? r.pais : r.ciudad;
-      return {
-        ciudad: texto,
-        left: caja.left,
-        top: caja.top,
-        enviada: !!enviadas[r.id],
-        escala: activo ? 1.5 : 1,
-        opacity: recActiva && !activo ? 0.3 : 1,
-        etiqueta: colocar({ x: p[0], y: p[1] }, r.lado, texto, 9, activo),
-      };
-    });
 
     // ----- invitaciones y números -----
     const invitaciones = INVITACIONES.map((v) => ({ ...v, respuesta: respondidas[v.id] ?? null }));
     const aceptadas = Object.values(respondidas).filter((v) => v === 'ok').length;
     const stats = {
       total: String(
-        lugares.reduce((s, c) => s + cuenta(c), 0) + (esInicio && filtro < 0 ? aceptadas : 0),
+        lugares.reduce((t, c) => t + cuenta(c), 0) + (esInicio && filtro < 0 ? aceptadas : 0),
       ),
       lugares: String(lugares.filter((c) => cuenta(c) > 0).length),
       etiquetaLugares: sustantivo,
@@ -852,18 +971,6 @@ export class Red {
     };
 
     const pais = PAISES.find((c) => c.id === view);
-    const insetPos = this.porcentaje({ x: 26, y: 376 }, now);
-    const mapa = {
-      caja: `${now.x.toFixed(1)} ${now.y.toFixed(1)} ${(1000 / now.z).toFixed(1)} ${(480 / now.z).toFixed(1)}`,
-      marGX: (-(now.x * now.z * px) % 21).toFixed(1) + 'px',
-      marGY: (-(now.y * now.z * px) % 21).toFixed(1) + 'px',
-      canariasLeft: insetPos.left,
-      canariasTop: insetPos.top,
-      canarias: view === 'espana',
-    };
-    const atMin = now.z <= 1;
-    const atMax = now.z >= 12;
-
     return {
       tick,
       titulo: view === 'global' ? 'Tu red en el mundo' : 'Tu red en ' + pais!.nombre,
@@ -878,18 +985,9 @@ export class Red {
       lista,
       filtros,
       zonas,
-      mapa,
-      lineas,
-      pulsos,
-      nodos,
-      hub,
-      nodosRec,
       detalle,
       recs,
       invitaciones,
-      zoomEtiqueta: Math.round(now.z * 100) + '%',
-      enMin: atMin,
-      enMax: atMax,
     };
   });
 }

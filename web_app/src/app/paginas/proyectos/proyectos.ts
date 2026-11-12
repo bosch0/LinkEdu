@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Avisos } from '../../compartido/avisos';
@@ -92,7 +93,7 @@ const IDEAS_MENSAJE = [
 
 @Component({
   selector: 'app-proyectos',
-  imports: [RouterLink, Icono, Ventana, Confeti],
+  imports: [RouterLink, Icono, Ventana, Confeti, ABRE_PERFIL],
   templateUrl: './proyectos.html',
   host: { class: 'flex flex-1 flex-col' },
 })

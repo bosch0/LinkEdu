@@ -1,3 +1,4 @@
+import { ABRE_PERFIL } from '../../compartido/abre-perfil';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Avisos } from '../../compartido/avisos';
@@ -42,7 +43,7 @@ class Post {
 
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink, Icono, Ventana, Flujo],
+  imports: [RouterLink, Icono, Ventana, Flujo, ABRE_PERFIL],
   templateUrl: './inicio.html',
   host: { class: 'flex flex-1 flex-col' },
 })

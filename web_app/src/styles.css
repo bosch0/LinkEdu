@@ -16,7 +16,10 @@
   --color-ink-muted: #4a5b6c;
   --color-ink-faint: #a3b3c4;
   --color-marino: #073157;
-  --color-marino-hover: #0b4876;
+  /* Hover = tono más oscuro que el botón en reposo (estado Hover) */
+  --color-marino-hover: #041f38;
+  /* Superficie un poco más clara que el marino (dentro de paneles oscuros) */
+  --color-marino-claro: #0b4876;
   --color-marino-soft: #dfe8f2;
   --color-azul: #0a6a99;
   --color-azul-soft: #e3f1f9;
@@ -267,9 +270,21 @@
   a {
     @apply text-azul;
   }
-  /* Anillo de foco visible para el teclado */
-  :is(button, a, input, textarea, select):focus-visible {
-    @apply outline-3 outline-offset-2 outline-amarillo;
+  /* Estado Focus: borde remarcado de alto contraste al navegar con Tabulador.
+     Anillo doble (oscuro + amarillo) para que se vea sobre fondos claros y oscuros. */
+  :is(button, a, summary, [tabindex]):not(input, textarea, select):focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 8px var(--color-amarillo);
+  }
+  /* Los campos de texto marcan el foco también al hacer clic (así funcionan los navegadores),
+     por eso llevan un contorno oscuro sencillo en vez del anillo amarillo. Los que tienen
+     outline-none ya enseñan el foco en su caja (por ejemplo el buscador, con borde azul). */
+  :is(input, textarea, select):focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 2px;
   }
   /* Un <span> que solo envuelve un icono (<span><app-icono /></span>) se ajusta al tamaño
      del icono. Sin esto, el span reserva una línea de texto entera (24px) y el icono queda
@@ -282,8 +297,33 @@
   button:not(:disabled) {
     cursor: pointer;
   }
-  button:disabled {
+  /* Fotos y nombres de personas que abren su perfil: subrayado al pasar el ratón */
+  [data-enlace-perfil]:not(img):hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  /* Estado Disabled: aspecto apagado y grisáceo, no se puede pulsar */
+  button:disabled,
+  [aria-disabled='true'] {
     cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(1);
+  }
+  /* Jerarquía tipográfica: H1 título de pantalla, H2 subsecciones, Body para el texto */
+  h1,
+  h2,
+  h3 {
+    /* Sin color fijo: heredan el del bloque (oscuro en tarjetas blancas, blanco en paneles marinos) */
+    @apply font-display;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Contraste WCAG AA: el texto de ayuda de los campos no puede ser gris claro */
+  ::placeholder {
+    color: var(--color-ink-muted);
+    opacity: 1;
   }
 }
 

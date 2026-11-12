@@ -38,6 +38,12 @@ export const routes: Routes = [
         title: 'LinkEdu · Perfil',
         loadComponent: () => import('./paginas/perfil/perfil').then((m) => m.Perfil),
       },
+      {
+        // Perfil de otra persona: /perfil/elena, /perfil/alex... (el id llega como input "id")
+        path: 'perfil/:id',
+        title: 'LinkEdu · Perfil',
+        loadComponent: () => import('./paginas/perfil/perfil').then((m) => m.Perfil),
+      },
       { path: '**', redirectTo: '' },
     ],
   },
