@@ -26,6 +26,9 @@
       "name": "Logos",
       "tile": "l",
       "order": [
+        "linkedu-completo.svg",
+        "linkedu-completo-azul.svg",
+        "linkedu-completo-blanco.svg",
         "linkedu-horizontal.svg",
         "linkedu-horizontal-azul.svg",
         "linkedu-horizontal-blanco.svg",
@@ -43,94 +46,112 @@
         "linkedu-integrado-blanco.svg"
       ],
       "files": {
+        "linkedu-completo.svg": {
+          "name": "linkedu-completo.svg",
+          "blob": "cefa509a084a90e450412842794d34cd",
+          "size": 13482,
+          "type": "image/svg+xml"
+        },
+        "linkedu-completo-azul.svg": {
+          "name": "linkedu-completo-azul.svg",
+          "blob": "781c5329357ed02aac68f77d4b172e5d",
+          "size": 13482,
+          "type": "image/svg+xml"
+        },
+        "linkedu-completo-blanco.svg": {
+          "name": "linkedu-completo-blanco.svg",
+          "blob": "6a8ba2ddac178370e9db08d9bd5bb194",
+          "size": 13482,
+          "type": "image/svg+xml"
+        },
         "linkedu-horizontal.svg": {
           "name": "linkedu-horizontal.svg",
-          "blob": "bd514ac8d1f29348ab92904a8a1ecf95",
-          "size": 16218,
+          "blob": "0c8d31b9e9871b822a4657bb1b0ab960",
+          "size": 4773,
           "type": "image/svg+xml"
         },
         "linkedu-horizontal-azul.svg": {
           "name": "linkedu-horizontal-azul.svg",
-          "blob": "fc325376eb3d5cc41153d826de7e55e4",
-          "size": 5075,
+          "blob": "393b4a495c71e086ae4abbe53f190645",
+          "size": 4773,
           "type": "image/svg+xml"
         },
         "linkedu-horizontal-blanco.svg": {
           "name": "linkedu-horizontal-blanco.svg",
-          "blob": "7c14f860964331aa70bc641faee8018e",
-          "size": 5075,
+          "blob": "eb4cfcf0f5c59fecc3331ef92221662f",
+          "size": 4773,
           "type": "image/svg+xml"
         },
         "linkedu-vertical.svg": {
           "name": "linkedu-vertical.svg",
-          "blob": "db18ec1ac14030bf1c5e7582af240c99",
-          "size": 16168,
+          "blob": "1af0aa7d1b1de21f324e7df70c7f6221",
+          "size": 4832,
           "type": "image/svg+xml"
         },
         "linkedu-vertical-azul.svg": {
           "name": "linkedu-vertical-azul.svg",
-          "blob": "19f92e66e918aae7c32580833c28152c",
-          "size": 5025,
+          "blob": "132944ee187c2076c684fa3b91839ce7",
+          "size": 4832,
           "type": "image/svg+xml"
         },
         "linkedu-vertical-blanco.svg": {
           "name": "linkedu-vertical-blanco.svg",
-          "blob": "286ac19e282dc0184329cb5f771fd62e",
-          "size": 5025,
+          "blob": "8a39a0c46eb2d9b36a4e66ba88f645d2",
+          "size": 4832,
           "type": "image/svg+xml"
         },
         "linkedu-icono.svg": {
           "name": "linkedu-icono.svg",
-          "blob": "b643a81ebdb28d3e7bde14ae97c8b4bd",
-          "size": 12765,
+          "blob": "5a39780fda07f94e8394cd0aa5313ecb",
+          "size": 1365,
           "type": "image/svg+xml"
         },
         "linkedu-icono-azul.svg": {
           "name": "linkedu-icono-azul.svg",
-          "blob": "e9c6109e7d525c6281eb309ffb3432a8",
-          "size": 1622,
+          "blob": "89406b25198717f986c8879dadf12635",
+          "size": 1365,
           "type": "image/svg+xml"
         },
         "linkedu-icono-blanco.svg": {
           "name": "linkedu-icono-blanco.svg",
-          "blob": "667e32cecbb9f00572a351dd0d940519",
-          "size": 1622,
+          "blob": "b05a23d23ced06601332eeb64d03bf30",
+          "size": 1365,
           "type": "image/svg+xml"
         },
         "linkedu-texto.svg": {
           "name": "linkedu-texto.svg",
-          "blob": "dd959262551bb9c9fe53e26461fcda1b",
-          "size": 3507,
+          "blob": "9f1c7589a2214efda15694a98641b80e",
+          "size": 3603,
           "type": "image/svg+xml"
         },
         "linkedu-texto-azul.svg": {
           "name": "linkedu-texto-azul.svg",
-          "blob": "94dbf6a60aa9e0101677156aeb124aaa",
-          "size": 3507,
+          "blob": "816970a2818a2840afc3694e2610bf73",
+          "size": 3603,
           "type": "image/svg+xml"
         },
         "linkedu-texto-blanco.svg": {
           "name": "linkedu-texto-blanco.svg",
-          "blob": "e6c98adc806979a677d537b6ef8f4507",
-          "size": 3507,
+          "blob": "24e5aa1c83bd0311cd375e6d10a48166",
+          "size": 3603,
           "type": "image/svg+xml"
         },
         "linkedu-integrado.svg": {
           "name": "linkedu-integrado.svg",
-          "blob": "f58faa63aaa194e183eb751fec0c0144",
-          "size": 15326,
+          "blob": "fe1e236e031441ca1913d0a83c04f6b9",
+          "size": 3923,
           "type": "image/svg+xml"
         },
         "linkedu-integrado-azul.svg": {
           "name": "linkedu-integrado-azul.svg",
-          "blob": "d38a5f73c1f7facfa776aa2ab2425f74",
-          "size": 4183,
+          "blob": "489c7e2be40ed5163b1efeb0df5949bf",
+          "size": 3923,
           "type": "image/svg+xml"
         },
         "linkedu-integrado-blanco.svg": {
           "name": "linkedu-integrado-blanco.svg",
-          "blob": "4461155af86b03ed39e42356c95dede4",
-          "size": 4183,
+          "blob": "fe861ab572868f16bd40035950f7fe67",
+          "size": 3923,
           "type": "image/svg+xml"
         }
       }
@@ -142,9 +163,9 @@
     "sections": []
   },
   "lastChange": {
-    "by": "Antonio",
+    "by": "Iván",
     "via": "Claude Code",
-    "at": "2026-11-05T12:20:24.529Z",
-    "note": "Actualiza todos los logos a la versión actual y añade la versión integrada."
+    "at": "2026-11-12T07:43:31.453Z",
+    "note": "Sustituye todos los logos por el nuevo (icono «e» con punto naranja) y añade la versión completa con eslogan."
   }
 }
