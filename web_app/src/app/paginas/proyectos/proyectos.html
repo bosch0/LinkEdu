@@ -1,0 +1,1253 @@
+<main class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5">
+  <!-- ===================== Columna izquierda ===================== -->
+  <aside class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4">
+    <section
+      class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-3 py-4"
+    >
+      <div class="mx-2 flex items-center justify-between gap-2">
+        <h2 class="font-display text-[17px] leading-6 font-semibold">Tus proyectos</h2>
+        <span class="font-mono text-xs text-ink-muted">{{ orden().length }} proyectos</span>
+      </div>
+      <div
+        class="mx-2 flex gap-1 rounded-full bg-sunken p-1 text-[13px] font-bold"
+        role="group"
+        aria-label="Filtrar proyectos"
+      >
+        @for (f of filtros; track f.id) {
+          <button
+            type="button"
+            class="presionar h-9 flex-1 rounded-full"
+            [class]="
+              filtro() === f.id
+                ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
+                : 'bg-transparent text-ink-muted hover:text-ink'
+            "
+            [attr.aria-pressed]="filtro() === f.id"
+            (click)="filtro.set(f.id)"
+          >
+            {{ f.texto }}
+          </button>
+        }
+      </div>
+      <div class="flex flex-col">
+        @for (p of lista(); track p.id) {
+          <button
+            type="button"
+            animate.enter="animate-subir"
+            animate.leave="animate-menu-fuera"
+            class="flex min-h-[56px] items-center gap-2.5 rounded-lg p-2 text-left text-ink transition-colors duration-150 active:scale-[0.98]"
+            [class]="p.id === actual().id ? 'bg-marino-soft' : 'bg-transparent hover:bg-paper'"
+            [attr.aria-pressed]="p.id === actual().id"
+            (click)="elegirProyecto(p.id)"
+          >
+            <span class="h-9 w-2 flex-none rounded-full {{ p.color }}"></span>
+            <span class="min-w-0 flex-1 text-sm leading-5">
+              <strong>{{ p.titulo }}</strong><br />
+              <span class="text-ink-muted"
+                >{{ p.estado }} · {{ p.miembros.length }}
+                {{ p.miembros.length === 1 ? 'persona' : 'personas' }}</span
+              >
+            </span>
+            @if (p.visibilidad === 'Privado') {
+              <svg
+                class="flex-none fill-none stroke-ink-muted [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2]"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                role="img"
+                aria-label="Privado"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+              </svg>
+            }
+          </button>
+        }
+      </div>
+      <button
+        type="button"
+        class="presionar mx-2 flex h-11 items-center justify-center gap-2 rounded-lg bg-marino font-bold text-white hover:bg-marino-hover"
+        (click)="abrirCrear()"
+      >
+        <app-icono nombre="mas" />Crear proyecto
+      </button>
+    </section>
+
+    <section
+      class="flex animate-subir flex-col gap-2.5 rounded-xl bg-marino px-5 py-4 text-white [animation-delay:80ms]"
+    >
+      <span class="font-mono text-xs tracking-[0.08em] text-cielo">TUS HABILIDADES VALIDADAS</span>
+      <div class="flex items-baseline gap-2.5">
+        <strong class="font-display text-[40px] leading-11 font-extrabold">{{
+          misHabilidades().total
+        }}</strong>
+        <span class="text-sm leading-5 text-marino-soft"
+          >validaciones de tus compañeros en {{ misHabilidades().proyectos }} proyectos</span
+        >
+      </div>
+      <div class="flex flex-col gap-2.5">
+        @for (s of misHabilidades().filas; track s.nombre) {
+          <div class="grid grid-cols-[1fr_auto] gap-x-2 gap-y-1 text-sm leading-5">
+            <span class="font-bold">{{ s.nombre }}</span>
+            <span class="font-mono text-xs text-cielo">{{ s.n }}</span>
+            <span
+              class="col-[1/-1] h-1.5 overflow-hidden rounded-full bg-marino-hover"
+              aria-hidden="true"
+            >
+              <span
+                class="block h-full origin-left animate-barra rounded-full transition-[width] duration-500 {{
+                  s.barra
+                }}"
+                [style.width]="s.pct"
+              ></span>
+            </span>
+          </div>
+        }
+      </div>
+      <a
+        routerLink="/perfil"
+        class="group flex items-center gap-1.5 text-sm font-bold text-amarillo"
+      >
+        Ver cómo se ven en tu perfil
+        <span class="transition-transform duration-200 group-hover:translate-x-1.5"
+          ><app-icono nombre="flecha" [tam]="16"
+        /></span>
+      </a>
+    </section>
+
+    <section
+      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:160ms]"
+    >
+      <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">Próximas reuniones</h2>
+      @for (m of reuniones(); track m.clave) {
+        <div
+          animate.enter="animate-subir"
+          class="flex items-center gap-3 border-t border-sunken py-2.5"
+        >
+          <span class="w-12 flex-none overflow-hidden rounded-lg border border-line text-center">
+            <span class="block font-mono text-[11px] leading-4.5 {{ m.colores }}">{{ m.mes }}</span>
+            <span class="block font-display text-lg leading-6.5 font-bold">{{ m.dia }}</span>
+          </span>
+          <span class="min-w-0 flex-1 text-sm leading-5"
+            ><strong>{{ m.titulo }}</strong
+            ><br /><span class="text-ink-muted">{{ m.meta }}</span></span
+          >
+          <button
+            type="button"
+            class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full border"
+            [class]="
+              agenda()[m.clave]
+                ? 'border-turquesa bg-turquesa text-ink'
+                : 'border-marino bg-white text-marino hover:bg-marino-soft'
+            "
+            [attr.aria-pressed]="!!agenda()[m.clave]"
+            [attr.aria-label]="
+              (agenda()[m.clave] ? 'Quitar de tu calendario: ' : 'Añadir a tu calendario: ') +
+              m.titulo
+            "
+            (click)="alternarAgenda(m.clave, m.titulo)"
+          >
+            <span [class.animate-pop]="agenda()[m.clave]"
+              ><app-icono [nombre]="agenda()[m.clave] ? 'check' : 'calendario'" [tam]="18"
+            /></span>
+          </button>
+        </div>
+      }
+    </section>
+
+    <section
+      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-3 py-4 [animation-delay:240ms]"
+    >
+      <h2 class="mx-2 font-display text-[17px] leading-6 font-semibold">
+        Empieza con una plantilla
+      </h2>
+      <p class="mx-2 mb-1 text-[13px] leading-4.5 text-ink-muted">
+        Proyectos que ya han funcionado en otros centros.
+      </p>
+      @for (t of plantillas; track t.titulo) {
+        <button
+          type="button"
+          class="group flex items-center gap-3 rounded-lg p-2 text-left text-ink transition-colors duration-150 hover:bg-paper active:scale-[0.98]"
+          (click)="abrirCrear(t)"
+        >
+          <span
+            class="flex h-10 w-10 flex-none items-center justify-center rounded-[10px] transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 {{
+              t.clases
+            }}"
+            ><app-icono [nombre]="t.icono"
+          /></span>
+          <span class="min-w-0 flex-1 text-sm leading-5"
+            ><strong>{{ t.titulo }}</strong
+            ><br /><span class="text-ink-muted">{{ t.meta }}</span></span
+          >
+          <span class="transition-transform duration-200 group-hover:rotate-90"
+            ><app-icono nombre="mas" [tam]="18"
+          /></span>
+        </button>
+      }
+    </section>
+  </aside>
+
+  <!-- ===================== Columna central ===================== -->
+  <!-- Al cambiar de proyecto se vuelve a crear todo y se repite la animación -->
+  @for (clave of [actual().id]; track clave) {
+    <section class="flex min-w-0 flex-[999_1_480px] animate-pagina flex-col gap-4">
+      <article class="flex flex-col gap-3 rounded-xl border border-line bg-white px-6 py-4.5">
+        <div class="flex flex-wrap items-center gap-2">
+          <span
+            class="rounded-full px-2.5 py-0.5 text-[13px] leading-4.5 font-bold text-ink {{
+              colorEstado()
+            }}"
+            >{{ actual().estado }}</span
+          >
+          <span
+            class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[13px] leading-4.5 font-bold"
+            [class]="esPrivado() ? 'bg-sunken text-ink' : 'bg-azul-soft text-azul'"
+          >
+            @if (esPrivado()) {
+              <svg
+                class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2.4]"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+              </svg>
+            } @else {
+              <svg
+                class="fill-none stroke-current [stroke-linecap:round] [stroke-width:2.4]"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="9"></circle>
+                <path
+                  d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"
+                ></path>
+              </svg>
+            }
+            {{ actual().visibilidad }}
+          </span>
+          <span class="font-mono text-xs tracking-[0.08em] text-ink-muted"
+            >PROYECTO COLABORATIVO</span
+          >
+        </div>
+        <h1 class="font-display text-3xl leading-9 font-bold">{{ actual().titulo }}</h1>
+        <p class="max-w-[70ch] text-[17px] leading-6.5 text-ink">{{ actual().resumen }}</p>
+        <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm leading-5 text-ink-muted">
+          <span class="flex items-center gap-1.5"
+            ><app-icono nombre="ubicacion" [tam]="16" />{{ actual().centros }}</span
+          >
+          <span class="flex items-center gap-1.5"
+            ><app-icono nombre="calendario" [tam]="16" />{{ actual().fechas }}</span
+          >
+          <span class="flex items-center gap-1.5"
+            ><app-icono nombre="check" [tam]="16" />{{ actual().tareasTexto }}</span
+          >
+        </div>
+        <div class="h-2 overflow-hidden rounded-full bg-sunken" aria-hidden="true">
+          <span
+            class="block h-full origin-left animate-barra rounded-full bg-turquesa"
+            [style.width.%]="actual().progreso"
+          ></span>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <div class="flex">
+            @for (m of actual().miembros; track m; let i = $index) {
+              <img
+                class="h-10 w-10 rounded-[10px] border-2 border-white object-cover transition-transform duration-200 hover:z-10 hover:-translate-y-1 hover:scale-110"
+                [class.-ml-2.5]="i > 0"
+                [src]="personas[m].foto"
+                [alt]="personas[m].nombre"
+                [title]="personas[m].nombre"
+              />
+            }
+          </div>
+          <span class="flex-1 text-sm leading-5 text-ink-muted">{{ textoParticipantes() }}</span>
+          <button
+            type="button"
+            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-line-strong bg-white px-4.5 font-bold text-ink hover:border-ink"
+            (click)="abrirChat()"
+          >
+            <app-icono nombre="mensajes" />Chat del equipo
+            @if (chatSinLeer()) {
+              <span
+                class="animate-pulse rounded-full bg-naranja px-[7px] text-xs leading-5 text-ink"
+                >2</span
+              >
+            }
+          </button>
+          <button
+            type="button"
+            class="presionar group flex h-11 items-center gap-2 rounded-lg bg-marino px-4.5 font-bold text-white hover:bg-marino-hover"
+            (click)="ventanaTablero.abrir(null)"
+          >
+            Abrir tablero
+            <span class="transition-transform duration-200 group-hover:translate-x-1.5"
+              ><app-icono nombre="flecha"
+            /></span>
+          </button>
+        </div>
+      </article>
+
+      <section class="flex flex-col gap-3 rounded-xl border border-line bg-white px-6 py-4">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 class="font-display text-xl leading-6.5 font-bold">Habilidades del proyecto</h2>
+          <span class="font-mono text-xs text-ink-muted">{{ etiquetaValidaciones() }}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          @for (t of totalesHabilidad(); track t.nombre) {
+            <span
+              class="inline-flex h-9 items-center gap-2 rounded-full bg-marino-soft pr-1.5 pl-3.5 text-sm font-bold text-marino"
+            >
+              {{ t.nombre
+              }}<span
+                class="h-6 min-w-[24px] rounded-full bg-white px-1.5 text-center font-mono text-xs leading-6"
+                >{{ t.n }}</span
+              >
+            </span>
+          }
+        </div>
+        <div
+          class="flex items-start gap-3 rounded-lg bg-azul-soft px-3.5 py-3 text-sm leading-5 text-ink"
+        >
+          <svg
+            class="mt-0.5 flex-none fill-none stroke-azul [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2]"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6z"></path>
+            <path d="m8.5 12 2.5 2.5 4.5-5"></path>
+          </svg>
+          <span>
+            <strong>Validación entre compañeros.</strong> Solo quienes participan en este proyecto
+            pueden validar estas habilidades, y cada validación lleva una confirmación y un mensaje
+            opcional. Después aparece en el perfil de la persona.
+          </span>
+        </div>
+      </section>
+
+      <!-- Las dos tarjetas van una debajo de otra (a todo el ancho): así nunca queda un
+           hueco al lado de la más corta -->
+      <div class="flex flex-col gap-4">
+        <!-- Las validaciones se reparten en columnas y se estiran para llenar cada fila -->
+        <section
+          class="flex min-w-0 flex-wrap gap-x-6 rounded-xl border border-line bg-white px-5 py-4"
+        >
+          <h2 class="mb-1 w-full font-display text-[17px] leading-6 font-semibold">
+            Te han validado aquí
+          </h2>
+          @for (s of teHanValidado(); track s.nombre) {
+            <div class="flex flex-[1_1_280px] flex-col gap-2 border-t border-sunken py-3">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="text-[15px]">{{ s.nombre }}</strong>
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-turquesa px-2 py-0.5 text-xs leading-4.5 font-bold text-ink"
+                  ><app-icono nombre="check" [tam]="14" />{{ s.n }}</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="flex">
+                  @for (b of s.por; track b.nombre; let i = $index) {
+                    <img
+                      class="h-7 w-7 rounded-[7px] border-2 border-white object-cover"
+                      [class.-ml-2]="i > 0"
+                      [src]="b.foto"
+                      [alt]="b.nombre"
+                      [title]="b.nombre"
+                    />
+                  }
+                </div>
+                <span class="text-[13px] leading-4.5 text-ink-muted">{{ s.quien }}</span>
+              </div>
+              @if (s.frase) {
+                <p
+                  class="rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] bg-paper px-3 py-2 text-[13px] leading-[19px] text-ink"
+                >
+                  «{{ s.frase.texto }}» <span class="text-ink-muted">· {{ s.frase.quien }}</span>
+                </p>
+              }
+            </div>
+          }
+          @if (teHanValidado().length > 0 && habilidadPorPedir()) {
+            <div class="mt-1 flex w-full flex-col gap-2 rounded-[10px] bg-amarillo-soft p-3">
+              <span class="text-[13px] leading-4.5"
+                ><strong>{{ habilidadPorPedir() }}</strong> aún no tiene validaciones aquí. Pide a
+                tu equipo que la revise.</span
+              >
+              <button
+                type="button"
+                class="presionar flex h-9 items-center gap-1.5 self-start rounded-full border border-marino px-3.5 text-[13px] font-bold"
+                [class]="
+                  peticionEnviada()
+                    ? 'bg-marino text-white'
+                    : 'bg-white text-marino hover:bg-marino-soft'
+                "
+                (click)="alternarPeticion()"
+              >
+                <span [class.animate-pop]="peticionEnviada()"
+                  ><app-icono [nombre]="peticionEnviada() ? 'check' : 'mensajes'" [tam]="14"
+                /></span>
+                {{ peticionEnviada() ? 'Petición enviada' : 'Pedir validación' }}
+              </button>
+            </div>
+          }
+          @if (teHanValidado().length === 0) {
+            <div class="flex w-full items-center gap-3 rounded-lg bg-paper p-3">
+              <svg
+                class="flex-none"
+                width="72"
+                height="42"
+                viewBox="0 0 240 140"
+                aria-hidden="true"
+              >
+                <rect x="0" y="12" width="240" height="116" rx="20" fill="#ebf0f5"></rect>
+                <rect x="40" y="32" width="112" height="76" rx="12" fill="#073157"></rect>
+                <circle cx="176" cy="44" r="20" fill="#fb8d2b"></circle>
+                <rect x="140" y="88" width="72" height="28" rx="14" fill="#21bcaa"></rect>
+              </svg>
+              <span class="text-sm leading-5"
+                ><strong>Aún sin validaciones.</strong>
+                <span class="text-ink-muted"
+                  >Tu equipo podrá validar lo que aportas cuando trabajéis juntos.</span
+                ></span
+              >
+            </div>
+          }
+        </section>
+
+        <section
+          class="flex min-w-0 flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4"
+        >
+          <div class="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 class="font-display text-[17px] leading-6 font-semibold">Valida a tu equipo</h2>
+            <span class="text-[13px] leading-4.5 text-ink-muted"
+              >Pulsa una habilidad para revisarla y validarla</span
+            >
+          </div>
+          @for (m of filasEquipo(); track m.id) {
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2.5 border-t border-sunken py-3">
+              <img
+                class="h-11 w-11 flex-none rounded-[11px] object-cover"
+                [src]="m.persona.foto"
+                alt=""
+              />
+              <span class="min-w-0 flex-[1_1_150px] text-sm leading-5"
+                ><strong>{{ m.persona.nombre }}</strong
+                ><br /><span class="text-ink-muted">{{ m.persona.cargo }}</span></span
+              >
+              <div class="flex flex-[2_1_260px] flex-wrap gap-1.5 text-[13px] font-bold">
+                @for (k of m.habilidades; track k.nombre) {
+                  <button
+                    type="button"
+                    class="presionar flex h-9 items-center gap-1.5 rounded-full border pr-1.5 pl-3"
+                    [class]="
+                      k.mia
+                        ? 'border-marino bg-marino text-white'
+                        : 'border-line-strong bg-white text-marino hover:border-marino hover:bg-marino-soft'
+                    "
+                    [attr.aria-label]="
+                      (k.mia ? 'Ver tu validación de ' : 'Validar ') +
+                      k.nombre +
+                      ' de ' +
+                      m.persona.corto
+                    "
+                    (click)="abrirValidar(m.id, k.nombre)"
+                  >
+                    @if (k.mia) {
+                      <span class="animate-pop"><app-icono nombre="check" [tam]="14" /></span>
+                    }
+                    {{ k.nombre }}
+                    <span
+                      class="h-5.5 min-w-[22px] rounded-full px-[5px] text-center font-mono text-[11px] leading-5.5 text-ink transition-colors"
+                      [class]="k.mia ? 'bg-amarillo' : 'bg-sunken'"
+                      >{{ k.n }}</span
+                    >
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @if (filasEquipo().length > 0) {
+            <div
+              class="mt-1 flex items-center gap-2.5 rounded-[10px] bg-azul-soft px-3 py-2.5 text-[13px] leading-4.5"
+            >
+              <span class="flex-none text-azul"><app-icono nombre="check" /></span>
+              <span
+                >Cada validación lleva tu nombre y aparece en el perfil de tu compañero.
+                <strong>Solo valida lo que has visto en el proyecto.</strong></span
+              >
+            </div>
+          } @else {
+            <div class="flex items-center gap-3.5 rounded-lg bg-paper p-3">
+              <div class="flex flex-none">
+                @for (m of carasPendientes(); track m.nombre; let i = $index) {
+                  <img
+                    class="h-10 w-10 rounded-[10px] border-2 border-white object-cover opacity-80"
+                    [class.-ml-2.5]="i > 0"
+                    [src]="m.foto"
+                    [alt]="m.nombre"
+                  />
+                }
+              </div>
+              <span class="text-sm leading-5"
+                ><strong>{{ tituloPendientes() }}</strong
+                ><br /><span class="text-ink-muted"
+                  >Cuando acepten podrás validar sus habilidades, y ellos las tuyas.</span
+                ></span
+              >
+            </div>
+          }
+        </section>
+      </div>
+
+      <section class="flex flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4">
+        <div class="mb-1 flex items-center justify-between gap-2">
+          <h2 class="font-display text-[17px] leading-6 font-semibold">Tareas en curso</h2>
+          <button
+            type="button"
+            class="presionar group flex h-9 items-center gap-1.5 rounded-lg bg-azul-soft px-3 text-sm font-bold text-marino hover:bg-marino hover:text-white"
+            (click)="ventanaTablero.abrir(null)"
+          >
+            Ver tablero completo
+            <span class="transition-transform duration-200 group-hover:translate-x-1.5"
+              ><app-icono nombre="flecha" [tam]="16"
+            /></span>
+          </button>
+        </div>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-x-5">
+          @for (t of tareasPrevia(); track t.clave) {
+            <div class="flex items-center gap-2.5 border-t border-sunken py-2.5">
+              <img
+                class="h-8 w-8 flex-none rounded-lg object-cover"
+                [src]="t.persona.foto"
+                [alt]="t.persona.nombre"
+                [title]="t.persona.nombre"
+              />
+              <span class="min-w-0 flex-1 text-sm leading-5"
+                ><strong>{{ t.titulo }}</strong
+                ><br /><span class="text-ink-muted">{{ t.etiqueta }} · {{ t.vence }}</span></span
+              >
+              <span
+                class="flex-none rounded-full px-2 py-0.5 text-xs leading-4.5 font-bold text-ink {{
+                  colorEtiquetaEstado[t.estado]
+                }}"
+                >{{ nombresEstado[t.estado] }}</span
+              >
+            </div>
+          }
+        </div>
+      </section>
+    </section>
+  }
+
+  <!-- ===================== Columna derecha ===================== -->
+  <aside class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4">
+    <section
+      class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms]"
+    >
+      <div class="flex items-center gap-2">
+        <h2 class="flex-1 font-display text-[17px] leading-6 font-semibold">Invitaciones</h2>
+        @if (pendientesRecibidas() > 0) {
+          <span
+            class="animate-pop rounded-full bg-naranja px-2.5 py-0.5 text-[13px] leading-4.5 font-bold text-ink"
+            >{{ pendientesRecibidas() }}</span
+          >
+        }
+      </div>
+      <div
+        class="flex gap-1 rounded-full bg-sunken p-1 text-[13px] font-bold"
+        role="group"
+        aria-label="Tipo de invitación"
+      >
+        <button
+          type="button"
+          class="presionar h-9 flex-1 rounded-full"
+          [class]="
+            pestana() === 'recibidas'
+              ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
+              : 'text-ink-muted hover:text-ink'
+          "
+          [attr.aria-pressed]="pestana() === 'recibidas'"
+          (click)="pestana.set('recibidas')"
+        >
+          Recibidas · {{ recibidas().length }}
+        </button>
+        <button
+          type="button"
+          class="presionar h-9 flex-1 rounded-full"
+          [class]="
+            pestana() === 'enviadas'
+              ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
+              : 'text-ink-muted hover:text-ink'
+          "
+          [attr.aria-pressed]="pestana() === 'enviadas'"
+          (click)="pestana.set('enviadas')"
+        >
+          Enviadas · {{ envios().length }}
+        </button>
+      </div>
+      @if (pestana() === 'recibidas') {
+        @for (r of recibidas(); track r.id) {
+          <div
+            animate.enter="animate-subir"
+            class="flex flex-col gap-2 border-t border-sunken py-2.5"
+          >
+            <div class="flex items-center gap-2.5">
+              <img
+                class="h-11 w-11 flex-none rounded-[11px] object-cover"
+                [src]="r.persona.foto"
+                alt=""
+              />
+              <span class="min-w-0 flex-1 text-sm leading-5"
+                ><strong>{{ r.proyecto }}</strong
+                ><br /><span class="text-ink-muted"
+                  >Te invita {{ r.persona.nombre }} · {{ r.cuando }}</span
+                ></span
+              >
+            </div>
+            <span class="text-[13px] leading-4.5 text-azul">{{ r.nota }}</span>
+            @if (r.abierta) {
+              <div class="flex gap-2 text-sm font-bold">
+                <button
+                  type="button"
+                  class="presionar h-11 flex-1 rounded-lg bg-marino text-white hover:bg-marino-hover"
+                  [attr.aria-label]="'Aceptar invitación a ' + r.proyecto"
+                  (click)="aceptarInvitacion(r.id, r.proyecto)"
+                >
+                  Aceptar
+                </button>
+                <button
+                  type="button"
+                  class="presionar h-11 flex-1 rounded-lg bg-sunken text-ink hover:bg-line"
+                  [attr.aria-label]="'Rechazar invitación a ' + r.proyecto"
+                  (click)="rechazarInvitacion(r.id)"
+                >
+                  Rechazar
+                </button>
+              </div>
+            }
+            @if (r.unida) {
+              <button
+                type="button"
+                animate.enter="animate-subir"
+                class="presionar flex h-11 items-center justify-center gap-2 rounded-lg bg-turquesa text-sm font-bold text-ink"
+                (click)="elegirProyecto(r.id)"
+              >
+                <span class="animate-pop"><app-icono nombre="check" /></span>Te has unido · ver
+                proyecto
+              </button>
+            }
+            @if (r.rechazada) {
+              <div
+                animate.enter="animate-subir"
+                class="flex h-11 items-center justify-center rounded-lg bg-sunken text-sm font-bold text-ink-muted"
+              >
+                Invitación rechazada
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        @for (s of envios(); track s.id) {
+          <div
+            animate.enter="animate-subir"
+            animate.leave="animate-menu-fuera"
+            class="flex items-start gap-3 border-t border-sunken py-2.5"
+          >
+            <img
+              class="h-11 w-11 flex-none rounded-[11px] object-cover"
+              [src]="s.persona.foto"
+              alt=""
+            />
+            <div class="flex min-w-0 flex-1 flex-col gap-1 text-sm leading-5">
+              <strong>{{ s.persona.nombre }}</strong>
+              <span class="text-ink-muted">{{ s.nombreProyecto }}</span>
+              <span
+                class="self-start rounded-full px-2 py-px text-xs leading-4.5 font-bold text-ink"
+                [class]="s.estado === 'Pendiente' ? 'bg-amarillo' : 'bg-turquesa'"
+                >{{ s.estado }}</span
+              >
+            </div>
+            @if (s.estado === 'Pendiente') {
+              <button
+                type="button"
+                class="presionar flex h-9 w-9 flex-none items-center justify-center rounded-full bg-sunken text-ink-muted hover:bg-line hover:text-danger"
+                [attr.aria-label]="'Cancelar invitación a ' + s.persona.nombre"
+                (click)="cancelarInvitacion(s.id)"
+              >
+                <app-icono nombre="cerrar" [tam]="16" />
+              </button>
+            }
+          </div>
+        }
+      }
+    </section>
+
+    <section
+      class="flex animate-subir flex-col gap-1.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms]"
+    >
+      <h2 class="font-display text-[17px] leading-6 font-semibold">
+        Invita a «{{ actual().corto }}»
+      </h2>
+      <p class="mb-1 text-[13px] leading-4.5 text-ink-muted">{{ ayudaInvitar() }}</p>
+      @for (c of sugeridos(); track c.id) {
+        <div
+          animate.enter="animate-subir"
+          animate.leave="animate-menu-fuera"
+          class="flex items-center gap-2.5 border-t border-sunken py-1.5"
+        >
+          <img
+            class="h-10 w-10 flex-none rounded-[10px] object-cover"
+            [src]="c.persona.foto"
+            alt=""
+          />
+          <span class="min-w-0 flex-1 text-sm leading-5"
+            ><strong>{{ c.persona.nombre }}</strong
+            ><br /><span class="text-ink-muted">{{ c.persona.cargo }}</span></span
+          >
+          <button
+            type="button"
+            class="presionar h-9 rounded-full border border-marino bg-white px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
+            [attr.aria-label]="'Invitar a ' + c.persona.nombre"
+            (click)="invitar(c.id)"
+          >
+            Invitar
+          </button>
+        </div>
+      }
+    </section>
+
+    <section
+      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:280ms]"
+    >
+      <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">
+        Actividad en tus proyectos
+      </h2>
+      @for (a of actividad(); track a.quien + a.que + a.cuando) {
+        <div
+          animate.enter="animate-subir"
+          class="flex items-start gap-2.5 border-t border-sunken py-2"
+        >
+          <img class="h-9 w-9 flex-none rounded-[9px] object-cover" [src]="a.foto" alt="" />
+          <span class="flex-1 text-sm leading-5">
+            <strong>{{ a.quien }}</strong> {{ a.texto }}
+            <strong class="text-marino">{{ a.que }}</strong><br />
+            <span class="text-[13px] text-ink-muted">{{ a.donde }} · {{ a.cuando }}</span>
+          </span>
+        </div>
+      }
+    </section>
+  </aside>
+</main>
+
+<!-- ===================== Ventana: crear proyecto ===================== -->
+<app-ventana
+  [abierta]="ventanaCrear.abierta()"
+  kicker="NUEVO PROYECTO"
+  titulo="Crea un proyecto con otros docentes"
+  [ancho]="820"
+  (cerrar)="ventanaCrear.cerrar()"
+>
+  <form class="flex flex-col gap-4.5 px-6 py-5" (submit)="crearProyecto($event)">
+    <div class="flex flex-wrap gap-4">
+      <label class="flex flex-[1_1_300px] flex-col gap-1 text-sm font-bold">
+        Nombre del proyecto
+        <input
+          class="h-11 rounded-lg border-[1.5px] border-line-strong px-3 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
+          type="text"
+          [value]="formTitulo()"
+          (input)="escribir(formTitulo, $event)"
+          placeholder="Por ejemplo: Huerto matemático 2027"
+        />
+      </label>
+      <label class="flex flex-[1_1_160px] flex-col gap-1 text-sm font-bold">
+        Etapa
+        <select
+          class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-2.5 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
+        >
+          <option>ESO</option>
+          <option>Primaria</option>
+          <option>Bachillerato</option>
+          <option>FP</option>
+          <option>Varias etapas</option>
+        </select>
+      </label>
+    </div>
+    <label class="flex flex-col gap-1 text-sm font-bold">
+      Qué vais a hacer
+      <textarea
+        class="resize-y rounded-lg border-[1.5px] border-line-strong px-3 py-2.5 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
+        [value]="formDesc()"
+        (input)="escribir(formDesc, $event)"
+        rows="3"
+        placeholder="Cuenta el objetivo, los cursos y cómo os vais a repartir el trabajo."
+      ></textarea>
+    </label>
+    <fieldset class="flex flex-col gap-2">
+      <legend class="mb-2 text-sm font-bold">Visibilidad</legend>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-3">
+        @for (v of ['Público', 'Privado']; track v) {
+          <button
+            type="button"
+            class="presionar flex items-start gap-3 rounded-xl border-2 px-4 py-3.5 text-left text-ink"
+            [class]="
+              formVis() === v
+                ? 'border-marino bg-paper'
+                : 'border-line bg-white hover:border-line-strong'
+            "
+            [attr.aria-pressed]="formVis() === v"
+            (click)="formVis.set($any(v))"
+          >
+            <span
+              class="flex h-10 w-10 flex-none items-center justify-center rounded-[10px] transition-colors duration-200"
+              [class]="formVis() === v ? 'bg-marino text-white' : 'bg-sunken text-marino'"
+            >
+              @if (v === 'Público') {
+                <svg
+                  class="fill-none stroke-current [stroke-linecap:round] [stroke-width:2]"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path
+                    d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"
+                  ></path>
+                </svg>
+              } @else {
+                <svg
+                  class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2]"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                  <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+                </svg>
+              }
+            </span>
+            <span class="text-sm leading-5">
+              <strong class="text-base">{{ v }}</strong><br />
+              <span class="text-ink-muted">{{
+                v === 'Público'
+                  ? 'Aparece en el perfil de cada participante y cualquiera puede pedir unirse.'
+                  : 'Solo lo ven las personas invitadas. No sale en los perfiles.'
+              }}</span>
+            </span>
+          </button>
+        }
+      </div>
+    </fieldset>
+    <fieldset class="flex flex-col gap-2">
+      <legend class="mb-1 text-sm font-bold">
+        Habilidades que se trabajan ·
+        {{
+          habilidadesElegidas().length === 1
+            ? '1 elegida'
+            : habilidadesElegidas().length + ' elegidas'
+        }}
+      </legend>
+      <div class="flex flex-wrap gap-2 text-sm font-bold">
+        @for (k of habilidadesPosibles; track k) {
+          <button
+            type="button"
+            class="presionar flex h-10 items-center gap-1.5 rounded-full border px-3.5"
+            [class]="
+              formHabilidades()[k]
+                ? 'border-marino bg-marino text-white'
+                : 'border-line-strong bg-white text-marino hover:bg-marino-soft'
+            "
+            [attr.aria-pressed]="!!formHabilidades()[k]"
+            (click)="alternarHabilidad(k)"
+          >
+            <span [class.animate-pop]="formHabilidades()[k]"
+              ><app-icono [nombre]="formHabilidades()[k] ? 'check' : 'mas'" [tam]="16"
+            /></span>
+            {{ k }}
+          </button>
+        }
+      </div>
+    </fieldset>
+    <fieldset class="flex flex-col gap-2">
+      <legend class="mb-1 text-sm font-bold">
+        Invita a tu equipo ·
+        {{ equipoElegido().length === 1 ? '1 persona' : equipoElegido().length + ' personas' }}
+      </legend>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(min(250px,100%),1fr))] gap-x-4 gap-y-1">
+        @for (w of equipoPosible; track w) {
+          <div class="flex items-center gap-3 py-1.5">
+            <img
+              class="h-11 w-11 flex-none rounded-[11px] object-cover"
+              [src]="personas[w].foto"
+              alt=""
+            />
+            <span class="min-w-0 flex-1 text-sm leading-5"
+              ><strong>{{ personas[w].nombre }}</strong
+              ><br /><span class="text-ink-muted">{{ personas[w].cargo }}</span></span
+            >
+            <button
+              type="button"
+              class="presionar h-9 rounded-full border border-marino px-3 text-[13px] font-bold"
+              [class]="
+                formEquipo()[w]
+                  ? 'bg-marino text-white'
+                  : 'bg-white text-marino hover:bg-marino-soft'
+              "
+              [attr.aria-pressed]="!!formEquipo()[w]"
+              [attr.aria-label]="
+                (formEquipo()[w] ? 'Quitar invitación a ' : 'Invitar a ') + personas[w].nombre
+              "
+              (click)="alternarEquipo(w)"
+            >
+              {{ formEquipo()[w] ? 'En el equipo' : 'Invitar' }}
+            </button>
+          </div>
+        }
+      </div>
+    </fieldset>
+    <div class="flex flex-wrap items-center gap-3 border-t border-sunken pt-4">
+      <p class="flex-[1_1_240px] text-sm leading-5 text-ink-muted">{{ resumenFormulario() }}</p>
+      <button
+        type="button"
+        class="presionar h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-5 font-bold text-ink hover:border-ink"
+        (click)="ventanaCrear.cerrar()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="presionar h-11 rounded-lg bg-marino px-6 font-bold text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
+        [disabled]="!formTitulo().trim()"
+      >
+        Crear proyecto
+      </button>
+    </div>
+  </form>
+</app-ventana>
+
+<!-- ===================== Ventana: validar una habilidad ===================== -->
+<app-ventana
+  [abierta]="ventanaValidar.abierta()"
+  [kicker]="'VALIDAR HABILIDAD · ' + (validacion()?.proyecto?.corto ?? '').toUpperCase()"
+  [titulo]="
+    validacion() ? '«' + validacion()!.habilidad + '» de ' + validacion()!.persona.corto : ''
+  "
+  [ancho]="600"
+  (cerrar)="ventanaValidar.cerrar()"
+>
+  @if (validacion(); as v) {
+    <form class="relative flex flex-col gap-4 px-6 py-5" (submit)="validar($event)">
+      <app-confeti [disparo]="disparo()" />
+      <div class="flex items-center gap-3.5">
+        <img
+          class="h-14 w-14 flex-none rounded-[14px] object-cover"
+          [src]="v.persona.foto"
+          alt=""
+        />
+        <span class="text-sm leading-5">
+          <strong class="text-base">{{ v.persona.nombre }}</strong><br /><span
+            class="text-ink-muted"
+            >{{ v.persona.cargo }}</span
+          ><br />
+          <span class="font-bold text-azul">{{ v.cuentaTexto }}</span>
+        </span>
+      </div>
+      @if (v.otros.length > 0) {
+        <div class="flex flex-col gap-2">
+          <span class="text-[13px] leading-4.5 font-bold text-ink-muted"
+            >Lo que dicen otros compañeros</span
+          >
+          @for (o of v.otros; track o.persona.nombre) {
+            <div class="flex items-start gap-2.5">
+              <img
+                class="h-8 w-8 flex-none rounded-lg object-cover"
+                [src]="o.persona.foto"
+                alt=""
+              />
+              <p
+                class="rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] bg-paper px-3 py-2 text-sm leading-5"
+              >
+                <strong>{{ o.persona.corto }}</strong> · {{ o.texto }}
+              </p>
+            </div>
+          }
+        </div>
+      }
+      @if (validacionHecha()) {
+        <div
+          animate.enter="animate-subir"
+          class="flex items-center gap-4 rounded-xl bg-verde-soft px-4 py-4"
+        >
+          <span class="relative flex h-12 w-12 flex-none items-center justify-center">
+            <span class="absolute inset-0 animate-onda rounded-full bg-turquesa"></span>
+            <span
+              class="relative flex h-12 w-12 animate-pop items-center justify-center rounded-full bg-turquesa text-ink"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path class="animate-trazar [stroke-dasharray:30]" d="m5 12.5 4.5 4.5L19 7" />
+              </svg>
+            </span>
+          </span>
+          <span class="text-[15px] leading-5 font-bold text-verde"
+            >¡Validación enviada! Aparecerá en el perfil de {{ v.persona.corto }}.</span
+          >
+        </div>
+      } @else if (!v.yaValidada) {
+        <div class="flex flex-col gap-4">
+          <label class="flex flex-col gap-1.5 text-sm font-bold">
+            <span
+              >Tu mensaje para {{ v.persona.corto }}
+              <span class="font-normal text-ink-muted">(opcional, se verá en su perfil)</span></span
+            >
+            <textarea
+              class="resize-y rounded-lg border-[1.5px] border-line-strong px-3 py-2.5 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
+              [value]="mensajeValidacion()"
+              (input)="escribir(mensajeValidacion, $event)"
+              rows="3"
+              placeholder="Cuenta en qué te fijaste al trabajar juntos."
+            ></textarea>
+          </label>
+          <div class="flex flex-wrap gap-1.5">
+            @for (i of ideasMensaje; track i) {
+              <button
+                type="button"
+                class="presionar flex h-8.5 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-[13px] text-ink hover:border-marino hover:bg-marino-soft"
+                (click)="usarIdea(i)"
+              >
+                <app-icono nombre="mas" [tam]="14" />{{ i }}
+              </button>
+            }
+          </div>
+          <label
+            class="flex cursor-pointer items-start gap-3 rounded-[10px] border-[1.5px] px-3.5 py-3 text-sm leading-5 transition-all duration-200 hover:border-marino"
+            [class]="validacionSegura() ? 'border-marino bg-paper' : 'border-line bg-white'"
+          >
+            <input
+              class="h-5 w-5 flex-none accent-marino"
+              type="checkbox"
+              [checked]="validacionSegura()"
+              (change)="validacionSegura.set(!validacionSegura())"
+            />
+            <span
+              >He visto a <strong>{{ v.persona.corto }}</strong> usar
+              <strong>{{ v.habilidad }}</strong> en este proyecto y respondo por ello.</span
+            >
+          </label>
+        </div>
+      } @else {
+        <div
+          class="flex items-start gap-2.5 rounded-[10px] bg-azul-soft px-3.5 py-3 text-sm leading-5"
+        >
+          <span class="flex-none text-azul"><app-icono nombre="check" /></span>
+          <span><strong>Ya la validaste.</strong> {{ v.miMensaje }}</span>
+        </div>
+      }
+      <div class="flex flex-wrap justify-end gap-3 border-t border-sunken pt-4">
+        <button
+          type="button"
+          class="presionar h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-5 font-bold text-ink hover:border-ink"
+          (click)="ventanaValidar.cerrar()"
+        >
+          {{ validacionHecha() ? 'Cerrar' : 'Cancelar' }}
+        </button>
+        @if (!v.yaValidada) {
+          <button
+            type="submit"
+            class="presionar flex h-11 items-center gap-2 rounded-lg bg-marino px-5.5 font-bold text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
+            [disabled]="!validacionSegura()"
+          >
+            <app-icono nombre="check" />Validar habilidad
+          </button>
+        } @else if (!validacionHecha()) {
+          <button
+            type="button"
+            class="presionar h-11 rounded-lg border-[1.5px] border-danger bg-white px-5 font-bold text-danger hover:bg-danger hover:text-white"
+            (click)="retirarValidacion()"
+          >
+            Retirar mi validación
+          </button>
+        }
+      </div>
+    </form>
+  }
+</app-ventana>
+
+<!-- ===================== Ventana: tablero de tareas ===================== -->
+<app-ventana
+  [abierta]="ventanaTablero.abierta()"
+  [kicker]="'TABLERO · ' + actual().corto.toUpperCase()"
+  titulo="Tareas del proyecto"
+  [ancho]="1120"
+  (cerrar)="ventanaTablero.cerrar()"
+>
+  <div class="flex flex-col gap-4 px-6 py-5">
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="flex">
+        @for (m of actual().miembros; track m; let i = $index) {
+          <img
+            class="h-8 w-8 rounded-lg border-2 border-white object-cover"
+            [class.-ml-2]="i > 0"
+            [src]="personas[m].foto"
+            [alt]="personas[m].nombre"
+            [title]="personas[m].nombre"
+          />
+        }
+      </div>
+      <span class="flex-1 text-sm text-ink-muted">{{ resumenTareas() }}</span>
+      <form class="flex gap-2" (submit)="anadirTarea($event)">
+        <input
+          class="h-10 w-55 rounded-lg border-[1.5px] border-line-strong px-3 text-[15px] outline-none transition-colors focus:border-azul"
+          type="text"
+          [value]="tareaNueva()"
+          (input)="escribir(tareaNueva, $event)"
+          placeholder="Nueva tarea"
+          aria-label="Nueva tarea"
+        />
+        <button
+          type="submit"
+          class="presionar flex h-10 items-center gap-1.5 rounded-lg bg-marino px-3.5 text-sm font-bold text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
+          [disabled]="!tareaNueva().trim()"
+        >
+          <app-icono nombre="mas" [tam]="16" />Añadir
+        </button>
+      </form>
+    </div>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] items-start gap-4">
+      @for (c of columnas(); track c.estado) {
+        <section class="flex flex-col gap-2.5 rounded-xl bg-paper p-3">
+          <div class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full {{ colorColumna[c.estado] }}"></span>
+            <h3 class="flex-1 font-display text-base leading-5.5 font-bold">
+              {{ nombresEstado[c.estado] }}
+            </h3>
+            <span class="font-mono text-xs text-ink-muted">{{ c.tareas.length }}</span>
+          </div>
+          @for (t of c.tareas; track t.clave) {
+            <article
+              animate.enter="animate-subir"
+              animate.leave="animate-menu-fuera"
+              class="flex flex-col gap-2 rounded-[10px] border border-line bg-white p-3 transition-shadow hover:shadow-[0_6px_16px_rgba(7,49,87,0.1)]"
+            >
+              <span
+                class="self-start rounded-full bg-marino-soft px-2 py-px text-xs leading-4.5 font-bold text-marino"
+                >{{ t.etiqueta }}</span
+              >
+              <strong class="text-[15px] leading-[21px]">{{ t.titulo }}</strong>
+              <div class="flex items-center gap-2">
+                <img
+                  class="h-7 w-7 rounded-[7px] object-cover"
+                  [src]="t.persona.foto"
+                  [alt]="t.persona.nombre"
+                  [title]="t.persona.nombre"
+                />
+                <span class="flex flex-1 items-center gap-1 text-[13px] text-ink-muted"
+                  ><app-icono nombre="calendario" [tam]="14" />{{ t.vence }}</span
+                >
+                @if (t.estado > 0) {
+                  <button
+                    type="button"
+                    class="presionar flex h-8 w-8 -scale-x-100 items-center justify-center rounded-lg border border-line bg-white text-ink-muted hover:border-marino hover:text-marino"
+                    [attr.aria-label]="'Devolver «' + t.titulo + '» a la columna anterior'"
+                    (click)="moverTarea(t.clave, t.estado - 1)"
+                  >
+                    <app-icono nombre="flecha" [tam]="16" />
+                  </button>
+                }
+                @if (t.estado < 2) {
+                  <button
+                    type="button"
+                    class="presionar flex h-8 w-8 items-center justify-center rounded-lg bg-marino text-white hover:bg-marino-hover"
+                    [attr.aria-label]="'Pasar «' + t.titulo + '» a la siguiente columna'"
+                    (click)="moverTarea(t.clave, t.estado + 1)"
+                  >
+                    <app-icono nombre="flecha" [tam]="16" />
+                  </button>
+                }
+              </div>
+            </article>
+          }
+        </section>
+      }
+    </div>
+  </div>
+</app-ventana>
+
+<!-- ===================== Ventana: chat del equipo ===================== -->
+<app-ventana
+  [abierta]="ventanaChat.abierta()"
+  kicker="CHAT DEL EQUIPO"
+  [titulo]="actual().titulo"
+  [ancho]="720"
+  (cerrar)="ventanaChat.cerrar()"
+>
+  <div class="flex flex-col">
+    <div class="flex flex-col gap-3.5 bg-paper px-6 py-4">
+      @for (m of mensajes(); track $index) {
+        <div
+          animate.enter="animate-subir"
+          class="flex items-end gap-2.5"
+          [class]="m.yo ? 'flex-row-reverse' : 'flex-row'"
+        >
+          <img class="h-9 w-9 flex-none rounded-[9px] object-cover" [src]="m.persona.foto" alt="" />
+          <div
+            class="flex max-w-[70%] flex-col gap-0.5"
+            [class]="m.yo ? 'items-end' : 'items-start'"
+          >
+            <span class="text-xs leading-4 text-ink-muted"
+              ><strong class="text-ink">{{ m.yo ? 'Tú' : m.persona.nombre }}</strong> ·
+              {{ m.hora }}</span
+            >
+            <p
+              class="border px-3.5 py-2.5 text-[15px] leading-5.5"
+              [class]="
+                m.yo
+                  ? 'rounded-[14px_14px_4px_14px] border-marino bg-marino text-white'
+                  : 'rounded-[14px_14px_14px_4px] border-line bg-white text-ink'
+              "
+            >
+              {{ m.texto }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+    <form
+      class="sticky bottom-0 flex gap-2.5 border-t border-sunken bg-white px-6 py-3.5"
+      (submit)="enviarMensaje($event)"
+    >
+      <input
+        class="h-11 min-w-0 flex-1 rounded-full border-[1.5px] border-line-strong px-3.5 outline-none transition-colors focus:border-azul"
+        type="text"
+        [value]="mensajeChat()"
+        (input)="escribir(mensajeChat, $event)"
+        placeholder="Escribe al equipo…"
+        aria-label="Mensaje para el equipo"
+      />
+      <button
+        type="submit"
+        class="presionar flex h-11 w-11 flex-none items-center justify-center rounded-full bg-marino text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
+        aria-label="Enviar mensaje"
+        [disabled]="!mensajeChat().trim()"
+      >
+        <app-icono nombre="flecha" />
+      </button>
+    </form>
+  </div>
+</app-ventana>

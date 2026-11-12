@@ -1,0 +1,123 @@
+<app-ventana
+  [abierta]="abierta()"
+  [kicker]="kicker()"
+  [titulo]="datos()?.titulo ?? ''"
+  [ancho]="600"
+  (cerrar)="cerrar.emit()"
+>
+  @if (datos(); as d) {
+    <div class="relative flex flex-col gap-3.5 px-6 py-5">
+      <app-confeti [disparo]="disparo()" />
+
+      <!-- Paso 1: información -->
+      @if (paso() === 1) {
+        <div animate.enter="animate-subir" class="flex flex-col gap-3.5">
+          <div class="flex items-center gap-3.5">
+            <img
+              class="h-14 w-14 flex-none rounded-[14px] border border-line bg-white {{
+                d.logoEncaja
+              }}"
+              [src]="d.logo"
+              alt=""
+            />
+            <span class="flex-1 text-sm leading-5">
+              <strong class="text-[17px]">{{ d.organizacion }}</strong><br />
+              <span class="text-ink-muted">{{ d.meta }}</span>
+            </span>
+            <strong class="font-display text-2xl text-marino">{{ d.grande }}</strong>
+          </div>
+          <p class="text-[15px] leading-[23px]">{{ d.descripcion }}</p>
+          <ul class="flex flex-col gap-1.5">
+            @for (p of d.puntos; track p; let i = $index) {
+              <li
+                class="flex animate-subir gap-2 text-sm leading-5"
+                [style.animation-delay.ms]="120 + i * 90"
+              >
+                <span class="flex-none text-turquesa"><app-icono nombre="check" [tam]="18" /></span
+                >{{ p }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <!-- Paso 2: mensaje y confirmación -->
+      @if (paso() === 2) {
+        <div animate.enter="animate-subir" class="flex flex-col gap-3.5">
+          <label class="flex flex-col gap-1.5 text-sm font-bold">
+            <span
+              >{{ d.etiquetaMensaje }}
+              <span class="font-normal text-ink-muted">(opcional)</span></span
+            >
+            <textarea
+              class="resize-y rounded-lg border-[1.5px] border-line-strong px-3 py-2.5 text-base leading-6 font-normal text-ink transition-colors outline-none focus:border-azul"
+              rows="3"
+              [value]="mensaje()"
+              (input)="escribir($event)"
+              [placeholder]="d.ayudaMensaje"
+            ></textarea>
+          </label>
+          <label
+            class="flex cursor-pointer items-start gap-3 rounded-[10px] border-[1.5px] px-3.5 py-3 text-sm leading-5 transition-all duration-200 hover:border-marino"
+            [class]="acepto() ? 'border-marino bg-azul-soft' : 'border-line'"
+          >
+            <input
+              class="h-5 w-5 flex-none accent-marino transition-transform duration-200 active:scale-75"
+              type="checkbox"
+              [checked]="acepto()"
+              (change)="acepto.set(!acepto())"
+            />
+            <span>{{ d.consentimiento }}</span>
+          </label>
+        </div>
+      }
+
+      <!-- Paso 3: enviado -->
+      @if (paso() === 3) {
+        <div
+          animate.enter="animate-subir"
+          class="flex items-center gap-4 rounded-xl bg-verde-soft px-4 py-4 text-sm leading-5"
+        >
+          <span class="relative flex h-12 w-12 flex-none items-center justify-center">
+            <span class="absolute inset-0 animate-onda rounded-full bg-turquesa"></span>
+            <span
+              class="relative flex h-12 w-12 animate-pop items-center justify-center rounded-full bg-turquesa text-ink"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path class="animate-trazar [stroke-dasharray:30]" d="m5 12.5 4.5 4.5L19 7" />
+              </svg>
+            </span>
+          </span>
+          <span class="text-[15px] leading-5 font-bold text-verde">{{ d.textoFinal }}</span>
+        </div>
+      }
+
+      <div class="flex flex-wrap justify-end gap-3 border-t border-sunken pt-4">
+        <button
+          type="button"
+          class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-5 font-bold text-ink transition duration-150 hover:border-ink active:scale-95"
+          (click)="atras()"
+        >
+          {{ paso() === 2 ? 'Atrás' : 'Cerrar' }}
+        </button>
+        <button
+          type="button"
+          class="h-11 rounded-lg bg-marino px-5.5 font-bold text-white transition duration-150 hover:-translate-y-0.5 hover:bg-marino-hover hover:shadow-[0_6px_16px_rgba(7,49,87,0.3)] active:translate-y-0 active:scale-95 disabled:pointer-events-none disabled:opacity-45"
+          [disabled]="paso() === 2 && !acepto()"
+          (click)="siguiente()"
+        >
+          {{ paso() === 1 ? d.botonSolicitar : paso() === 2 ? d.botonEnviar : 'Entendido' }}
+        </button>
+      </div>
+    </div>
+  }
+</app-ventana>

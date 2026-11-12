@@ -1,0 +1,63 @@
+<div class="flex min-h-screen flex-col bg-sunken">
+  <!-- Franja de colores de la marca -->
+  <div class="flex h-1.5" aria-hidden="true">
+    <span class="flex-[4] bg-marino"></span>
+    <span class="flex-[2] bg-azul"></span>
+    <span class="flex-[2] bg-turquesa"></span>
+    <span class="flex-1 bg-amarillo"></span>
+    <span class="flex-1 bg-naranja"></span>
+  </div>
+
+  <header
+    class="sticky top-0 z-30 flex flex-wrap items-center gap-6 border-b border-line bg-white px-8 py-3"
+  >
+    <a
+      routerLink="/"
+      class="flex transition-transform duration-200 hover:scale-105 active:scale-95"
+    >
+      <img class="h-11" src="logo-linkedu.svg" alt="LinkEdu" />
+    </a>
+
+    <app-buscador />
+
+    <div class="flex-1"></div>
+
+    <nav class="flex flex-wrap gap-7 font-bold" aria-label="Principal">
+      @for (e of enlaces; track e.ruta) {
+        <a
+          [routerLink]="e.ruta"
+          routerLinkActive
+          #activo="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: e.ruta === '/' }"
+          [attr.aria-current]="activo.isActive ? 'page' : null"
+          class="group relative flex h-11 items-center gap-2 transition-colors duration-200 after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:rounded-full after:bg-marino after:transition-transform after:duration-300"
+          [class]="
+            activo.isActive
+              ? 'text-marino after:scale-x-100'
+              : 'text-ink-muted after:scale-x-0 hover:text-marino hover:after:scale-x-50'
+          "
+        >
+          <span
+            class="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110"
+          >
+            <app-icono [nombre]="e.icono" />
+          </span>
+          {{ e.texto }}
+        </a>
+      }
+    </nav>
+
+    <a
+      routerLink="/perfil"
+      class="flex rounded-[10px] transition duration-200 hover:scale-110 hover:shadow-[0_0_0_3px_var(--color-turquesa)] active:scale-95"
+    >
+      <img
+        class="h-10 w-10 rounded-[10px] object-cover"
+        [src]="fotoPerfil"
+        alt="Tu perfil: Lucía Fernández Ortega"
+      />
+    </a>
+  </header>
+
+  <router-outlet />
+</div>

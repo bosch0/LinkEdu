@@ -1,0 +1,11 @@
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    // Al cambiar de pantalla, vuelve arriba del todo
+    provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
+  ],
+};

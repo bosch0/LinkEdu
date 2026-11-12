@@ -1,0 +1,47 @@
+<label
+  class="flex h-11 items-center gap-2 rounded-full bg-sunken px-3.5 text-ink-muted transition-all duration-200 focus-within:bg-white focus-within:shadow-[0_0_0_2px_var(--color-azul)]"
+>
+  <app-icono nombre="buscar" />
+  <input
+    class="flex-1 text-ink outline-none"
+    type="search"
+    placeholder="Buscar en LinkEdu"
+    aria-label="Buscar"
+    autocomplete="off"
+    [value]="texto()"
+    (input)="escribir($event)"
+    (focus)="abierto.set(true)"
+    (keydown.enter)="irAlPrimero()"
+  />
+</label>
+
+@if (abierto() && texto().trim().length > 0) {
+  <div
+    animate.enter="animate-menu"
+    animate.leave="animate-menu-fuera"
+    class="absolute top-12 right-0 left-0 z-40 origin-top overflow-hidden rounded-xl border border-line bg-white py-2 shadow-[0_16px_40px_rgba(7,49,87,0.2)]"
+  >
+    @for (r of resultados(); track r.titulo + r.tipo) {
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 px-4 py-2 text-left transition-colors hover:bg-paper"
+        (click)="ir(r)"
+      >
+        <span
+          class="flex h-9 w-9 flex-none items-center justify-center rounded-[10px] bg-azul-soft text-azul"
+        >
+          <app-icono [nombre]="r.icono" [tam]="18" />
+        </span>
+        <span class="min-w-0 flex-1 text-sm leading-5">
+          <strong class="block truncate">{{ r.titulo }}</strong>
+          <span class="block truncate text-ink-muted">{{ r.detalle }}</span>
+        </span>
+        <span class="font-mono text-[11px] tracking-[0.08em] text-ink-muted uppercase">{{
+          r.tipo
+        }}</span>
+      </button>
+    } @empty {
+      <p class="px-4 py-3 text-sm text-ink-muted">No hay resultados para «{{ texto() }}».</p>
+    }
+  </div>
+}

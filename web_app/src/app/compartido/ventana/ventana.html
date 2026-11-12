@@ -1,0 +1,39 @@
+@if (abierta()) {
+  <div
+    animate.enter="animate-capa"
+    animate.leave="animate-capa-fuera"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-ink/55 p-6 backdrop-blur-[3px]"
+    (click)="cerrar.emit()"
+  >
+    <div
+      animate.enter="animate-ventana"
+      animate.leave="animate-ventana-fuera"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="titulo()"
+      class="relative flex max-h-[calc(100vh-48px)] w-full flex-col overflow-y-auto rounded-2xl bg-white shadow-[0_24px_64px_rgba(7,49,87,0.35)]"
+      [style.max-width.px]="ancho()"
+      (click)="$event.stopPropagation()"
+    >
+      <div
+        class="sticky top-0 z-10 flex items-start gap-3 border-b border-sunken bg-white px-6 pt-4.5 pb-3.5"
+      >
+        <div class="min-w-0 flex-1">
+          @if (kicker()) {
+            <span class="font-mono text-xs tracking-[0.08em] text-ink-muted">{{ kicker() }}</span>
+          }
+          <h2 class="font-display text-2xl leading-7.5 font-bold">{{ titulo() }}</h2>
+        </div>
+        <button
+          type="button"
+          aria-label="Cerrar"
+          class="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-sunken text-ink transition duration-200 hover:rotate-90 hover:bg-marino-soft active:scale-90"
+          (click)="cerrar.emit()"
+        >
+          <app-icono nombre="cerrar" />
+        </button>
+      </div>
+      <ng-content />
+    </div>
+  </div>
+}

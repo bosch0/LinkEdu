@@ -1,0 +1,31 @@
+<div
+  class="pointer-events-none fixed right-6 bottom-6 left-6 z-[60] flex flex-col items-end gap-3 sm:left-auto"
+  aria-live="polite"
+>
+  @for (a of avisos.lista(); track a.id) {
+    <div
+      animate.enter="animate-aviso"
+      animate.leave="animate-aviso-fuera"
+      class="pointer-events-auto relative flex w-full max-w-sm items-center gap-3 overflow-hidden rounded-xl bg-marino py-3 pr-3 pl-3.5 text-white shadow-[0_12px_32px_rgba(7,49,87,0.35)]"
+    >
+      <span
+        class="flex h-8 w-8 flex-none animate-pop items-center justify-center rounded-full {{
+          a.color
+        }}"
+      >
+        <app-icono [nombre]="a.icono" [tam]="18" />
+      </span>
+      <span class="flex-1 text-sm leading-5 font-bold">{{ a.texto }}</span>
+      <button
+        type="button"
+        aria-label="Cerrar aviso"
+        class="flex h-8 w-8 flex-none items-center justify-center rounded-full text-cielo transition hover:bg-white/10 active:scale-90"
+        (click)="avisos.quitar(a.id)"
+      >
+        <app-icono nombre="cerrar" [tam]="16" />
+      </button>
+      <!-- Barra que se vacía mientras dura el aviso -->
+      <span class="absolute inset-x-0 bottom-0 h-1 origin-left animate-tiempo bg-amarillo"></span>
+    </div>
+  }
+</div>

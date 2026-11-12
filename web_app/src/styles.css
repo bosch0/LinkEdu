@@ -1,0 +1,309 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Tema de LinkEdu para Tailwind.
+   Aquí solo se definen los "ingredientes" de la marca (colores,
+   fuentes y animaciones). Todo el diseño de las pantallas se
+   hace con clases de Tailwind en los .html.
+   ============================================================ */
+@theme {
+  /* Colores de la marca (design/claude-design/sistema-diseno/tokens.json) */
+  --color-paper: #f6f8fb;
+  --color-sunken: #ebf0f5;
+  --color-line: #d3dce6;
+  --color-line-strong: #7a8b9c;
+  --color-ink: #0c1d2e;
+  --color-ink-muted: #4a5b6c;
+  --color-ink-faint: #a3b3c4;
+  --color-marino: #073157;
+  --color-marino-hover: #0b4876;
+  --color-marino-soft: #dfe8f2;
+  --color-azul: #0a6a99;
+  --color-azul-soft: #e3f1f9;
+  --color-cielo: #a3cdef;
+  --color-cielo-medio: #7fb9e6;
+  --color-turquesa: #21bcaa;
+  --color-verde: #127a6e;
+  --color-verde-soft: #dff5f1;
+  --color-naranja: #fb8d2b;
+  --color-naranja-oscuro: #b5530f;
+  --color-naranja-soft: #fff0e3;
+  --color-amarillo: #fcb527;
+  --color-amarillo-soft: #fff7e0;
+  --color-danger: #b3261e;
+
+  /* Tipografías */
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  /* Tamaños de letra (sin altura de línea: esa se pone con leading-*) */
+  --text-*: initial;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 56px;
+
+  /* ---------- Animaciones ---------- */
+  --animate-pagina: pagina 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-subir: subir 480ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-capa: capa 180ms ease-out both;
+  /* Misma duración que ventana-fuera (180ms). Si la capa acabara antes, volvería a verse
+     un instante (pantalla oscura) hasta que la ventana termina su animación. */
+  --animate-capa-fuera: capa 180ms ease-in reverse both;
+  --animate-ventana: ventana 340ms cubic-bezier(0.2, 1.2, 0.4, 1) both;
+  --animate-ventana-fuera: ventana 180ms ease-in reverse both;
+  --animate-menu: menu 200ms cubic-bezier(0.2, 1, 0.4, 1) both;
+  --animate-menu-fuera: menu 120ms ease-in reverse both;
+  --animate-pop: pop 420ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
+  --animate-latido: latido 520ms cubic-bezier(0.2, 1.6, 0.4, 1);
+  --animate-trazar: trazar 520ms 120ms ease-out both;
+  --animate-barra: barra 900ms 150ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-aviso: aviso 380ms cubic-bezier(0.2, 1.3, 0.4, 1) both;
+  --animate-aviso-fuera: aviso 220ms ease-in reverse both;
+  --animate-tiempo: tiempo 3.6s linear both;
+  --animate-confeti: confeti 1.1s cubic-bezier(0.1, 0.7, 0.3, 1) both;
+  --animate-onda: onda 600ms ease-out both;
+  --animate-sacudir: sacudir 420ms ease-in-out;
+  /* Mapa de Mi red */
+  --animate-traza: traza 1.3s ease-out both;
+  --animate-viajar: viajar 4s linear infinite;
+  --animate-latir: latir-halo 2.2s ease-out infinite;
+  --animate-aparecer: aparecer 480ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+
+  @keyframes pagina {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(22px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes capa {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes ventana {
+    from {
+      opacity: 0;
+      transform: translateY(28px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes menu {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.2) rotate(-25deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes latido {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.5) rotate(-8deg);
+    }
+    60% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes trazar {
+    from {
+      stroke-dashoffset: 30;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes barra {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes aviso {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes tiempo {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes confeti {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) rotate(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy)) rotate(var(--giro));
+    }
+  }
+  @keyframes onda {
+    from {
+      opacity: 0.5;
+      transform: scale(0.4);
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.4);
+    }
+  }
+  @keyframes traza {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes viajar {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes latir-halo {
+    from {
+      transform: scale(0.7);
+      opacity: 0.9;
+    }
+    to {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+  @keyframes aparecer {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes sacudir {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-6px);
+    }
+    40% {
+      transform: translateX(6px);
+    }
+    60% {
+      transform: translateX(-4px);
+    }
+    80% {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* ---------- Estilos base de la app ---------- */
+@layer base {
+  body {
+    @apply bg-sunken font-sans text-base leading-6 text-ink;
+  }
+  a {
+    @apply text-azul;
+  }
+  /* Anillo de foco visible para el teclado */
+  :is(button, a, input, textarea, select):focus-visible {
+    @apply outline-3 outline-offset-2 outline-amarillo;
+  }
+  /* Un <span> que solo envuelve un icono (<span><app-icono /></span>) se ajusta al tamaño
+     del icono. Sin esto, el span reserva una línea de texto entera (24px) y el icono queda
+     subido unos píxeles, descentrado dentro de su botón. */
+  span:has(> app-icono:only-child) {
+    display: inline-flex;
+    align-items: center;
+  }
+  /* Los botones del diseño son clicables */
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* Efecto "botón que se hunde al pulsar". Se usa en casi todos los botones. */
+@utility presionar {
+  @apply transition duration-150 ease-out active:scale-95;
+}
+
+/* Efecto "tarjeta que se levanta al pasar el ratón" */
+@utility elevar {
+  @apply transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(7,49,87,0.16)];
+}
+
+/* Si el sistema pide menos movimiento, se quitan las animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+}
