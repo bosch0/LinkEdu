@@ -1,0 +1,15 @@
+@if (disparo() > 0) {
+  <div class="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
+    @for (p of piezas(); track disparo() + '-' + $index) {
+      <span
+        class="absolute top-1/3 left-1/2 animate-confeti rounded-[2px] {{ p.color }}"
+        [style.width.px]="p.ancho"
+        [style.height.px]="p.alto"
+        [style.--dx]="p.dx + 'px'"
+        [style.--dy]="p.dy + 'px'"
+        [style.--giro]="p.giro + 'deg'"
+        [style.animation-delay.ms]="p.retraso"
+      ></span>
+    }
+  </div>
+}
