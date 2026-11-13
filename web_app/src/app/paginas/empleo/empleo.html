@@ -2,10 +2,10 @@
   class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
 >
   <!-- ===================== Columna izquierda ===================== -->
-  <aside
-    class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-2"
-  >
-    <section class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white p-4">
+  <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 max-lg:contents">
+    <section
+      class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white p-4 max-lg:order-9"
+    >
       <div
         class="flex flex-col gap-1.5"
         role="group"
@@ -77,7 +77,7 @@
     </section>
 
     <section
-      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-3 py-4 [animation-delay:80ms]"
+      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-3 py-4 [animation-delay:80ms] max-lg:order-2"
     >
       <div class="mx-2 mb-1 flex items-center gap-2">
         <h2 class="flex-1 font-display text-[17px] leading-6 font-semibold">
@@ -124,7 +124,7 @@
 
     @for (clave of [rol() + (anuncio() ? 'a' : 'b')]; track clave) {
       <section
-        class="flex animate-subir flex-col gap-2.5 rounded-xl bg-marino px-5 py-4 text-white [animation-delay:160ms]"
+        class="flex animate-subir flex-col gap-2.5 rounded-xl bg-marino px-5 py-4 text-white [animation-delay:160ms] max-lg:order-4"
       >
         <span class="font-mono text-xs tracking-[0.08em] text-cielo">{{ panel().etiqueta }}</span>
         <h2 class="font-display text-[22px] leading-7 font-bold">{{ panel().titulo }}</h2>
@@ -329,13 +329,15 @@
                 @if (aplicada(j.id)) {
                   <span class="animate-pop"><app-icono nombre="check" [tam]="16" /></span>
                 }
-                {{
-                  aplicada(j.id)
-                    ? rol() === 'Alumno'
-                      ? 'Solicitud enviada'
-                      : 'Candidatura enviada'
-                    : verbo()
-                }}
+                @if (aplicada(j.id)) {
+                  <span class="max-lg:hidden">{{
+                    rol() === 'Alumno' ? 'Solicitud enviada' : 'Candidatura enviada'
+                  }}</span>
+                  <!-- En el teléfono, corto para que quepa en la misma fila -->
+                  <span class="lg:hidden">Enviada</span>
+                } @else {
+                  {{ verbo() }}
+                }
               </button>
             </div>
           </article>
@@ -580,11 +582,9 @@
   </section>
 
   <!-- ===================== Columna derecha ===================== -->
-  <aside
-    class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-3"
-  >
+  <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 max-lg:contents">
     <section
-      class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms]"
+      class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms] max-lg:order-3"
     >
       <h2 class="font-display text-[17px] leading-6 font-semibold">{{ estadisticas().titulo }}</h2>
       <div class="grid grid-cols-2 gap-3">
@@ -600,7 +600,7 @@
       </div>
     </section>
     <section
-      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms]"
+      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms] max-lg:order-5"
     >
       <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">{{ mas().titulo }}</h2>
       @for (m of mas().filas; track m.clave) {
@@ -630,7 +630,7 @@
       }
     </section>
     <section
-      class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:280ms]"
+      class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:280ms] max-lg:order-6"
     >
       <h2 class="font-display text-[17px] leading-6 font-semibold">
         {{

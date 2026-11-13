@@ -378,6 +378,16 @@
     padding-left: 16px;
     padding-right: 16px;
   }
+  /* En las hojas (ventanas del teléfono) la fila de botones final se queda pegada abajo:
+     así "Guardar", "Enviar" o "Comprar" siempre están a mano del pulgar */
+  [role='dialog'] :is(.justify-end.border-t.pt-4, .pie-hoja) {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin-bottom: -20px;
+    padding-bottom: 20px;
+    background: #fff;
+  }
   /* Al tocar un enlace o botón en el móvil no sale el recuadro azul del navegador */
   a,
   button {

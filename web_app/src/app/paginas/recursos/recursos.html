@@ -1038,11 +1038,11 @@
           <span>{{ miles(r.descargas) }} descargas</span>
           <span>{{ r.detalle }}</span>
         </div>
-        <div class="flex flex-wrap gap-2 border-t border-sunken pt-3">
+        <div class="pie-hoja flex flex-wrap gap-2 border-t border-sunken pt-3 max-lg:flex-nowrap">
           @if (!r.mio) {
             <button
               type="button"
-              class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] bg-white px-4 font-bold"
+              class="presionar flex h-11 flex-none items-center gap-2 rounded-lg border-[1.5px] bg-white px-4 font-bold whitespace-nowrap max-lg:px-3"
               [class]="
                 favs()[r.id]
                   ? 'border-naranja text-naranja-oscuro'
@@ -1061,7 +1061,7 @@
           }
           <button
             type="button"
-            class="presionar flex h-11 flex-1 items-center justify-center gap-2 rounded-lg px-4.5 font-bold"
+            class="presionar flex h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg px-4.5 font-bold whitespace-nowrap max-lg:px-3"
             [class]="
               r.coste && !descargados()[r.id] && !r.mio
                 ? 'bg-naranja text-ink hover:bg-[#e97f1e]'
