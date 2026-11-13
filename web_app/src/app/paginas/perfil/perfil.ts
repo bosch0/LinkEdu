@@ -6,6 +6,7 @@ import { DatosFlujo, Flujo } from '../../compartido/flujo/flujo';
 import { Icono } from '../../compartido/icono/icono';
 import { EstadoVentana, Ventana } from '../../compartido/ventana/ventana';
 import { Estado } from '../../datos/estado';
+import { ESTADISTICAS, MAS_VISITANTES, miles } from '../../datos/estadisticas';
 import { FOTOS } from '../../datos/fotos';
 import {
   EXTRAS,
@@ -73,6 +74,33 @@ export class Perfil {
   protected edTitular = signal('');
   protected edAcerca = signal('');
   protected edVis = signal('Todo LinkEdu');
+
+  // Resumen de Estadísticas (últimos 7 días). Solo sale en tu propio perfil de profesora.
+  private semana = ESTADISTICAS['7 días'];
+  private suma = (l: number[]) => l.reduce((a, b) => a + b, 0);
+  protected resumen = [
+    {
+      icono: 'perfil',
+      n: this.suma(this.semana.series.visitas),
+      texto: 'visitas al perfil',
+      ayuda: 'Descubre quién ha visto tu perfil.',
+    },
+    {
+      icono: 'compartir',
+      n: this.suma(this.semana.series.impresiones),
+      texto: 'impresiones de tus publicaciones',
+      ayuda: 'Mira quién interactúa con lo que compartes.',
+    },
+    {
+      icono: 'buscar',
+      n: this.semana.busquedas,
+      texto: 'apariciones en búsquedas',
+      ayuda: 'Cuántas veces sales cuando buscan docentes.',
+    },
+  ];
+  protected masVisitantes = MAS_VISITANTES;
+  protected miles = miles;
+  protected verEstadisticas = computed(() => !this.otro() && this.tipo() === 'Profesora');
 
   // ---------- Datos calculados ----------
   protected perfil = computed(() => {

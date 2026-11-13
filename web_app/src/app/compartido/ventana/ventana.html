@@ -2,27 +2,34 @@
   <div
     animate.enter="animate-capa"
     animate.leave="animate-capa-fuera"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-ink/55 p-6 backdrop-blur-[3px]"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-ink/55 p-6 backdrop-blur-[3px] max-lg:items-end max-lg:p-0"
     (click)="cerrar.emit()"
   >
     <div
-      animate.enter="animate-ventana"
-      animate.leave="animate-ventana-fuera"
+      animate.enter="animate-ventana max-lg:animate-hoja"
+      animate.leave="animate-ventana-fuera max-lg:animate-hoja-fuera"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="titulo()"
-      class="relative flex max-h-[calc(100vh-48px)] w-full flex-col overflow-y-auto rounded-2xl bg-white shadow-[0_24px_64px_rgba(7,49,87,0.35)]"
+      class="relative flex max-h-[calc(100vh-48px)] w-full flex-col overflow-y-auto overscroll-contain rounded-2xl bg-white shadow-[0_24px_64px_rgba(7,49,87,0.35)] max-lg:max-h-[92dvh] max-lg:max-w-none! max-lg:rounded-b-none max-lg:rounded-t-3xl max-lg:pb-[env(safe-area-inset-bottom)]"
       [style.max-width.px]="ancho()"
       (click)="$event.stopPropagation()"
     >
       <div
-        class="sticky top-0 z-10 flex items-start gap-3 border-b border-sunken bg-white px-6 pt-4.5 pb-3.5"
+        class="sticky top-0 z-10 flex items-start gap-3 border-b border-sunken bg-white px-6 pt-4.5 pb-3.5 max-lg:px-5 max-lg:pt-6"
       >
+        <!-- Asa de la hoja (solo en el teléfono) -->
+        <span
+          class="absolute top-2 left-1/2 h-1.5 w-10 -translate-x-1/2 rounded-full bg-line lg:hidden"
+          aria-hidden="true"
+        ></span>
         <div class="min-w-0 flex-1">
           @if (kicker()) {
             <span class="font-mono text-xs tracking-[0.08em] text-ink-muted">{{ kicker() }}</span>
           }
-          <h2 class="font-display text-2xl leading-7.5 font-bold">{{ titulo() }}</h2>
+          <h2 class="font-display text-2xl leading-7.5 font-bold max-lg:text-xl max-lg:leading-6.5">
+            {{ titulo() }}
+          </h2>
         </div>
         <button
           type="button"

@@ -94,6 +94,10 @@ export class Red {
   // ---------- Elementos del HTML ----------
   private mapaEl = viewChild<ElementRef<HTMLElement>>('mapa');
   private tierraEl = viewChild<ElementRef<HTMLCanvasElement>>('tierra');
+  // Marco que se desliza con el dedo en el teléfono (el mapa es más ancho que la pantalla)
+  private marcoEl = viewChild<ElementRef<HTMLElement>>('marcoMapa');
+  /** Con zoom, arrastrar mueve el mapa por dentro; sin zoom, el dedo desliza el marco. */
+  protected mapaAcercado = computed(() => this.zoom().z > 1);
   private ruedaPuesta: HTMLElement | null = null;
   private observador: ResizeObserver | null = null;
   private tierraObservada: HTMLCanvasElement | null = null;
@@ -125,6 +129,15 @@ export class Red {
         this.ruedaPuesta = el;
         this.activarRueda(el);
       }
+    });
+
+    // En el teléfono, al abrir la pantalla o cambiar de vista, el marco se coloca para que
+    // se vean tus contactos en el centro (si no, se vería el océano Pacífico)
+    effect(() => {
+      this.vista();
+      this.datos();
+      const marco = this.marcoEl()?.nativeElement;
+      if (marco) setTimeout(() => this.centrarMarco(marco), 80);
     });
 
     // Vigila el tamaño del mapa y pinta la tierra (el fondo de puntos) cuando cambia algo
@@ -455,6 +468,24 @@ export class Red {
     this.arrastre = null;
     this.arrastrando.set(false);
     setTimeout(() => (this.movido = false), 0);
+  }
+
+  private centrarMarco(marco: HTMLElement) {
+    if (marco.scrollWidth <= marco.clientWidth) return; // en el ordenador el mapa cabe entero
+    const mapa = this.mapaEl()?.nativeElement;
+    if (!mapa) return;
+    // Caja que ocupan las bolas, los puntos naranjas y sus nombres
+    const caja = mapa.getBoundingClientRect();
+    let izq = Infinity;
+    let der = -Infinity;
+    mapa.querySelectorAll('button, button *, span.absolute *').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (!r.width) return;
+      izq = Math.min(izq, r.left - caja.left);
+      der = Math.max(der, r.right - caja.left);
+    });
+    if (izq === Infinity) return;
+    marco.scrollLeft = (izq + der) / 2 - marco.clientWidth / 2;
   }
 
   protected acercar() {

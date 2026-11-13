@@ -1,8 +1,12 @@
-<main class="flex flex-1 animate-pagina flex-col gap-5 px-8 py-5">
+<main
+  class="flex flex-1 animate-pagina flex-col gap-5 px-8 py-5 max-lg:gap-2 max-lg:px-0 max-lg:py-2 max-md:pt-0"
+>
   <!-- ===================== Cabecera del perfil ===================== -->
-  <section class="animate-subir overflow-hidden rounded-xl border border-line bg-white">
+  <section
+    class="animate-subir overflow-hidden rounded-xl border border-line bg-white max-md:rounded-none max-md:border-x-0 max-md:border-t-0"
+  >
     <div
-      class="flex min-h-[132px] flex-wrap items-start justify-end gap-2 bg-marino bg-[radial-gradient(#0f5a92_1.2px,transparent_1.5px)] bg-[length:16px_16px] px-6 py-4"
+      class="flex min-h-[132px] flex-wrap items-start justify-end gap-2 bg-marino bg-[radial-gradient(#0f5a92_1.2px,transparent_1.5px)] bg-[length:16px_16px] px-6 py-4 max-lg:min-h-[112px] max-lg:px-3 max-lg:py-3"
     >
       @if (otro()) {
         <a
@@ -17,17 +21,18 @@
         >
       } @else {
         <div
-          class="flex items-center gap-1 rounded-full bg-marino-claro p-1 text-[13px] font-bold"
+          class="flex items-center gap-1 rounded-full bg-marino-claro p-1 text-[13px] font-bold max-lg:gap-0"
           role="group"
           aria-label="Perfil de ejemplo"
         >
-          <span class="pr-2 pl-2.5 font-mono text-[11px] font-medium tracking-[0.08em] text-cielo"
+          <span
+            class="pr-2 pl-2.5 font-mono text-[11px] font-medium tracking-[0.08em] text-cielo max-lg:pr-1 max-lg:pl-2"
             >EJEMPLO</span
           >
           @for (k of tipos; track k) {
             <button
               type="button"
-              class="presionar h-10 rounded-full px-3.5"
+              class="presionar h-10 rounded-full px-3.5 max-lg:h-9 max-lg:px-3"
               [class]="
                 tipo() === k
                   ? 'bg-white text-marino shadow-[0_2px_8px_rgba(0,0,0,0.25)]'
@@ -43,16 +48,20 @@
       }
     </div>
     @for (vistaPerfil of [clave()]; track vistaPerfil) {
-      <div class="flex animate-pagina flex-wrap items-end gap-x-6 gap-y-4 px-6 pb-5">
+      <div
+        class="flex animate-pagina flex-wrap items-end gap-x-6 gap-y-4 px-6 pb-5 max-lg:gap-y-3 max-lg:px-4 max-lg:pb-4"
+      >
         <img
-          class="-mt-16 h-32 w-32 flex-none rounded-[28px] border-[5px] border-white bg-white shadow-[0_0_0_1px_var(--color-line)] transition-transform duration-300 hover:scale-105 hover:-rotate-2"
+          class="-mt-16 h-32 w-32 flex-none rounded-[28px] border-[5px] border-white bg-white shadow-[0_0_0_1px_var(--color-line)] transition-transform duration-300 hover:scale-105 hover:-rotate-2 max-lg:-mt-14 max-lg:h-28 max-lg:w-28 max-lg:rounded-[26px] max-lg:border-4"
           [class]="perfil().esPersona ? 'object-cover' : 'object-contain'"
           [src]="perfil().foto"
           alt=""
         />
-        <div class="flex min-w-0 flex-[1_1_360px] flex-col gap-1 pt-3">
+        <div class="flex min-w-0 flex-[1_1_360px] flex-col gap-1 pt-3 max-lg:pt-0">
           <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <h1 class="font-display text-[32px] leading-9.5 font-extrabold">
+            <h1
+              class="font-display text-[32px] leading-9.5 font-extrabold max-lg:text-[26px] max-lg:leading-8"
+            >
               {{ perfil().nombre }}
             </h1>
             <span
@@ -64,7 +73,9 @@
               }}</span
             >
           </div>
-          <p class="text-[17px] leading-6.5">{{ perfil().titular }}</p>
+          <p class="text-[17px] leading-6.5 max-lg:text-[15px] max-lg:leading-5.5">
+            {{ perfil().titular }}
+          </p>
           <p class="flex flex-wrap gap-x-4 gap-y-1 text-sm leading-5 text-ink-muted">
             <span class="flex items-center gap-1"
               ><app-icono nombre="ubicacion" [tam]="16" />{{ perfil().lugar }}</span
@@ -74,7 +85,16 @@
             >
           </p>
         </div>
-        <div class="flex flex-wrap items-center">
+        <!-- Cifras en el teléfono: una sola línea, como en la app -->
+        <p class="flex w-full flex-wrap gap-x-1.5 text-sm leading-5 font-bold text-azul lg:hidden">
+          @for (s of perfil().stats; track s[1]; let i = $index) {
+            @if (i > 0) {
+              <span class="text-ink-faint" aria-hidden="true">·</span>
+            }
+            <span>{{ s[0] }} {{ s[1] }}</span>
+          }
+        </p>
+        <div class="flex flex-wrap items-center max-lg:hidden">
           @for (s of perfil().stats; track s[1]; let i = $index) {
             <div
               class="px-4.5 py-1 text-center"
@@ -89,10 +109,10 @@
             </div>
           }
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2 max-lg:w-full max-lg:flex-nowrap">
           <button
             type="button"
-            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-marino px-5 font-bold"
+            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-marino px-5 font-bold max-lg:h-10 max-lg:min-w-0 max-lg:flex-1 max-lg:justify-center max-lg:rounded-full max-lg:px-3 max-lg:text-[15px] max-lg:whitespace-nowrap"
             [class]="
               accionPrincipal().activa
                 ? 'bg-marino-soft text-marino'
@@ -107,7 +127,7 @@
           </button>
           <button
             type="button"
-            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-line-strong bg-white px-4.5 font-bold text-ink hover:border-ink"
+            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-line-strong bg-white px-4.5 font-bold text-ink hover:border-ink max-lg:h-10 max-lg:min-w-0 max-lg:flex-1 max-lg:justify-center max-lg:rounded-full max-lg:px-3 max-lg:text-[15px] max-lg:whitespace-nowrap"
             (click)="pulsarSegundo()"
           >
             <app-icono [nombre]="accionPrincipal().iconoSegundo" />{{ accionPrincipal().segundo }}
@@ -117,11 +137,72 @@
     }
   </section>
 
-  <div class="flex flex-wrap items-start gap-5">
+  <div class="flex flex-wrap items-start gap-5 max-lg:contents">
     <!-- ===================== Columna izquierda ===================== -->
-    <aside class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4">
+    <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 max-lg:contents">
+      <!-- Estadísticas (solo las ves tú) -->
+      @if (verEstadisticas()) {
+        <section
+          class="flex animate-subir flex-col rounded-xl border border-line bg-white px-5 pt-4 [animation-delay:40ms] max-lg:order-1"
+        >
+          <h2 class="font-display text-[17px] leading-6 font-semibold">Estadísticas</h2>
+          <p class="flex items-center gap-1.5 text-[13px] leading-4.5 text-ink-muted">
+            <svg
+              class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2]"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Solo tú lo ves · últimos 7 días
+          </p>
+          <div class="mt-2 flex flex-col">
+            @for (r of resumen; track r.texto) {
+              <a
+                routerLink="/estadisticas"
+                class="group flex items-start gap-3 border-t border-sunken py-2.5 text-ink first:border-t-0"
+              >
+                <span
+                  class="mt-0.5 flex h-9 w-9 flex-none items-center justify-center rounded-[10px] bg-marino-soft text-marino transition-transform duration-200 group-hover:scale-110"
+                  aria-hidden="true"
+                  ><app-icono [nombre]="r.icono" [tam]="18"
+                /></span>
+                <span class="min-w-0 flex-1 text-sm leading-5"
+                  ><span class="font-bold"
+                    ><span class="font-display text-base text-marino">{{ miles(r.n) }}</span>
+                    {{ r.texto }}</span
+                  ><br /><span class="text-ink-muted">{{ r.ayuda }}</span></span
+                >
+              </a>
+            }
+          </div>
+          <a
+            routerLink="/estadisticas"
+            class="group -mx-5 flex h-12 items-center justify-center gap-2 border-t border-sunken font-bold text-marino transition-colors hover:bg-paper max-lg:-mx-4"
+          >
+            <span class="flex lg:hidden">
+              @for (f of masVisitantes; track f; let k = $index) {
+                <img
+                  class="h-6 w-6 rounded-full border-2 border-white object-cover"
+                  [class.-ml-2]="k > 0"
+                  [src]="f"
+                  alt=""
+                  data-sin-perfil
+                />
+              }
+            </span>
+            Ver todas las estadísticas<span
+              class="transition-transform duration-200 group-hover:translate-x-1"
+              ><app-icono nombre="flecha" [tam]="18"
+            /></span>
+          </a>
+        </section>
+      }
       <section
-        class="flex animate-subir flex-col gap-2 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:80ms]"
+        class="flex animate-subir flex-col gap-2 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:80ms] max-lg:order-2"
       >
         <h2 class="font-display text-[17px] leading-6 font-semibold">Acerca de</h2>
         <p class="text-[15px] leading-[23px]">{{ perfil().acerca }}</p>
@@ -135,7 +216,7 @@
         </div>
       </section>
       <section
-        class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:160ms]"
+        class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:160ms] max-lg:order-4"
       >
         <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">
           {{ perfil().tituloLinea }}
@@ -160,7 +241,7 @@
       </section>
       @if (extras().comun; as c) {
         <section
-          class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:240ms]"
+          class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:240ms] max-lg:order-6"
         >
           <div class="mb-1 flex items-baseline justify-between gap-2">
             <h2 class="font-display text-[17px] leading-6 font-semibold">{{ c.titulo }}</h2>
@@ -187,9 +268,9 @@
     </aside>
 
     <!-- ===================== Columna central ===================== -->
-    <section class="flex min-w-0 flex-[999_1_480px] flex-col gap-4">
+    <section class="columna-movil flex min-w-0 flex-[999_1_480px] flex-col gap-4 max-lg:contents">
       <div
-        class="flex animate-subir flex-wrap gap-7 rounded-xl border border-line bg-white px-6 font-bold [animation-delay:60ms]"
+        class="sin-barra flex animate-subir flex-wrap gap-7 rounded-xl border border-line bg-white px-6 font-bold [animation-delay:60ms] max-lg:sticky max-lg:top-[61px] max-lg:z-20 max-lg:order-3 max-lg:flex-nowrap max-lg:gap-5 max-lg:overflow-x-auto max-lg:whitespace-nowrap"
         role="tablist"
         aria-label="Contenido del perfil"
       >
@@ -212,9 +293,14 @@
       </div>
 
       @for (vista of [clave() + pestana()]; track vista) {
-        <div animate.enter="animate-subir" class="flex flex-col gap-4">
+        <div
+          animate.enter="animate-subir"
+          class="columna-movil flex flex-col gap-4 max-lg:order-3 max-lg:gap-2"
+        >
           @if (pestana() === 'projects') {
-            <div class="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4">
+            <div
+              class="columna-movil grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4 max-lg:gap-2"
+            >
               @for (j of perfil().proyectos; track j.titulo; let i = $index) {
                 <a
                   routerLink="/proyectos"
@@ -299,7 +385,7 @@
           }
 
           @if (pestana() === 'offers') {
-            <div class="flex flex-col gap-3">
+            <div class="columna-movil flex flex-col gap-3 max-lg:gap-2">
               @for (o of ofertas(); track o.titulo; let i = $index) {
                 <article
                   class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(7,49,87,0.1)]"
@@ -500,7 +586,7 @@
       }
 
       <section
-        class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms]"
+        class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms] max-lg:order-7"
       >
         <div class="mb-1 flex items-baseline justify-between gap-2">
           <h2 class="font-display text-[17px] leading-6 font-semibold">
@@ -534,9 +620,9 @@
     </section>
 
     <!-- ===================== Columna derecha ===================== -->
-    <aside class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4">
+    <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 max-lg:contents">
       <section
-        class="flex animate-subir flex-col gap-2 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms]"
+        class="flex animate-subir flex-col gap-2 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms] max-lg:order-5"
       >
         <div class="flex items-baseline justify-between gap-2">
           <h2 class="font-display text-[17px] leading-6 font-semibold">
@@ -604,7 +690,7 @@
       </section>
       @if (extras().lateral; as l) {
         <section
-          class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms]"
+          class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms] max-lg:order-8"
         >
           <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">{{ l.titulo }}</h2>
           @for (c of l.items; track c.id) {
