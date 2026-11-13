@@ -44,6 +44,13 @@ export const routes: Routes = [
         title: 'LinkEdu · Perfil',
         loadComponent: () => import('./paginas/perfil/perfil').then((m) => m.Perfil),
       },
+      {
+        // Estadísticas de tu perfil (solo las ves tú)
+        path: 'estadisticas',
+        title: 'LinkEdu · Estadísticas',
+        loadComponent: () =>
+          import('./paginas/estadisticas/estadisticas').then((m) => m.Estadisticas),
+      },
       { path: '**', redirectTo: '' },
     ],
   },

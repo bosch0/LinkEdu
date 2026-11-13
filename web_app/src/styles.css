@@ -62,6 +62,9 @@
   --animate-capa-fuera: capa 180ms ease-in reverse both;
   --animate-ventana: ventana 340ms cubic-bezier(0.2, 1.2, 0.4, 1) both;
   --animate-ventana-fuera: ventana 180ms ease-in reverse both;
+  /* En el teléfono las ventanas suben desde abajo, como una hoja */
+  --animate-hoja: hoja 380ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  --animate-hoja-fuera: hoja 220ms ease-in reverse both;
   --animate-menu: menu 200ms cubic-bezier(0.2, 1, 0.4, 1) both;
   --animate-menu-fuera: menu 120ms ease-in reverse both;
   --animate-pop: pop 420ms cubic-bezier(0.2, 1.6, 0.4, 1) both;
@@ -115,6 +118,14 @@
     }
     to {
       opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hoja {
+    from {
+      transform: translateY(100%);
+    }
+    to {
       transform: none;
     }
   }
@@ -335,6 +346,56 @@
 /* Efecto "tarjeta que se levanta al pasar el ratón" */
 @utility elevar {
   @apply transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(7,49,87,0.16)];
+}
+
+/* ============================================================
+   Modo teléfono y tableta (pantallas de menos de 1024px).
+   En el teléfono (menos de 768px) las tarjetas de primer nivel
+   de cada columna ocupan todo el ancho, sin bordes laterales ni
+   esquinas, como en una app del móvil. Las columnas que lo usan
+   llevan la clase "columna-movil".
+   En la tableta se mantienen las tarjetas redondeadas y el
+   contenido va centrado en una columna de 720px.
+   ============================================================ */
+@media (width < 48rem) {
+  .columna-movil > :is(section, article, .rounded-xl) {
+    border-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+  }
+}
+@media (48rem <= width < 64rem) {
+  main {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+}
+@media (width < 64rem) {
+  /* Menos margen lateral dentro de esas tarjetas: la pantalla es estrecha */
+  .columna-movil > :is(.px-5, .px-6) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  /* Al tocar un enlace o botón en el móvil no sale el recuadro azul del navegador */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Espacio para la barra de pestañas de abajo (más la zona segura del iPhone) */
+@utility pb-pestanas {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom));
+}
+
+/* Barras deslizables en horizontal sin barra de desplazamiento visible */
+@utility sin-barra {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Si el sistema pide menos movimiento, se quitan las animaciones */

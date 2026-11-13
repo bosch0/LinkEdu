@@ -19,14 +19,29 @@ describe('Marco', () => {
     expect(fixture.nativeElement.querySelector('app-buscador')).toBeTruthy();
   });
 
-  it('tiene los 5 enlaces del menú principal', () => {
-    const enlaces: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('nav a')];
-    expect(enlaces.map((a) => a.textContent!.trim())).toEqual([
-      'Inicio',
-      'Mi red',
-      'Proyectos',
-      'Recursos',
-      'Empleo',
-    ]);
+  it('tiene los 5 enlaces del menú principal (arriba en el ordenador y abajo en el teléfono)', () => {
+    const menus: HTMLElement[] = [
+      ...fixture.nativeElement.querySelectorAll('nav[aria-label=Principal]'),
+    ];
+    expect(menus.length).toBe(2);
+    for (const menu of menus) {
+      const textos = [...menu.querySelectorAll('a')].map((a) =>
+        a.textContent!.replace('nuevas', '').replace(/\d/g, '').trim(),
+      );
+      expect(textos).toEqual(['Inicio', 'Mi red', 'Proyectos', 'Recursos', 'Empleo']);
+    }
+  });
+
+  it('la campana abre las notificaciones y al cerrarlas se quita el número', async () => {
+    const campana: HTMLButtonElement = fixture.nativeElement.querySelector(
+      'button[aria-label^=Notificaciones]',
+    );
+    expect(campana.getAttribute('aria-label')).toContain('3 sin leer');
+    campana.click();
+    await fixture.whenStable();
+    expect(document.querySelector('[role=dialog]')?.textContent).toContain('Elena Sanz Prieto');
+    (document.querySelector('button[aria-label=Cerrar]') as HTMLButtonElement).click();
+    await fixture.whenStable();
+    expect(campana.getAttribute('aria-label')).toBe('Notificaciones');
   });
 });

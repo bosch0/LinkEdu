@@ -1,6 +1,10 @@
-<main class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5">
+<main
+  class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
+>
   <!-- ===================== Columna izquierda ===================== -->
-  <aside class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4">
+  <aside
+    class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-2"
+  >
     <!-- Tarjeta de perfil -->
     <section class="animate-subir overflow-hidden rounded-xl border border-line bg-white">
       <div class="h-14 bg-marino-claro"></div>
@@ -151,13 +155,17 @@
   </aside>
 
   <!-- ===================== Columna central ===================== -->
-  <section class="flex min-w-0 flex-[999_1_480px] flex-col gap-4">
+  <section
+    class="flex min-w-0 flex-[999_1_480px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
+  >
     <!-- Escribir una publicación -->
     <form
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-6 py-4.5 [animation-delay:60ms]"
       (submit)="publicar($event)"
     >
-      <h1 class="font-display text-3xl leading-9 font-bold">Buenos días, Lucía</h1>
+      <h1 class="font-display text-3xl leading-9 font-bold max-lg:text-[26px] max-lg:leading-8">
+        Buenos días, Lucía
+      </h1>
       <div class="flex items-center gap-3">
         <img class="h-11 w-11 flex-none rounded-[11px] object-cover" [src]="foto" alt="" />
         <input
@@ -168,12 +176,30 @@
           [placeholder]="etiquetas[tipo()].ayuda"
           aria-label="Escribe una publicación"
         />
+        <!-- En el teléfono, el botón de publicar va junto al texto (un avión de papel) -->
+        <button
+          type="submit"
+          class="presionar flex h-12 w-12 flex-none items-center justify-center rounded-full bg-marino text-white disabled:opacity-45 lg:hidden"
+          aria-label="Publicar"
+          [disabled]="!borrador().trim()"
+        >
+          <svg
+            class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2]"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M21 3 10 14"></path>
+            <path d="m21 3-7 18-4-7-7-4z"></path>
+          </svg>
+        </button>
       </div>
-      <div class="flex flex-wrap items-center gap-2 text-sm font-bold">
+      <div class="flex flex-wrap items-center gap-2 text-sm font-bold max-lg:flex-nowrap">
         @for (t of tipos; track t) {
           <button
             type="button"
-            class="presionar flex h-10 items-center gap-2 rounded-lg border-[1.5px] px-3"
+            class="presionar flex h-10 items-center gap-2 rounded-lg border-[1.5px] px-3 max-lg:flex-1 max-lg:justify-center max-lg:px-2"
             [class]="
               etiquetas[t].clases +
               (tipo() === t
@@ -186,10 +212,10 @@
             <app-icono [nombre]="etiquetas[t].icono" />{{ t }}
           </button>
         }
-        <div class="flex-1"></div>
+        <div class="flex-1 max-lg:hidden"></div>
         <button
           type="submit"
-          class="presionar h-10 rounded-lg bg-marino px-5 text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-45"
+          class="presionar h-10 rounded-lg bg-marino px-5 text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-45 max-lg:hidden"
           [disabled]="!borrador().trim()"
         >
           Publicar
@@ -453,7 +479,9 @@
   </section>
 
   <!-- ===================== Columna derecha ===================== -->
-  <aside class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4">
+  <aside
+    class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-3"
+  >
     <!-- Docentes de tu perfil -->
     <section
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms]"

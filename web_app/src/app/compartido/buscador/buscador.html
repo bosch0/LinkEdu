@@ -19,7 +19,7 @@
   <div
     animate.enter="animate-menu"
     animate.leave="animate-menu-fuera"
-    class="absolute top-12 right-0 left-0 z-40 origin-top overflow-hidden rounded-xl border border-line bg-white py-2 shadow-[0_16px_40px_rgba(7,49,87,0.2)]"
+    class="absolute top-12 right-0 left-0 z-40 origin-top overflow-hidden rounded-xl border border-line bg-white py-2 shadow-[0_16px_40px_rgba(7,49,87,0.2)] max-lg:fixed max-lg:top-[calc(66px+env(safe-area-inset-top))] max-lg:right-3 max-lg:left-3"
   >
     @for (r of resultados(); track r.titulo + r.tipo) {
       <button
