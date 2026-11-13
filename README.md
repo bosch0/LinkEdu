@@ -5,6 +5,8 @@ LinkEdu es una app web para el sector educativo, algo así como un
 (2º DAW) que participa en un concurso donde se valora sobre todo el diseño
 UI/UX.
 
+**App en vivo:** <https://webapp-seven-drab.vercel.app>
+
 ## Qué quiere conseguir
 
 - Conectar docentes del mismo perfil.
