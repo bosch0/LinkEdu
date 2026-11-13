@@ -1,0 +1,26 @@
+{
+  "name": "linkedu-video",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render LinkEdu out/linkedu.mp4"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "@remotion/cli": "4.0.543",
+    "@remotion/google-fonts": "4.0.543",
+    "@remotion/three": "4.0.543",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.7.0",
+    "remotion": "4.0.543",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/three": "^0.187.0",
+    "playwright-core": "^1.65.0",
+    "typescript": "~5.9.0"
+  }
+}
