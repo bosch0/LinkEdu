@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd web_app && npm install",
-  "buildCommand": "cd web_app && npm run build",
-  "outputDirectory": "web_app/dist/linkedu/browser",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
