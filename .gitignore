@@ -35,3 +35,6 @@ npm-debug.log*
 
 # Configuración personal de Claude (la compartida sí se sube)
 .claude/settings.local.json
+
+# Enlace local con el proyecto de Vercel
+.vercel/
