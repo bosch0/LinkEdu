@@ -37,6 +37,8 @@ const ICONOS: Record<string, string> = {
   check: '<path d="m5 12.5 4.5 4.5L19 7"/>',
   flecha: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  // Dos flechas en sentido contrario: sirve para cambiar de rol
+  cambiar: '<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',
   // Aviso / error: un estado nunca se marca solo con color, va con este icono y un texto
   aviso: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17v.5"/>',
 };

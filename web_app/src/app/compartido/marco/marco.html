@@ -132,16 +132,17 @@
         <app-buscador />
       </div>
 
+      <!-- Cambio de rol solo con icono (para que la barra no se vea tan llena).
+           El color de la insignia indica el rol y el nombre va en el aria-label -->
       <button
         type="button"
-        class="presionar flex h-10 flex-none items-center gap-1 rounded-full px-2.5 text-xs font-bold {{
+        class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full {{
           cuenta().insigniaClases
         }}"
         [attr.aria-label]="'Rol activo: ' + estado.rol() + '. Cambiar de rol'"
         (click)="ventanaRol.abrir(null)"
       >
-        {{ estado.rol() }}
-        <span class="rotate-90"><app-icono nombre="flecha" [tam]="12" /></span>
+        <app-icono nombre="cambiar" [tam]="20" />
       </button>
 
       <button
