@@ -3,7 +3,7 @@
     class="flex flex-1 animate-pagina flex-wrap items-stretch gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
   >
     <!-- ===================== Columna izquierda ===================== -->
-    <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 max-lg:contents">
+    <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-5 max-lg:contents">
       <section
         class="grid animate-subir grid-cols-3 rounded-xl border border-line bg-white text-center max-lg:order-5"
         aria-label="Resumen de tu red"
@@ -134,7 +134,7 @@
     </aside>
 
     <!-- ===================== Columna central ===================== -->
-    <section class="columna-movil flex min-w-0 flex-[999_1_640px] flex-col gap-4 max-lg:contents">
+    <section class="columna-movil flex min-w-0 flex-[999_1_640px] flex-col gap-5 max-lg:contents">
       <div
         class="flex animate-subir flex-col gap-2.5 rounded-xl bg-marino px-5 py-4 text-white [animation-delay:60ms] max-md:-mt-2 max-lg:order-1"
       >
@@ -276,7 +276,7 @@
 
                 @if (m.mapa.canarias) {
                   <span
-                    class="absolute font-mono text-[11px] leading-4 tracking-[0.08em] text-cielo"
+                    class="absolute rounded-sm bg-ink px-1 font-mono text-xs leading-4 font-bold tracking-[0.08em] text-cielo ring-1 ring-cielo/50"
                     [style.left]="m.mapa.canariasLeft"
                     [style.top]="m.mapa.canariasTop"
                     >CANARIAS</span
@@ -297,7 +297,7 @@
                       [style.transform]="'scale(' + r.escala + ')'"
                     ></span>
                     <span
-                      class="absolute rounded-sm bg-marino px-1 text-xs leading-4 font-bold whitespace-nowrap text-amarillo"
+                      class="absolute rounded-sm bg-ink px-1.5 text-[13px] leading-4.5 font-bold whitespace-nowrap text-amarillo ring-1 ring-amarillo/70"
                       [style]="r.etiqueta"
                       >{{ r.ciudad }}</span
                     >
@@ -336,7 +336,7 @@
                       >{{ c.n }}</span
                     >
                     <span
-                      class="absolute rounded-sm bg-marino px-1 font-sans text-[13px] leading-4.5 font-bold whitespace-nowrap text-white"
+                      class="absolute rounded-sm bg-ink px-1 font-sans text-[13px] leading-4.5 font-bold whitespace-nowrap text-white ring-1 ring-white/40"
                       [style]="c.etiqueta"
                       >{{ c.nombre }}</span
                     >
@@ -380,7 +380,7 @@
                     [style.height.px]="m.hub.px"
                   />
                   <span
-                    class="absolute top-full left-1/2 mt-[3px] -translate-x-1/2 rounded-sm bg-marino px-1 font-sans text-[13px] leading-4.5 font-bold whitespace-nowrap text-white"
+                    class="absolute top-full left-1/2 mt-[3px] -translate-x-1/2 rounded-sm bg-ink px-1 font-sans text-[13px] leading-4.5 font-bold whitespace-nowrap text-white ring-1 ring-white/40"
                     >{{ m.hub.nombre }} · {{ m.hub.n }}</span
                   >
                 </button>

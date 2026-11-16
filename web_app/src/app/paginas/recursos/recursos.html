@@ -1,9 +1,9 @@
 <main
-  class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
+  class="flex flex-1 animate-pagina flex-wrap items-start gap-6 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
 >
   <!-- ===================== Columna izquierda ===================== -->
   <aside
-    class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-2"
+    class="flex max-w-[290px] flex-[1_1_260px] flex-col gap-5 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-2"
   >
     <nav
       class="flex animate-subir flex-col gap-0.5 rounded-xl border border-line bg-white p-3 max-lg:hidden"
@@ -186,7 +186,7 @@
 
   <!-- ===================== Columna central ===================== -->
   <section
-    class="flex min-w-0 flex-[999_1_480px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
+    class="flex min-w-0 flex-[999_1_480px] flex-col gap-5 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
   >
     <div
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-6 py-4.5 [animation-delay:60ms]"
@@ -212,6 +212,14 @@
           </div>
           <p class="text-sm leading-5 text-ink-muted">{{ cabecera().texto }}</p>
         </div>
+        <!-- Botón que abre la ventana para subir un recurso -->
+        <button
+          type="button"
+          class="presionar flex h-11 items-center gap-2 rounded-lg bg-marino px-4 font-bold text-white hover:bg-marino-hover max-lg:order-last max-lg:basis-full max-lg:justify-center"
+          (click)="ventanaSubir.abrir(null)"
+        >
+          <app-icono nombre="subir" [tam]="18" />+ Subir recurso
+        </button>
         <label
           class="flex h-11 flex-[0_1_280px] items-center gap-2 rounded-full border border-line-strong px-3.5 max-lg:flex-auto max-lg:basis-full text-ink-muted transition-all duration-200 focus-within:border-azul focus-within:shadow-[0_0_0_3px_var(--color-azul-soft)]"
         >
@@ -303,101 +311,52 @@
                   [src]="portadaDe(t.r)"
                   alt=""
                 />
+                <!-- Degradado oscuro en la base: el título blanco se lee bien sobre cualquier portada -->
+                <div
+                  class="pointer-events-none absolute inset-0 bg-linear-to-t from-ink/85 via-ink/40 to-transparent"
+                  aria-hidden="true"
+                ></div>
+                <!-- Dato 1 y 3: formato y precio -->
                 <div class="relative flex items-center justify-between gap-2">
                   <span
-                    class="min-w-0 overflow-hidden font-mono text-[11px] leading-4 tracking-[0.04em] text-ellipsis whitespace-nowrap text-white/85"
-                    >{{ t.r.tipo.toUpperCase() }} · {{ t.r.detalle }}</span
+                    class="min-w-0 overflow-hidden font-mono text-[11px] leading-4 tracking-[0.04em] text-ellipsis whitespace-nowrap text-white"
+                    >{{ t.r.tipo.toUpperCase() }}</span
                   >
-                  <span class="flex flex-none items-center gap-1.5">
-                    @if (t.r.pro) {
-                      <span
-                        class="rounded-full bg-ink px-[7px] py-px font-mono text-[11px] leading-4.5 tracking-[0.06em] text-amarillo"
-                        title="Autor Premium"
-                        >PRO</span
-                      >
-                    }
-                    <span
-                      class="rounded-full px-2.5 py-px text-[13px] leading-5 font-bold whitespace-nowrap"
-                      [class]="t.r.coste ? 'bg-amarillo text-ink' : 'bg-azul-soft text-azul'"
-                      >{{ t.r.coste ? euros(t.r.coste) : 'Gratis' }}</span
-                    >
-                  </span>
+                  <span
+                    class="flex-none rounded-full px-2.5 py-px text-[13px] leading-5 font-bold whitespace-nowrap"
+                    [class]="t.r.coste ? 'bg-amarillo text-ink' : 'bg-azul-soft text-azul'"
+                    >{{ t.r.coste ? euros(t.r.coste) : 'Gratis' }}</span
+                  >
                 </div>
+                <!-- Dato 1: título -->
                 <h3
-                  class="relative mt-0.5 line-clamp-2 pr-16 font-display text-lg leading-5.5 font-semibold [text-shadow:0_1px_2px_rgba(0,0,0,0.25)]"
+                  class="relative mt-auto line-clamp-2 font-display text-lg leading-5.5 font-semibold text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]"
                 >
                   {{ t.r.titulo }}
                 </h3>
-                <span
-                  class="relative mt-auto flex min-w-0 items-center gap-1.5 pr-18 text-[13px] leading-4.5 font-bold"
-                  ><span class="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{{
+              </div>
+              <!-- Dato 2: autor y etapa educativa -->
+              <div class="flex items-center gap-2.5 px-3.5 py-3">
+                <img class="h-9 w-9 flex-none rounded-full object-cover" [src]="t.r.foto" alt="" />
+                <span class="min-w-0 flex-1 text-sm leading-5"
+                  ><strong class="block overflow-hidden text-ellipsis whitespace-nowrap">{{
                     t.r.autor
-                  }}</span></span
+                  }}</strong
+                  ><span
+                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-ink-muted"
+                    >{{ t.r.materia }}</span
+                  ></span
                 >
               </div>
-              <div class="relative flex flex-col gap-1.5 px-3.5 py-3">
-                <img
-                  class="pointer-events-none absolute -top-10 right-3.5 z-4 h-16 w-16 rounded-full border-[3px] border-white bg-white object-cover shadow-[0_2px_6px_rgba(12,29,46,0.18)] transition-transform duration-300 group-hover:scale-110"
-                  [src]="t.r.foto"
-                  alt=""
-                />
-                <div class="flex min-w-0 items-center gap-1.5 pr-18">
+              <!-- Dato 4: un único botón de acción principal -->
+              <div class="mt-auto flex flex-col gap-2 border-t border-sunken px-3.5 pt-2.5 pb-3">
+                <!-- Solo en las tarjetas que rellenan la rejilla: así no se confunden con las tuyas -->
+                @if (t.sugerido) {
                   <span
-                    class="font-mono text-[11px] leading-4 tracking-[0.06em] whitespace-nowrap text-ink-muted"
-                    >{{ semanal(t.r) }}</span
+                    class="self-start rounded-full bg-naranja-soft px-2 py-px text-xs leading-4.5 font-bold text-naranja-oscuro"
+                    >Sugerido para ti</span
                   >
-                </div>
-                <span class="overflow-hidden text-sm leading-5 text-ellipsis whitespace-nowrap">{{
-                  t.r.materia
-                }}</span>
-                <div class="flex items-center gap-2.5 font-mono text-xs leading-4 text-ink-muted">
-                  <span class="flex items-center gap-1"
-                    ><svg
-                      class="fill-naranja"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="m12 2.8 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3L12 17.3l-5.7 3 1.1-6.3-4.6-4.5 6.4-.9z"
-                      ></path></svg
-                    >{{ t.r.valoracion }}</span
-                  >
-                  <span class="flex items-center gap-1"
-                    ><app-icono nombre="descargar" [tam]="14" />{{ miles(t.r.descargas) }}</span
-                  >
-                  @if (t.sugerido) {
-                    <span
-                      class="ml-auto rounded-full bg-naranja-soft px-2 py-px font-sans text-xs leading-4.5 font-bold text-naranja-oscuro"
-                      >Sugerido para ti</span
-                    >
-                  }
-                </div>
-              </div>
-              <div
-                class="mt-auto flex items-center gap-2 border-t border-sunken px-3.5 pt-2.5 pb-3"
-              >
-                <button
-                  type="button"
-                  class="presionar relative z-5 flex h-10 w-10 flex-none items-center justify-center rounded-lg border bg-white"
-                  [class]="
-                    favs()[t.r.id]
-                      ? 'border-naranja text-naranja-oscuro'
-                      : 'border-line text-ink-muted hover:border-naranja hover:text-naranja-oscuro'
-                  "
-                  [attr.aria-pressed]="!!favs()[t.r.id]"
-                  [attr.aria-label]="
-                    (favs()[t.r.id] ? 'Quitar de favoritos: ' : 'Añadir a favoritos: ') + t.r.titulo
-                  "
-                  (click)="alternarFav(t.r)"
-                >
-                  <app-icono
-                    nombre="megusta"
-                    [relleno]="!!favs()[t.r.id]"
-                    [class.animate-latido]="favs()[t.r.id]"
-                  />
-                </button>
+                }
                 <button
                   type="button"
                   class="presionar relative z-5 flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-lg text-sm font-bold whitespace-nowrap"
@@ -612,8 +571,8 @@
           </svg>
           <span class="flex-[1_1_260px]">{{
             premium()
-              ? 'Eres Premium: al subir un recurso puedes ponerle precio. LinkEdu se queda un 15 % de cada venta.'
-              : 'Todos tus recursos son gratis. Con LinkEdu Premium podrías poner precio a los que más se descargan.'
+              ? 'Eres Premium: al subir un recurso puedes ponerle precio. Linkedu se queda un 15 % de cada venta.'
+              : 'Todos tus recursos son gratis. Con Linkedu Premium podrías poner precio a los que más se descargan.'
           }}</span>
           <button
             type="button"
@@ -688,238 +647,8 @@
 
   <!-- ===================== Columna derecha ===================== -->
   <aside
-    class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-3"
+    class="flex max-w-[340px] flex-[1_1_300px] flex-col gap-5 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-3"
   >
-    <form
-      class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms]"
-      (submit)="publicar($event)"
-    >
-      <h2 class="font-display text-[17px] leading-6 font-semibold">Sube un recurso</h2>
-      @if (!subArchivo()) {
-        <label
-          class="relative flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-line-strong p-3.5 text-ink transition-colors duration-150 hover:border-azul hover:bg-azul-soft"
-        >
-          <span
-            class="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-azul-soft text-azul"
-            ><app-icono nombre="subir"
-          /></span>
-          <span class="text-sm leading-5"
-            ><strong>Arrastra tu archivo o elige uno</strong><br /><span
-              class="text-xs leading-4 text-ink-muted"
-              >PDF, PPTX, DOCX, XLSX o MP4 · hasta 200 MB</span
-            ></span
-          >
-          <input
-            class="absolute inset-0 cursor-pointer opacity-0"
-            type="file"
-            aria-label="Elegir archivo"
-            (change)="elegirArchivo($event)"
-          />
-        </label>
-      } @else {
-        <div
-          animate.enter="animate-subir"
-          class="flex items-center gap-2.5 rounded-[10px] bg-azul-soft px-3 py-2.5"
-        >
-          <span class="flex-none text-azul"><app-icono nombre="recurso" /></span>
-          <span
-            class="min-w-0 flex-1 overflow-hidden text-sm leading-5 text-ellipsis whitespace-nowrap"
-            ><strong>{{ subArchivo() }}</strong></span
-          >
-          <button
-            type="button"
-            class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-ink-muted hover:text-danger"
-            aria-label="Quitar archivo"
-            (click)="subArchivo.set('')"
-          >
-            <app-icono nombre="cerrar" [tam]="14" />
-          </button>
-        </div>
-      }
-      <label class="flex flex-col gap-1 text-sm font-bold">
-        Título
-        <input
-          class="h-11 rounded-lg border-[1.5px] border-line-strong px-3 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
-          type="text"
-          [value]="subTitulo()"
-          (input)="escribir(subTitulo, $event)"
-          placeholder="Por ejemplo: Fracciones con pizzas"
-        />
-      </label>
-      <div class="flex gap-2">
-        <label class="flex flex-1 flex-col gap-1 text-sm font-bold">
-          Tipo
-          <select
-            class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-2 text-[15px] leading-6 font-normal text-ink transition-colors focus:border-azul"
-            [value]="subTipo()"
-            (change)="subTipo.set($any($event.target).value)"
-          >
-            @for (t of tiposSubida; track t) {
-              <option [selected]="subTipo() === t">{{ t }}</option>
-            }
-          </select>
-        </label>
-        <label class="flex flex-1 flex-col gap-1 text-sm font-bold">
-          Etapa
-          <select
-            class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-2 text-[15px] leading-6 font-normal text-ink transition-colors focus:border-azul"
-          >
-            <option>ESO</option>
-            <option>Primaria</option>
-            <option>Bachillerato</option>
-            <option>FP</option>
-          </select>
-        </label>
-      </div>
-
-      <fieldset class="flex flex-col gap-2">
-        <legend class="mb-1 text-sm font-bold">
-          Portada <span class="font-normal text-ink-muted">(opcional)</span>
-        </legend>
-        <div class="relative overflow-hidden rounded-[10px] border border-line bg-sunken">
-          <img
-            class="block h-33 w-full object-cover"
-            [src]="portadaSubida()"
-            alt="Vista previa de la portada"
-          />
-          <span
-            class="absolute top-2 left-2 rounded-full bg-ink/70 px-2 py-px text-[11px] leading-4.5 font-bold text-white"
-            >{{ etiquetaPortada() }}</span
-          >
-        </div>
-        <div class="flex items-center gap-1.5">
-          @for (c of estilosVista(); track c.id) {
-            <button
-              type="button"
-              class="presionar h-10 flex-1 overflow-hidden rounded-lg border-2 bg-sunken"
-              [class]="c.activo ? 'border-marino' : 'border-line hover:border-line-strong'"
-              [attr.aria-pressed]="c.activo"
-              [attr.aria-label]="
-                c.id === 'auto' ? 'Usar vista previa automática' : 'Usar portada ' + c.id
-              "
-              (click)="elegirEstilo(c.id)"
-            >
-              <img class="block h-full w-full object-cover" [src]="c.src" alt="" />
-            </button>
-          }
-          <label
-            class="relative flex h-10 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed text-azul transition-colors hover:bg-azul-soft"
-            [class]="subPortadaPropia() ? 'border-marino' : 'border-line-strong'"
-            aria-label="Subir mi propia imagen de portada"
-          >
-            <app-icono nombre="subir" [tam]="18" />
-            <input
-              class="absolute inset-0 cursor-pointer opacity-0"
-              type="file"
-              accept="image/*"
-              (change)="elegirPortada($event)"
-            />
-          </label>
-        </div>
-        <span class="text-xs leading-4 text-ink-muted"
-          >Si no eliges nada, usamos una vista previa de tu archivo.</span
-        >
-      </fieldset>
-
-      <fieldset class="flex flex-col gap-2">
-        <legend class="mb-1 text-sm font-bold">Precio</legend>
-        <div class="flex gap-1 rounded-[10px] bg-sunken p-1 text-sm font-bold">
-          <button
-            type="button"
-            class="presionar h-10 flex-1 rounded-lg"
-            [class]="
-              !pagoActivo()
-                ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
-                : 'bg-transparent text-ink-muted hover:text-ink'
-            "
-            [attr.aria-pressed]="!pagoActivo()"
-            (click)="ponerGratis()"
-          >
-            Gratis
-          </button>
-          <button
-            type="button"
-            class="presionar flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg"
-            [class]="
-              pagoActivo()
-                ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
-                : 'bg-transparent text-ink-muted hover:text-ink'
-            "
-            [attr.aria-pressed]="pagoActivo()"
-            [attr.aria-disabled]="!premium()"
-            (click)="ponerDePago()"
-          >
-            @if (!premium()) {
-              <svg
-                class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2.4]"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <rect x="5" y="11" width="14" height="10" rx="2"></rect>
-                <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
-              </svg>
-            }
-            De pago
-          </button>
-        </div>
-        @if (subBloqueado() && !premium()) {
-          <div
-            animate.enter="animate-subir"
-            class="flex flex-col gap-2 rounded-lg bg-[#fff4e8] px-3 py-2.5 text-[13px] leading-4.5 text-ink"
-            role="status"
-          >
-            <span
-              ><strong>Necesitas LinkEdu Premium</strong> para vender recursos. Los recursos gratis
-              se pueden subir siempre.</span
-            >
-            <button
-              type="button"
-              class="presionar h-10 self-start rounded-lg bg-naranja px-3 text-[13px] font-bold text-ink"
-              (click)="abrirPremium()"
-            >
-              Ver Premium
-            </button>
-          </div>
-        }
-        @if (pagoActivo()) {
-          <div animate.enter="animate-subir" class="flex flex-col gap-2">
-            <label class="flex items-center gap-2 text-sm font-bold">
-              Precio de venta
-              <span class="flex-1"></span>
-              <input
-                class="h-10 w-20 rounded-lg border-[1.5px] border-line-strong px-2.5 text-right text-base leading-6 font-bold text-ink outline-none transition-colors focus:border-azul"
-                type="text"
-                inputmode="decimal"
-                [value]="subPrecio()"
-                (input)="escribir(subPrecio, $event)"
-                aria-label="Precio en euros"
-              />
-              <span>€</span>
-            </label>
-            <dl
-              class="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 rounded-lg bg-paper px-3 py-2.5 text-[13px] leading-4.5"
-            >
-              <dt class="text-ink-muted">Comisión de LinkEdu (15 %)</dt>
-              <dd class="text-right font-mono">− {{ euros(precioNumero() * 0.15) }}</dd>
-              <dt class="font-bold">Tú recibes por venta</dt>
-              <dd class="text-right font-mono font-medium text-marino">
-                {{ euros(precioNumero() * 0.85) }}
-              </dd>
-            </dl>
-          </div>
-        }
-      </fieldset>
-      <button
-        type="submit"
-        class="presionar flex h-11 items-center justify-center gap-2 rounded-lg bg-marino font-bold text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
-        [disabled]="subBloquear()"
-      >
-        <app-icono nombre="subir" />Publicar recurso
-      </button>
-    </form>
-
     <section
       class="flex animate-subir flex-col gap-0.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:220ms]"
     >
@@ -962,6 +691,250 @@
   </aside>
 </main>
 
+<!-- ===================== Ventana: subir un recurso ===================== -->
+<app-ventana
+  [abierta]="ventanaSubir.abierta()"
+  kicker="NUEVO RECURSO"
+  titulo="Sube un recurso"
+  [ancho]="560"
+  (cerrar)="ventanaSubir.cerrar()"
+>
+  <form class="flex flex-col gap-4 px-6 py-5" (submit)="publicar($event)">
+    @if (!subArchivo()) {
+      <label
+        class="relative flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-line-strong p-3.5 text-ink transition-colors duration-150 hover:border-azul hover:bg-azul-soft"
+      >
+        <span
+          class="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-azul-soft text-azul"
+          ><app-icono nombre="subir"
+        /></span>
+        <span class="text-sm leading-5"
+          ><strong>Arrastra tu archivo o elige uno</strong><br /><span
+            class="text-xs leading-4 text-ink-muted"
+            >PDF, PPTX, DOCX, XLSX o MP4 · hasta 200 MB</span
+          ></span
+        >
+        <input
+          class="absolute inset-0 cursor-pointer opacity-0"
+          type="file"
+          aria-label="Elegir archivo"
+          (change)="elegirArchivo($event)"
+        />
+      </label>
+    } @else {
+      <div
+        animate.enter="animate-subir"
+        class="flex items-center gap-2.5 rounded-[10px] bg-azul-soft px-3 py-2.5"
+      >
+        <span class="flex-none text-azul"><app-icono nombre="recurso" /></span>
+        <span
+          class="min-w-0 flex-1 overflow-hidden text-sm leading-5 text-ellipsis whitespace-nowrap"
+          ><strong>{{ subArchivo() }}</strong></span
+        >
+        <button
+          type="button"
+          class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-ink-muted hover:text-danger"
+          aria-label="Quitar archivo"
+          (click)="subArchivo.set('')"
+        >
+          <app-icono nombre="cerrar" [tam]="14" />
+        </button>
+      </div>
+    }
+    <label class="flex flex-col gap-1 text-sm font-bold">
+      Título
+      <input
+        class="h-11 rounded-lg border-[1.5px] border-line-strong px-3 text-base leading-6 font-normal text-ink outline-none transition-colors focus:border-azul"
+        type="text"
+        [value]="subTitulo()"
+        (input)="escribir(subTitulo, $event)"
+        placeholder="Por ejemplo: Fracciones con pizzas"
+      />
+    </label>
+    <div class="flex gap-2">
+      <label class="flex flex-1 flex-col gap-1 text-sm font-bold">
+        Tipo
+        <select
+          class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-2 text-[15px] leading-6 font-normal text-ink transition-colors focus:border-azul"
+          [value]="subTipo()"
+          (change)="subTipo.set($any($event.target).value)"
+        >
+          @for (t of tiposSubida; track t) {
+            <option [selected]="subTipo() === t">{{ t }}</option>
+          }
+        </select>
+      </label>
+      <label class="flex flex-1 flex-col gap-1 text-sm font-bold">
+        Etapa
+        <select
+          class="h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-2 text-[15px] leading-6 font-normal text-ink transition-colors focus:border-azul"
+        >
+          <option>ESO</option>
+          <option>Primaria</option>
+          <option>Bachillerato</option>
+          <option>FP</option>
+        </select>
+      </label>
+    </div>
+
+    <fieldset class="flex flex-col gap-2">
+      <legend class="mb-1 text-sm font-bold">
+        Portada <span class="font-normal text-ink-muted">(opcional)</span>
+      </legend>
+      <div class="relative overflow-hidden rounded-[10px] border border-line bg-sunken">
+        <img
+          class="block h-33 w-full object-cover"
+          [src]="portadaSubida()"
+          alt="Vista previa de la portada"
+        />
+        <span
+          class="absolute top-2 left-2 rounded-full bg-ink/70 px-2 py-px text-[11px] leading-4.5 font-bold text-white"
+          >{{ etiquetaPortada() }}</span
+        >
+      </div>
+      <div class="flex items-center gap-1.5">
+        @for (c of estilosVista(); track c.id) {
+          <button
+            type="button"
+            class="presionar h-10 flex-1 overflow-hidden rounded-lg border-2 bg-sunken"
+            [class]="c.activo ? 'border-marino' : 'border-line hover:border-line-strong'"
+            [attr.aria-pressed]="c.activo"
+            [attr.aria-label]="
+              c.id === 'auto' ? 'Usar vista previa automática' : 'Usar portada ' + c.id
+            "
+            (click)="elegirEstilo(c.id)"
+          >
+            <img class="block h-full w-full object-cover" [src]="c.src" alt="" />
+          </button>
+        }
+        <label
+          class="relative flex h-10 flex-1 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed text-azul transition-colors hover:bg-azul-soft"
+          [class]="subPortadaPropia() ? 'border-marino' : 'border-line-strong'"
+          aria-label="Subir mi propia imagen de portada"
+        >
+          <app-icono nombre="subir" [tam]="18" />
+          <input
+            class="absolute inset-0 cursor-pointer opacity-0"
+            type="file"
+            accept="image/*"
+            (change)="elegirPortada($event)"
+          />
+        </label>
+      </div>
+      <span class="text-xs leading-4 text-ink-muted"
+        >Si no eliges nada, usamos una vista previa de tu archivo.</span
+      >
+    </fieldset>
+
+    <fieldset class="flex flex-col gap-2">
+      <legend class="mb-1 text-sm font-bold">Precio</legend>
+      <div class="flex gap-1 rounded-[10px] bg-sunken p-1 text-sm font-bold">
+        <button
+          type="button"
+          class="presionar h-10 flex-1 rounded-lg"
+          [class]="
+            !pagoActivo()
+              ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
+              : 'bg-transparent text-ink-muted hover:text-ink'
+          "
+          [attr.aria-pressed]="!pagoActivo()"
+          (click)="ponerGratis()"
+        >
+          Gratis
+        </button>
+        <button
+          type="button"
+          class="presionar flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg"
+          [class]="
+            pagoActivo()
+              ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
+              : 'bg-transparent text-ink-muted hover:text-ink'
+          "
+          [attr.aria-pressed]="pagoActivo()"
+          [attr.aria-disabled]="!premium()"
+          (click)="ponerDePago()"
+        >
+          @if (!premium()) {
+            <svg
+              class="fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:2.4]"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+            </svg>
+          }
+          De pago
+        </button>
+      </div>
+      @if (subBloqueado() && !premium()) {
+        <div
+          animate.enter="animate-subir"
+          class="flex flex-col gap-2 rounded-lg bg-[#fff4e8] px-3 py-2.5 text-[13px] leading-4.5 text-ink"
+          role="status"
+        >
+          <span
+            ><strong>Necesitas Linkedu Premium</strong> para vender recursos. Los recursos gratis se
+            pueden subir siempre.</span
+          >
+          <button
+            type="button"
+            class="presionar h-10 self-start rounded-lg bg-naranja px-3 text-[13px] font-bold text-ink"
+            (click)="abrirPremium()"
+          >
+            Ver Premium
+          </button>
+        </div>
+      }
+      @if (pagoActivo()) {
+        <div animate.enter="animate-subir" class="flex flex-col gap-2">
+          <label class="flex items-center gap-2 text-sm font-bold">
+            Precio de venta
+            <span class="flex-1"></span>
+            <input
+              class="h-10 w-20 rounded-lg border-[1.5px] border-line-strong px-2.5 text-right text-base leading-6 font-bold text-ink outline-none transition-colors focus:border-azul"
+              type="text"
+              inputmode="decimal"
+              [value]="subPrecio()"
+              (input)="escribir(subPrecio, $event)"
+              aria-label="Precio en euros"
+            />
+            <span>€</span>
+          </label>
+          <dl
+            class="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 rounded-lg bg-paper px-3 py-2.5 text-[13px] leading-4.5"
+          >
+            <dt class="text-ink-muted">Comisión de Linkedu (15 %)</dt>
+            <dd class="text-right font-mono">− {{ euros(precioNumero() * 0.15) }}</dd>
+            <dt class="font-bold">Tú recibes por venta</dt>
+            <dd class="text-right font-mono font-medium text-marino">
+              {{ euros(precioNumero() * 0.85) }}
+            </dd>
+          </dl>
+        </div>
+      }
+    </fieldset>
+    <div class="pie-hoja flex justify-end gap-2 border-t border-sunken pt-4">
+      <button
+        type="button"
+        class="presionar h-11 rounded-lg border-[1.5px] border-line-strong bg-white px-4 font-bold text-ink hover:bg-paper"
+        (click)="ventanaSubir.cerrar()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="presionar flex h-11 items-center justify-center gap-2 rounded-lg bg-marino px-5 font-bold text-white hover:bg-marino-hover disabled:pointer-events-none disabled:opacity-50"
+        [disabled]="subBloquear()"
+      >
+        <app-icono nombre="subir" />Publicar recurso
+      </button>
+    </div>
+  </form>
+</app-ventana>
+
 <!-- ===================== Ventana: detalle de un recurso ===================== -->
 <app-ventana
   [abierta]="ventanaDetalle.abierta()"
@@ -999,8 +972,18 @@
         <div class="flex items-center gap-3">
           <img class="h-12 w-12 flex-none rounded-xl object-cover" [src]="r.foto" alt="" />
           <span class="text-sm leading-5"
-            ><strong class="text-base">{{ r.mio ? 'Tú · Lucía Fernández Ortega' : r.autor }}</strong
-            ><br /><span class="text-ink-muted">{{ r.materia }}</span></span
+            ><strong class="text-base">{{
+              r.mio ? 'Tú · Lucía Fernández Ortega' : r.autor
+            }}</strong>
+            @if (r.pro) {
+              <!-- La insignia PRO ya no va en la tarjeta (menos datos): se ve al abrir el recurso -->
+              <span
+                class="ml-2 rounded-full bg-ink px-[7px] py-px font-mono text-[11px] leading-4.5 tracking-[0.06em] text-amarillo"
+                title="Autor Premium"
+                >PRO</span
+              >
+            }
+            <br /><span class="text-ink-muted">{{ r.materia }}</span></span
           >
         </div>
         <p class="text-[15px] leading-[23px]">
@@ -1108,7 +1091,7 @@
         <dd class="text-right font-mono">{{ euros(r.coste) }}</dd>
         <dt class="text-ink-muted">Para {{ r.autor.split(' ')[0] }} (85 %)</dt>
         <dd class="text-right font-mono text-ink-muted">{{ euros(r.coste * 0.85) }}</dd>
-        <dt class="text-ink-muted">Comisión de LinkEdu (15 %)</dt>
+        <dt class="text-ink-muted">Comisión de Linkedu (15 %)</dt>
         <dd class="text-right font-mono text-ink-muted">{{ euros(r.coste * 0.15) }}</dd>
         <dt class="border-t border-line pt-1.5 font-bold">Total</dt>
         <dd class="border-t border-line pt-1.5 text-right font-mono font-medium text-marino">

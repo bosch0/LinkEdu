@@ -20,6 +20,7 @@ import {
   TipoPublicacion,
   ULTIMOS_DEL_GRUPO,
 } from '../../datos/inicio';
+import { CUENTAS } from '../../datos/empleo';
 import { Estado } from '../../datos/estado';
 import { FOTOS } from '../../datos/fotos';
 
@@ -49,6 +50,8 @@ class Post {
 })
 export class Inicio {
   protected estado = inject(Estado);
+  // Cuenta del rol activo: sirve para enseñar la insignia en la tarjeta de perfil
+  protected cuenta = computed(() => CUENTAS[this.estado.rol()]);
   private avisos = inject(Avisos);
 
   // Datos de prueba

@@ -77,7 +77,8 @@ export class Empleo {
   protected fotoLucia = FOTOS.lucia;
 
   // ---------- Estado ----------
-  protected rol = signal<Rol>('Profesor');
+  // El rol es el mismo en toda la plataforma (se guarda en Estado)
+  protected rol = this.estado.rol;
   private tabPorRol = signal<Record<string, string>>({});
   protected filtro = signal<'Todas' | Modalidad>('Todas');
   protected candidaturas = signal<Record<string, { doc: string; msg: string }>>({
@@ -395,7 +396,7 @@ export class Empleo {
         lineas: [
           { icono: 'perfil', texto: 'Irene Pastor Llorente' },
           { icono: 'calendario', texto: '45 minutos · clase de prueba' },
-          { icono: 'mensajes', texto: 'Por videollamada en LinkEdu' },
+          { icono: 'mensajes', texto: 'Por videollamada en Linkedu' },
         ],
         accion: 'Preparar la videollamada',
         clases: 'bg-white text-marino',
@@ -594,7 +595,7 @@ export class Empleo {
         mio: false,
         hora: 'Ayer',
         texto: {
-          Profesor: '¡Hola! Hemos visto tu perfil en LinkEdu y nos encaja mucho.',
+          Profesor: '¡Hola! Hemos visto tu perfil en Linkedu y nos encaja mucho.',
           Alumno: '¡Hola! Claro, pregúntame lo que quieras sobre las prácticas.',
           Empresa: 'Gracias por escribir. ¿Qué día os viene bien para hablar?',
         }[this.rol()],

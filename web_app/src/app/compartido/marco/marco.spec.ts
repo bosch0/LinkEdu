@@ -15,7 +15,7 @@ describe('Marco', () => {
   });
 
   it('muestra el logo y el buscador', () => {
-    expect(fixture.nativeElement.querySelector('img[alt=LinkEdu]')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('img[alt=Linkedu]')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('app-buscador')).toBeTruthy();
   });
 
@@ -43,5 +43,18 @@ describe('Marco', () => {
     (document.querySelector('button[aria-label=Cerrar]') as HTMLButtonElement).click();
     await fixture.whenStable();
     expect(campana.getAttribute('aria-label')).toBe('Notificaciones');
+  });
+
+  it('la insignia de rol junto al avatar cambia el rol de toda la plataforma', async () => {
+    const insignia: HTMLButtonElement = fixture.nativeElement.querySelector(
+      'button[aria-label^="Rol activo"]',
+    );
+    expect(insignia.textContent).toContain('Profesor');
+    insignia.click();
+    await fixture.whenStable();
+    const opciones = [...document.querySelectorAll('[role=dialog] button[aria-pressed]')];
+    (opciones.find((b) => b.textContent!.includes('Alumno')) as HTMLButtonElement).click();
+    await fixture.whenStable();
+    expect(insignia.textContent).toContain('Alumno');
   });
 });

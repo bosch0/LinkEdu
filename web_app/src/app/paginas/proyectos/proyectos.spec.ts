@@ -25,6 +25,12 @@ describe('Proyectos', () => {
     expect(html.querySelector('h1')!.textContent).toContain('Matemáticas en el mercado');
   });
 
+  it('el botón "+ Invitar" abre la ventana con las personas sugeridas', async () => {
+    boton('+ Invitar').click();
+    await fixture.whenStable();
+    expect(html.querySelector('[role=dialog]')!.textContent).toContain('Invita a');
+  });
+
   it('el filtro "Privados" deja solo los proyectos privados', async () => {
     boton('Privados').click();
     await fixture.whenStable();

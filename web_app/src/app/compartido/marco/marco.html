@@ -16,7 +16,7 @@
       routerLink="/"
       class="flex transition-transform duration-200 hover:scale-105 active:scale-95"
     >
-      <img class="h-11" src="logo-linkedu.svg" alt="LinkEdu" />
+      <img class="h-11" src="logo-linkedu.svg" alt="Linkedu" />
     </a>
 
     <app-buscador />
@@ -60,11 +60,24 @@
       @if (sinLeer()) {
         <span
           animate.leave="animate-menu-fuera"
-          class="absolute top-1 right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-danger px-1 text-[10px] leading-none font-bold text-white"
+          class="absolute top-1 right-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-naranja px-1 text-[10px] leading-none font-bold text-ink"
           aria-hidden="true"
           >{{ sinLeer() }}</span
         >
       }
+    </button>
+
+    <!-- Insignia del rol activo: al pulsarla se cambia de rol en toda la plataforma -->
+    <button
+      type="button"
+      class="presionar flex h-10 items-center gap-1.5 rounded-full px-3 text-[13px] font-bold {{
+        cuenta().insigniaClases
+      }}"
+      [attr.aria-label]="'Rol activo: ' + estado.rol() + '. Cambiar de rol'"
+      (click)="ventanaRol.abrir(null)"
+    >
+      {{ estado.rol() }}
+      <span class="rotate-90"><app-icono nombre="flecha" [tam]="14" /></span>
     </button>
 
     <a
@@ -121,6 +134,18 @@
 
       <button
         type="button"
+        class="presionar flex h-10 flex-none items-center gap-1 rounded-full px-2.5 text-xs font-bold {{
+          cuenta().insigniaClases
+        }}"
+        [attr.aria-label]="'Rol activo: ' + estado.rol() + '. Cambiar de rol'"
+        (click)="ventanaRol.abrir(null)"
+      >
+        {{ estado.rol() }}
+        <span class="rotate-90"><app-icono nombre="flecha" [tam]="12" /></span>
+      </button>
+
+      <button
+        type="button"
         class="presionar relative flex h-10 w-10 flex-none items-center justify-center rounded-full text-ink hover:bg-sunken"
         [attr.aria-label]="
           sinLeer() ? 'Notificaciones: ' + sinLeer() + ' sin leer' : 'Notificaciones'
@@ -131,7 +156,7 @@
         @if (sinLeer()) {
           <span
             animate.leave="animate-menu-fuera"
-            class="absolute top-0.5 right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-danger px-1 text-[10px] leading-none font-bold text-white"
+            class="absolute top-0.5 right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full border-2 border-white bg-naranja px-1 text-[10px] leading-none font-bold text-ink"
             aria-hidden="true"
             >{{ sinLeer() }}</span
           >
@@ -178,6 +203,45 @@
     }
   </nav>
 </div>
+
+<!-- ===================== Ventana: elegir el rol activo ===================== -->
+<app-ventana
+  [abierta]="ventanaRol.abierta()"
+  kicker="VER LINKEDU COMO"
+  titulo="¿Con qué rol quieres verlo?"
+  [ancho]="480"
+  (cerrar)="ventanaRol.cerrar()"
+>
+  <div class="flex flex-col gap-2 px-6 py-5" role="group" aria-label="Rol activo">
+    @for (r of roles; track r) {
+      <button
+        type="button"
+        class="presionar flex items-center gap-3 rounded-xl border-[1.5px] p-3 text-left"
+        [class]="
+          estado.rol() === r
+            ? 'border-marino bg-marino text-white'
+            : 'border-line bg-sunken text-ink hover:border-line-strong'
+        "
+        [attr.aria-pressed]="estado.rol() === r"
+        (click)="elegirRol(r)"
+      >
+        <img
+          class="h-12 w-12 flex-none rounded-xl border border-line bg-white"
+          [class]="cuentas[r].encaja"
+          [src]="cuentas[r].foto"
+          alt=""
+        />
+        <span class="min-w-0 flex-1 text-sm leading-5"
+          ><strong class="text-base">{{ r }}</strong
+          ><br />{{ cuentas[r].nombre }}</span
+        >
+        @if (estado.rol() === r) {
+          <span class="flex-none"><app-icono nombre="check" /></span>
+        }
+      </button>
+    }
+  </div>
+</app-ventana>
 
 <!-- ===================== Hoja: notificaciones ===================== -->
 <app-ventana

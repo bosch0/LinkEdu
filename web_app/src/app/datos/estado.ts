@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import type { Rol } from './empleo';
 
 /**
  * Estado compartido entre pantallas (en memoria, hasta que haya backend).
@@ -25,6 +26,9 @@ export class Estado {
   solicitudCiencia = signal(false);
   // Inscripción en la oferta de la Academia Pitágoras
   inscritaPitagoras = signal(false);
+  // Tipo de cuenta activo (Profesor, Alumno o Empresa). Se ve en toda la plataforma:
+  // en la barra de arriba, en Inicio y en Empleo.
+  rol = signal<Rol>('Profesor');
 
   /** Cambia un true/false de un Record guardado en una señal. */
   alternar(

@@ -1,8 +1,8 @@
 <main
-  class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
+  class="flex flex-1 animate-pagina flex-wrap items-start gap-6 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
 >
   <!-- ===================== Columna izquierda ===================== -->
-  <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 max-lg:contents">
+  <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-5 max-lg:contents">
     <section
       class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-3 py-4 max-lg:hidden"
     >
@@ -155,38 +155,34 @@
           </button>
         </div>
       }
-    </section>
-
-    <section
-      class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-3 py-4 [animation-delay:240ms] max-lg:order-6"
-    >
-      <h2 class="mx-2 font-display text-[17px] leading-6 font-semibold">
-        Empieza con una plantilla
-      </h2>
-      <p class="mx-2 mb-1 text-[13px] leading-4.5 text-ink-muted">
-        Proyectos que ya han funcionado en otros centros.
-      </p>
-      @for (t of plantillas; track t.titulo) {
-        <button
-          type="button"
-          class="group flex items-center gap-3 rounded-lg p-2 text-left text-ink transition-colors duration-150 hover:bg-paper active:scale-[0.98]"
-          (click)="abrirCrear(t)"
-        >
-          <span
-            class="flex h-10 w-10 flex-none items-center justify-center rounded-[10px] transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 {{
-              t.clases
-            }}"
-            ><app-icono [nombre]="t.icono"
-          /></span>
-          <span class="min-w-0 flex-1 text-sm leading-5"
-            ><strong>{{ t.titulo }}</strong
-            ><br /><span class="text-ink-muted">{{ t.meta }}</span></span
+      <!-- Las plantillas van en la misma tarjeta que las reuniones: menos cajas sueltas -->
+      <div class="mt-3 flex flex-col gap-1 border-t border-line pt-4">
+        <h2 class="font-display text-[17px] leading-6 font-semibold">Empieza con una plantilla</h2>
+        <p class="mb-1 text-[13px] leading-4.5 text-ink-muted">
+          Proyectos que ya han funcionado en otros centros.
+        </p>
+        @for (t of plantillas; track t.titulo) {
+          <button
+            type="button"
+            class="group flex items-center gap-3 rounded-lg p-2 text-left text-ink transition-colors duration-150 hover:bg-paper active:scale-[0.98]"
+            (click)="abrirCrear(t)"
           >
-          <span class="transition-transform duration-200 group-hover:rotate-90"
-            ><app-icono nombre="mas" [tam]="18"
-          /></span>
-        </button>
-      }
+            <span
+              class="flex h-10 w-10 flex-none items-center justify-center rounded-[10px] transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 {{
+                t.clases
+              }}"
+              ><app-icono [nombre]="t.icono"
+            /></span>
+            <span class="min-w-0 flex-1 text-sm leading-5"
+              ><strong>{{ t.titulo }}</strong
+              ><br /><span class="text-ink-muted">{{ t.meta }}</span></span
+            >
+            <span class="transition-transform duration-200 group-hover:rotate-90"
+              ><app-icono nombre="mas" [tam]="18"
+            /></span>
+          </button>
+        }
+      </div>
     </section>
   </aside>
 
@@ -226,7 +222,7 @@
   <!-- Al cambiar de proyecto se vuelve a crear todo y se repite la animación -->
   @for (clave of [actual().id]; track clave) {
     <section
-      class="flex min-w-0 flex-[999_1_480px] animate-pagina flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
+      class="flex min-w-0 flex-[999_1_480px] animate-pagina flex-col gap-5 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
     >
       <article class="flex flex-col gap-3 rounded-xl border border-line bg-white px-6 py-4.5">
         <div class="flex flex-wrap items-center gap-2">
@@ -305,6 +301,14 @@
             }
           </div>
           <span class="flex-1 text-sm leading-5 text-ink-muted">{{ textoParticipantes() }}</span>
+          <!-- Abre la ventana para invitar a gente (antes era un bloque fijo en la columna derecha) -->
+          <button
+            type="button"
+            class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-line-strong bg-white px-4.5 font-bold text-ink hover:border-ink"
+            (click)="ventanaInvitar.abrir(null)"
+          >
+            <app-icono nombre="conectar" />+ Invitar
+          </button>
           <button
             type="button"
             class="presionar flex h-11 items-center gap-2 rounded-lg border-[1.5px] border-line-strong bg-white px-4.5 font-bold text-ink hover:border-ink"
@@ -585,7 +589,7 @@
   }
 
   <!-- ===================== Columna derecha ===================== -->
-  <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 max-lg:contents">
+  <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-5 max-lg:contents">
     <section
       class="flex animate-subir flex-col gap-2.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms] max-lg:order-2"
     >
@@ -728,40 +732,6 @@
     </section>
 
     <section
-      class="flex animate-subir flex-col gap-1.5 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:200ms] max-lg:order-4"
-    >
-      <h2 class="font-display text-[17px] leading-6 font-semibold">
-        Invita a «{{ actual().corto }}»
-      </h2>
-      <p class="mb-1 text-[13px] leading-4.5 text-ink-muted">{{ ayudaInvitar() }}</p>
-      @for (c of sugeridos(); track c.id) {
-        <div
-          animate.enter="animate-subir"
-          animate.leave="animate-menu-fuera"
-          class="flex items-center gap-2.5 border-t border-sunken py-1.5"
-        >
-          <img
-            class="h-10 w-10 flex-none rounded-[10px] object-cover"
-            [src]="c.persona.foto"
-            alt=""
-          />
-          <span class="min-w-0 flex-1 text-sm leading-5"
-            ><strong>{{ c.persona.nombre }}</strong
-            ><br /><span class="text-ink-muted">{{ c.persona.cargo }}</span></span
-          >
-          <button
-            type="button"
-            class="presionar h-10 rounded-full border border-marino bg-white px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
-            [attr.aria-label]="'Invitar a ' + c.persona.nombre"
-            (click)="invitar(c.id)"
-          >
-            Invitar
-          </button>
-        </div>
-      }
-    </section>
-
-    <section
       class="flex animate-subir flex-col gap-1 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:280ms] max-lg:order-7"
     >
       <h2 class="mb-1 font-display text-[17px] leading-6 font-semibold">
@@ -783,6 +753,53 @@
     </section>
   </aside>
 </main>
+
+<!-- ===================== Ventana: invitar al proyecto ===================== -->
+<app-ventana
+  [abierta]="ventanaInvitar.abierta()"
+  kicker="INVITAR"
+  [titulo]="'Invita a «' + actual().corto + '»'"
+  [ancho]="560"
+  (cerrar)="ventanaInvitar.cerrar()"
+>
+  <div class="flex flex-col gap-1.5 px-6 py-5">
+    <p class="mb-1 text-sm leading-5 text-ink-muted">{{ ayudaInvitar() }}</p>
+    @for (c of sugeridos(); track c.id) {
+      <div
+        animate.enter="animate-subir"
+        animate.leave="animate-menu-fuera"
+        class="flex items-center gap-2.5 border-t border-sunken py-1.5"
+      >
+        <img
+          class="h-10 w-10 flex-none rounded-[10px] object-cover"
+          [src]="c.persona.foto"
+          alt=""
+        />
+        <span class="min-w-0 flex-1 text-sm leading-5"
+          ><strong>{{ c.persona.nombre }}</strong
+          ><br /><span class="text-ink-muted">{{ c.persona.cargo }}</span></span
+        >
+        <button
+          type="button"
+          class="presionar h-10 rounded-full border border-marino bg-white px-3 text-[13px] font-bold text-marino hover:bg-marino hover:text-white"
+          [attr.aria-label]="'Invitar a ' + c.persona.nombre"
+          (click)="invitar(c.id)"
+        >
+          Invitar
+        </button>
+      </div>
+    }
+    <div class="pie-hoja mt-2 flex justify-end border-t border-sunken pt-4">
+      <button
+        type="button"
+        class="presionar h-11 rounded-lg bg-marino px-5 font-bold text-white hover:bg-marino-hover"
+        (click)="ventanaInvitar.cerrar()"
+      >
+        Listo
+      </button>
+    </div>
+  </div>
+</app-ventana>
 
 <!-- ===================== Ventana: crear proyecto ===================== -->
 <app-ventana

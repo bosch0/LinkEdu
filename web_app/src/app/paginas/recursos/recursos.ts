@@ -126,6 +126,8 @@ export class Recursos {
   protected ventanaCompra = new EstadoVentana<string>();
   protected ventanaEdicion = new EstadoVentana<string>();
   protected ventanaPremium = new EstadoVentana<null>();
+  // Ventana con el formulario para subir un recurso (antes estaba fijo en la columna derecha)
+  protected ventanaSubir = new EstadoVentana<null>();
   protected confirmarCancelar = signal(false);
   protected disparo = signal(0);
   protected edTitulo = signal('');
@@ -309,7 +311,7 @@ export class Recursos {
         ]
       : [
           { etiqueta: 'Tú recibes', valor: '85 % de cada venta' },
-          { etiqueta: 'Comisión de LinkEdu', valor: '15 %' },
+          { etiqueta: 'Comisión de Linkedu', valor: '15 %' },
           { etiqueta: 'Insignia', valor: 'PRO en perfil y recursos' },
           { etiqueta: 'Estadísticas', valor: 'Descargas por semana' },
         ],
@@ -344,7 +346,7 @@ export class Recursos {
     this.subPortadaPropia()
       ? 'Tu imagen'
       : this.subEstilo()
-        ? 'Portada de LinkEdu'
+        ? 'Portada de Linkedu'
         : 'Vista previa automática',
   );
   protected estilosVista = computed(() =>
@@ -384,10 +386,6 @@ export class Recursos {
     if (r.mio) return 'Tu recurso';
     if (ya) return this.pestana() === 'descargados' ? 'Descargado ' + ya : 'Descargado';
     return r.coste ? 'Comprar · ' + euros(r.coste) : 'Descargar';
-  }
-
-  protected semanal(r: Item) {
-    return '+' + Math.max(3, Math.round(r.descargas / 37)) + ' ESTA SEMANA';
   }
 
   // ===== Acciones =====
@@ -605,6 +603,7 @@ export class Recursos {
     this.subPrecio.set('4,90');
     this.subPortadaPropia.set('');
     this.subEstilo.set('');
+    this.ventanaSubir.cerrar();
     this.avisos.mostrar(`«${nuevo.titulo}» publicado`, 'subir', 'bg-naranja text-ink');
   }
 
