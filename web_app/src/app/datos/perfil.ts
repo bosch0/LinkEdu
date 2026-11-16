@@ -143,7 +143,7 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
     nombre: 'Lucía Fernández Ortega',
     insignia: 'Profesora',
     iconoInsignia: 'formacion',
-    clasesInsignia: 'bg-turquesa text-ink',
+    clasesInsignia: 'border border-verde bg-verde-soft text-ink',
     titular: 'Profesora de Matemáticas en ESO y Bachillerato · Coordina proyectos entre centros',
     lugar: 'Madrid',
     org: 'IES Ramiro de Maeztu',
@@ -339,7 +339,7 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
     ],
     proyectos: [
       {
-        titulo: 'LinkEdu: red social educativa',
+        titulo: 'Linkedu: red social educativa',
         color: 'bg-naranja',
         estado: 'Activo',
         colorEstado: 'bg-turquesa',
@@ -376,7 +376,7 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
     tituloPrivados: '1 proyecto privado',
     publicaciones: [
       {
-        cuando: 'Hace 1 día · LinkEdu: red social educativa',
+        cuando: 'Hace 1 día · Linkedu: red social educativa',
         texto:
           'Ya tenemos el primer prototipo navegable de nuestra app para el concurso. Comparto la plantilla de Figma que usamos para los wireframes, por si os sirve.',
         adjuntoTipo: 'FIG',
@@ -411,15 +411,15 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
       habilidad(
         'Angular',
         ['daniel', 'sofia', 'carla', 'noa'],
-        'En LinkEdu y App de reservas del comedor',
+        'En Linkedu y App de reservas del comedor',
       ),
       habilidad(
         'Diseño de interfaces',
         ['sofia', 'carla', 'daniel'],
-        'En LinkEdu: red social educativa',
+        'En Linkedu: red social educativa',
       ),
-      habilidad('Figma', ['sofia', 'carla'], 'En LinkEdu: red social educativa'),
-      habilidad('Git', ['daniel', 'noa'], 'En LinkEdu y App de reservas del comedor'),
+      habilidad('Figma', ['sofia', 'carla'], 'En Linkedu: red social educativa'),
+      habilidad('Git', ['daniel', 'noa'], 'En Linkedu y App de reservas del comedor'),
       habilidad('Accesibilidad web', ['carla'], 'En un proyecto privado'),
     ],
   },
@@ -430,7 +430,7 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
     nombre: 'Academia Pitágoras',
     insignia: 'Empresa',
     iconoInsignia: 'empleo',
-    clasesInsignia: 'bg-naranja text-ink',
+    clasesInsignia: 'border border-naranja-oscuro bg-naranja-soft text-ink',
     titular: 'Academia de refuerzo escolar y preparación de Selectividad',
     lugar: 'Madrid · Chamberí y en línea',
     org: 'Academia · 11 a 50 personas',
@@ -545,7 +545,7 @@ export const PERFILES: Record<TipoPerfil, Perfil> = {
         comentarios: 2,
       },
     ],
-    tituloLateral: 'Su equipo en LinkEdu',
+    tituloLateral: 'Su equipo en Linkedu',
     cuentaLateral: '18 docentes',
     notaLateral:
       'Habilidades más validadas entre las personas que trabajan aquí, por compañeros de sus proyectos.',
@@ -696,7 +696,7 @@ export const EXTRAS: Record<
       titulo: 'Actividad reciente',
       cuenta: 'ESTA SEMANA',
       items: [
-        act('sofia', 'val', 'Sofía Navarro le ha validado', 'Figma', 'en LinkEdu', '5 h'),
+        act('sofia', 'val', 'Sofía Navarro le ha validado', 'Figma', 'en Linkedu', '5 h'),
         act(
           'pitagoras',
           'view',
@@ -717,7 +717,7 @@ export const EXTRAS: Record<
           'carla',
           'join',
           'Carla Méndez se ha unido a',
-          'LinkEdu: red social educativa',
+          'Linkedu: red social educativa',
           '',
           '4 d',
         ),

@@ -554,7 +554,7 @@ export const CUENTAS: Record<
     foto: FOTOS.lucia,
     encaja: 'object-cover',
     insignia: 'Cuenta de profesora',
-    insigniaClases: 'bg-turquesa text-ink',
+    insigniaClases: 'border border-verde bg-verde-soft text-ink',
     puedePublicar: true,
     fondoRegla: 'bg-azul-soft',
     regla:
@@ -566,7 +566,7 @@ export const CUENTAS: Record<
     foto: FOTOS.alex,
     encaja: 'object-cover',
     insignia: 'Cuenta de alumno',
-    insigniaClases: 'bg-azul-soft text-azul',
+    insigniaClases: 'border border-azul bg-azul-soft text-ink',
     puedePublicar: false,
     fondoRegla: 'bg-paper',
     regla:
@@ -578,7 +578,7 @@ export const CUENTAS: Record<
     foto: FOTOS.pitagoras,
     encaja: 'object-contain',
     insignia: 'Cuenta de empresa',
-    insigniaClases: 'bg-naranja text-ink',
+    insigniaClases: 'border border-naranja-oscuro bg-naranja-soft text-ink',
     puedePublicar: true,
     fondoRegla: 'bg-azul-soft',
     regla:

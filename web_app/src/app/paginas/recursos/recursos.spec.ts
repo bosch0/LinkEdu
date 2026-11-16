@@ -49,12 +49,21 @@ describe('Recursos', () => {
     expect(html.querySelector('[role=dialog]')!.textContent).toContain('Confirmar compra');
   });
 
+  it('el botón "+ Subir recurso" abre la ventana con el formulario', async () => {
+    expect(html.querySelector('form')).toBeNull();
+    boton('Subir recurso').click();
+    await fixture.whenStable();
+    expect(html.querySelector('[role=dialog] form')).toBeTruthy();
+  });
+
   it('sin Premium, el botón "De pago" del formulario avisa de que hace falta', async () => {
+    boton('Subir recurso').click();
+    await fixture.whenStable();
     const dePago = [...html.querySelectorAll('form button')].find((b) =>
       b.textContent!.includes('De pago'),
     ) as HTMLButtonElement;
     dePago.click();
     await fixture.whenStable();
-    expect(html.textContent).toContain('Necesitas LinkEdu Premium');
+    expect(html.textContent).toContain('Necesitas Linkedu Premium');
   });
 });

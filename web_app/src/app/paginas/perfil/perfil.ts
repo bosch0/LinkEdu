@@ -32,7 +32,7 @@ export class Perfil {
   protected tipos: TipoPerfil[] = ['Profesora', 'Alumno', 'Empresa'];
   protected fotoLucia = FOTOS.lucia;
   protected fotoAlex = FOTOS.alex;
-  protected visibilidades = ['Todo LinkEdu', 'Solo mis contactos'];
+  protected visibilidades = ['Todo Linkedu', 'Solo mis contactos'];
   protected personasCompartir = PERSONAS_COMPARTIR.map((p) => ({
     ...p,
     nombre: NOMBRES[p.id],
@@ -73,7 +73,7 @@ export class Perfil {
   protected vChat = new EstadoVentana<null>();
   protected edTitular = signal('');
   protected edAcerca = signal('');
-  protected edVis = signal('Todo LinkEdu');
+  protected edVis = signal('Todo Linkedu');
 
   // Resumen de Estadísticas (últimos 7 días). Solo sale en tu propio perfil de profesora.
   private semana = ESTADISTICAS['7 días'];

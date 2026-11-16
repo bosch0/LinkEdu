@@ -1,8 +1,8 @@
 <main
-  class="flex flex-1 animate-pagina flex-wrap items-start gap-5 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
+  class="flex flex-1 animate-pagina flex-wrap items-start gap-6 px-8 py-5 max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:gap-2 max-lg:px-0 max-lg:py-2"
 >
   <!-- ===================== Columna izquierda ===================== -->
-  <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-4 max-lg:contents">
+  <aside class="columna-movil flex max-w-[290px] flex-[1_1_260px] flex-col gap-5 max-lg:contents">
     <section
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white p-4 max-lg:order-9"
     >
@@ -19,8 +19,8 @@
               class="presionar h-10 flex-1 rounded-full"
               [class]="
                 rol() === r
-                  ? 'bg-white text-marino shadow-[0_2px_6px_rgba(7,49,87,0.15)]'
-                  : 'bg-transparent text-ink-muted hover:text-ink'
+                  ? 'bg-marino font-bold text-white shadow-[0_2px_6px_rgba(7,49,87,0.25)]'
+                  : 'bg-transparent text-ink hover:bg-line'
               "
               [attr.aria-pressed]="rol() === r"
               (click)="elegirRol(r)"
@@ -156,7 +156,7 @@
 
   <!-- ===================== Columna central ===================== -->
   <section
-    class="flex min-w-0 flex-[999_1_480px] flex-col gap-4 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
+    class="flex min-w-0 flex-[999_1_480px] flex-col gap-5 columna-movil max-lg:max-w-none max-lg:flex-none max-lg:gap-2 max-lg:order-1"
   >
     <div
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-6 pt-4.5 [animation-delay:60ms]"
@@ -582,7 +582,7 @@
   </section>
 
   <!-- ===================== Columna derecha ===================== -->
-  <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-4 max-lg:contents">
+  <aside class="columna-movil flex max-w-[340px] flex-[1_1_300px] flex-col gap-5 max-lg:contents">
     <section
       class="flex animate-subir flex-col gap-3 rounded-xl border border-line bg-white px-5 py-4 [animation-delay:120ms] max-lg:order-3"
     >
@@ -822,7 +822,7 @@
               d of [
                 [
                   'perfil',
-                  'Perfil de LinkEdu',
+                  'Perfil de Linkedu',
                   'Con tus habilidades validadas, proyectos y recursos.',
                 ],
                 ['cv', 'Perfil y CV en PDF', nombreCV() + ' · actualizado en octubre'],
@@ -875,7 +875,7 @@
           >
             <dt class="text-ink-muted">Te presentas con</dt>
             <dd class="font-bold">
-              {{ apDoc() === 'cv' ? 'Perfil de LinkEdu + ' + nombreCV() : 'Perfil de LinkEdu' }}
+              {{ apDoc() === 'cv' ? 'Perfil de Linkedu + ' + nombreCV() : 'Perfil de Linkedu' }}
             </dd>
             <dt class="text-ink-muted">Habilidades</dt>
             <dd class="font-bold">

@@ -3,7 +3,7 @@ import { Cara, EXTRAS, Habilidad, PERFILES, Perfil, ProyectoPerfil, RecursoPerfi
 import { PERSONAS, PROYECTOS } from './proyectos';
 import { CATALOGO } from './recursos';
 
-// Directorio de personas de LinkEdu: sirve para abrir el perfil de cualquiera
+// Directorio de personas de Linkedu: sirve para abrir el perfil de cualquiera
 // al pulsar su foto (en cualquier pantalla) o al buscarla en la cabecera.
 
 export interface FichaPersona {
@@ -669,7 +669,9 @@ export function perfilDe(
     nombre: p.nombre,
     insignia,
     iconoInsignia: p.alumno ? 'perfil' : 'formacion',
-    clasesInsignia: p.alumno ? 'bg-amarillo text-ink' : 'bg-turquesa text-ink',
+    clasesInsignia: p.alumno
+      ? 'border border-naranja-oscuro bg-amarillo-soft text-ink'
+      : 'border border-verde bg-verde-soft text-ink',
     titular: p.alumno
       ? `${insignia} de ${p.materia} · ${p.centro}`
       : `${docente} de ${p.materia} en ${p.etapa} · ${p.centro}`,

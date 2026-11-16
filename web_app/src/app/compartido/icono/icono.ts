@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-// Dibujos (SVG) de los iconos de LinkEdu. Salen de design/assets/iconos/.
+// Dibujos (SVG) de los iconos de Linkedu. Salen de design/assets/iconos/.
 const ICONOS: Record<string, string> = {
   inicio: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
   buscar: '<circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/>',
@@ -42,7 +42,7 @@ const ICONOS: Record<string, string> = {
 };
 
 /**
- * Icono de LinkEdu.
+ * Icono de Linkedu.
  * Uso: <app-icono nombre="inicio" /> o <app-icono nombre="inicio" [tam]="16" />
  * Toma el color del texto (currentColor), así que se colorea con clases text-*.
  */

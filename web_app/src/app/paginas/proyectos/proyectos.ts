@@ -147,6 +147,8 @@ export class Proyectos {
   protected ventanaCrear = new EstadoVentana<null>();
   protected ventanaTablero = new EstadoVentana<null>();
   protected ventanaChat = new EstadoVentana<null>();
+  // Ventana para invitar a gente al proyecto
+  protected ventanaInvitar = new EstadoVentana<null>();
   protected ventanaValidar = new EstadoVentana<{ pid: string; quien: string; habilidad: string }>();
 
   // Formulario de proyecto nuevo

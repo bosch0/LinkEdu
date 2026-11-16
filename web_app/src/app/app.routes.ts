@@ -10,44 +10,44 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        title: 'LinkEdu · Inicio',
+        title: 'Linkedu · Inicio',
         loadComponent: () => import('./paginas/inicio/inicio').then((m) => m.Inicio),
       },
       {
         path: 'red',
-        title: 'LinkEdu · Mi red',
+        title: 'Linkedu · Mi red',
         loadComponent: () => import('./paginas/red/red').then((m) => m.Red),
       },
       {
         path: 'proyectos',
-        title: 'LinkEdu · Proyectos',
+        title: 'Linkedu · Proyectos',
         loadComponent: () => import('./paginas/proyectos/proyectos').then((m) => m.Proyectos),
       },
       {
         path: 'recursos',
-        title: 'LinkEdu · Recursos',
+        title: 'Linkedu · Recursos',
         loadComponent: () => import('./paginas/recursos/recursos').then((m) => m.Recursos),
       },
       {
         path: 'empleo',
-        title: 'LinkEdu · Empleo',
+        title: 'Linkedu · Empleo',
         loadComponent: () => import('./paginas/empleo/empleo').then((m) => m.Empleo),
       },
       {
         path: 'perfil',
-        title: 'LinkEdu · Perfil',
+        title: 'Linkedu · Perfil',
         loadComponent: () => import('./paginas/perfil/perfil').then((m) => m.Perfil),
       },
       {
         // Perfil de otra persona: /perfil/elena, /perfil/alex... (el id llega como input "id")
         path: 'perfil/:id',
-        title: 'LinkEdu · Perfil',
+        title: 'Linkedu · Perfil',
         loadComponent: () => import('./paginas/perfil/perfil').then((m) => m.Perfil),
       },
       {
         // Estadísticas de tu perfil (solo las ves tú)
         path: 'estadisticas',
-        title: 'LinkEdu · Estadísticas',
+        title: 'Linkedu · Estadísticas',
         loadComponent: () =>
           import('./paginas/estadisticas/estadisticas').then((m) => m.Estadisticas),
       },
