@@ -158,14 +158,15 @@
   </aside>
 
   <!-- ===================== Secciones (solo en el teléfono) ===================== -->
+  <!-- Las 4 secciones en una cuadrícula de 2 columnas: se ven todas sin hacer scroll -->
   <nav
-    class="sin-barra flex gap-2 overflow-x-auto border-line bg-white px-4 py-3 max-md:-mt-2 max-md:border-b md:rounded-xl md:border lg:hidden"
+    class="grid grid-cols-2 gap-2 border-line bg-white px-4 py-3 max-md:-mt-2 max-md:border-b md:rounded-xl md:border lg:hidden"
     aria-label="Secciones de recursos"
   >
     @for (t of pestanas(); track t.id) {
       <button
         type="button"
-        class="presionar flex h-10 flex-none items-center gap-2 rounded-full border-[1.5px] pr-2 pl-3.5 text-sm font-bold"
+        class="presionar flex h-11 min-w-0 items-center gap-2 rounded-full border-[1.5px] pr-2 pl-3 text-sm font-bold"
         [class]="
           pestana() === t.id && !coleccionActual()
             ? 'border-marino bg-marino text-white'
@@ -174,9 +175,10 @@
         [attr.aria-pressed]="pestana() === t.id && !coleccionActual()"
         (click)="elegirPestana(t.id)"
       >
-        <app-icono [nombre]="t.icono" [tam]="18" />{{ t.texto }}
+        <app-icono class="flex-none" [nombre]="t.icono" [tam]="18" />
+        <span class="min-w-0 flex-1 truncate text-left">{{ t.texto }}</span>
         <span
-          class="min-w-6 rounded-full px-1.5 text-center font-mono text-xs leading-5.5"
+          class="min-w-6 flex-none rounded-full px-1.5 text-center font-mono text-xs leading-5.5"
           [class]="pestana() === t.id && !coleccionActual() ? 'bg-marino-claro' : 'bg-sunken'"
           >{{ t.n }}</span
         >
@@ -236,8 +238,9 @@
       </div>
       @if (mostrarFiltros()) {
         <div animate.enter="animate-subir" class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <!-- Los filtros se reparten en varias líneas en vez de hacer scroll horizontal -->
           <div
-            class="sin-barra flex flex-wrap gap-1.5 text-sm font-bold max-lg:-mx-4 max-lg:w-[calc(100%+32px)] max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:px-4"
+            class="flex flex-wrap gap-1.5 text-sm font-bold"
             role="group"
             aria-label="Tipo de recurso"
           >

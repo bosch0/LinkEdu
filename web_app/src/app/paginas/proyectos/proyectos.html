@@ -187,35 +187,57 @@
   </aside>
 
   <!-- ===================== Selector de proyecto (solo en el teléfono) ===================== -->
+  <!-- Un botón muestra el proyecto actual y despliega la lista completa (sin scroll horizontal) -->
   <nav
-    class="sin-barra flex gap-2 overflow-x-auto border-line bg-white px-4 py-3 max-md:-mt-2 max-md:border-b md:rounded-xl md:border lg:hidden"
+    class="flex flex-col gap-2 border-line bg-white px-4 py-3 max-md:-mt-2 max-md:border-b md:rounded-xl md:border lg:hidden"
     aria-label="Tus proyectos"
   >
-    @for (id of orden(); track id) {
-      @let p = proyectos()[id];
-      <button
-        type="button"
-        class="presionar flex h-10 flex-none items-center gap-2 rounded-full border-[1.5px] pr-4 pl-3 text-sm font-bold"
-        [class]="
-          p.id === actual().id
-            ? 'border-marino bg-marino text-white'
-            : 'border-line-strong bg-white text-ink'
-        "
-        [attr.aria-pressed]="p.id === actual().id"
-        (click)="elegirProyecto(p.id)"
-      >
-        <span class="h-3 w-3 flex-none rounded-full {{ p.color }}" aria-hidden="true"></span>
-        {{ p.titulo }}
-      </button>
-    }
     <button
       type="button"
-      class="presionar flex h-10 w-10 flex-none items-center justify-center rounded-full border-[1.5px] border-dashed border-line-strong text-marino"
-      aria-label="Crear proyecto"
-      (click)="abrirCrear()"
+      class="presionar flex min-h-12 w-full items-center gap-3 rounded-xl border-[1.5px] border-marino bg-marino-soft px-3 py-1.5 text-left leading-5 font-bold text-ink"
+      [attr.aria-expanded]="selectorAbierto()"
+      (click)="selectorAbierto.set(!selectorAbierto())"
     >
-      <app-icono nombre="mas" />
+      <span class="h-3 w-3 flex-none rounded-full {{ actual().color }}" aria-hidden="true"></span>
+      <span class="min-w-0 flex-1">{{ actual().titulo }}</span>
+      <!-- La flecha gira al abrir y al cerrar la lista -->
+      <span
+        class="flex-none text-marino transition-transform duration-200"
+        [class]="selectorAbierto() ? '-rotate-90' : 'rotate-90'"
+        ><app-icono nombre="flecha" [tam]="18"
+      /></span>
     </button>
+    @if (selectorAbierto()) {
+      <div
+        animate.enter="animate-menu"
+        animate.leave="animate-menu-fuera"
+        class="flex flex-col gap-1"
+      >
+        @for (id of orden(); track id) {
+          @let p = proyectos()[id];
+          <button
+            type="button"
+            class="presionar flex min-h-12 items-center gap-3 rounded-xl px-3 text-left text-sm font-bold"
+            [class]="p.id === actual().id ? 'bg-marino text-white' : 'bg-transparent text-ink'"
+            [attr.aria-pressed]="p.id === actual().id"
+            (click)="elegirProyecto(p.id)"
+          >
+            <span class="h-3 w-3 flex-none rounded-full {{ p.color }}" aria-hidden="true"></span>
+            <span class="min-w-0 flex-1">{{ p.titulo }}</span>
+            @if (p.id === actual().id) {
+              <app-icono nombre="check" [tam]="18" />
+            }
+          </button>
+        }
+        <button
+          type="button"
+          class="presionar flex min-h-12 items-center gap-3 rounded-xl border-[1.5px] border-dashed border-line-strong px-3 text-left text-sm font-bold text-marino"
+          (click)="selectorAbierto.set(false); abrirCrear()"
+        >
+          <app-icono nombre="mas" [tam]="18" />Crear proyecto
+        </button>
+      </div>
+    }
   </nav>
 
   <!-- ===================== Columna central ===================== -->

@@ -133,6 +133,8 @@ export class Proyectos {
   );
   protected filtro = signal<Filtro>('todos');
   protected seleccion = signal('mercado');
+  // Lista de proyectos desplegada en el teléfono
+  protected selectorAbierto = signal(false);
   protected pestana = signal<'recibidas' | 'enviadas'>('recibidas');
   protected estadoTarea = signal<Record<string, number>>({});
   protected tareasExtra = signal<Record<string, TareaProyecto[]>>({});
@@ -603,6 +605,8 @@ export class Proyectos {
   // ===== Acciones =====
   protected elegirProyecto(id: string) {
     this.seleccion.set(id);
+    // Al elegir uno, la lista del teléfono se vuelve a cerrar
+    this.selectorAbierto.set(false);
   }
 
   protected abrirCrear(plantilla?: (typeof PLANTILLAS)[number]) {
