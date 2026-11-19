@@ -1,0 +1,74 @@
+/* ============================================================
+   Estilos comunes de los tres PDF de LinkEdu.
+   Colores y tipografías: los del sistema de diseño (tokens.json).
+   ============================================================ */
+@import url("tipografias/tipografias.css");
+
+:root {
+  /* Colores del logo */
+  --logo-marino: #102344;
+  --logo-azul: #016bfc;
+  --logo-naranja: #fe5c01;
+  /* Colores de la interfaz (tokens) */
+  --marino: #073157;
+  --marino-hover: #0b4876;
+  --azul: #0a6a99;
+  --turquesa: #21bcaa;
+  --naranja: #fb8d2b;
+  --amarillo: #fcb527;
+  --paper: #ebf0f5;
+  --soft: #f6f8fb;
+  --line: #d3dce6;
+  --ink: #0c1d2e;
+  --ink-muted: #4a5b6c;
+  --marino-soft: #dfe8f2;
+  --azul-soft: #e3f1f9;
+  --cielo: #a3cdef;
+  --turquesa-soft: #dff5f1;
+  --naranja-soft: #fff0e3;
+  --amarillo-soft: #fff7e0;
+  --danger: #b3261e;
+  --warning: #8a4b00;
+
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --sans: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: var(--sans); color: var(--ink); font-size: 14px; line-height: 21px; background: #fff; }
+img, svg { display: block; }
+
+/* La franja: los cinco colores del logo en proporción 4:2:2:1:1 */
+.franja { display: flex; height: 6px; width: 100%; }
+.franja span:nth-child(1) { flex: 4; background: var(--marino); }
+.franja span:nth-child(2) { flex: 2; background: var(--azul); }
+.franja span:nth-child(3) { flex: 2; background: var(--turquesa); }
+.franja span:nth-child(4) { flex: 1; background: var(--amarillo); }
+.franja span:nth-child(5) { flex: 1; background: var(--naranja); }
+
+/* El subrayado: franja amarilla en el 40 % inferior del texto */
+.subrayado { background: linear-gradient(transparent 60%, var(--amarillo) 60%); padding: 0 2px; }
+
+.kicker { font-family: var(--mono); font-weight: 500; font-size: 12px; line-height: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+h1, h2, h3, h4 { font-family: var(--display); color: var(--marino); }
+strong { font-weight: 700; }
+
+/* Etiquetas, botones y tarjetas (réplica de los componentes de la app) */
+.tag { display: inline-block; border-radius: 999px; padding: 3px 12px; font-size: 13px; font-weight: 700; line-height: 18px; }
+.tag.marino { background: var(--marino-soft); color: var(--marino); }
+.tag.azul { background: var(--azul-soft); color: var(--azul); }
+.tag.turquesa { background: var(--turquesa-soft); color: #0b5a50; }
+.tag.naranja { background: var(--naranja-soft); color: #7a3d00; }
+.btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; padding: 0 18px; height: 40px; font-weight: 700; font-size: 14px; border: 2px solid transparent; }
+.btn.primary { background: var(--marino); color: #fff; }
+.btn.secondary { background: #fff; color: var(--marino); border-color: var(--marino); }
+.btn.tonal { background: var(--marino-soft); color: var(--marino); }
+.btn.highlight { background: var(--naranja); color: var(--ink); }
+.btn.inverse { background: #fff; color: var(--marino); }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.panel { background: var(--marino); color: #fff; border-radius: 12px; }
+
+/* Hojas A4 (las de cada documento fijan su propio tamaño) */
+@page { margin: 0; }
