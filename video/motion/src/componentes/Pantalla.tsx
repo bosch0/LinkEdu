@@ -2,12 +2,10 @@
 import React from "react";
 import { Freeze, Img, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { APP_H, APP_W, MARCO } from "../marca";
-import { CLIPS, FPS, type NombreClip } from "../tiempos";
+import { ADELANTO, CLIPS, FPS, type NombreClip } from "../tiempos";
 
 // Cuántos fotogramas antes de que llegue la cámara se monta el vídeo (así ya está cargado)
 const ANTES = 100;
-// El vídeo empieza a moverse 10 fotogramas antes de que la cámara se pare
-const ADELANTO = 10;
 
 // Reproduce un vídeo de la app y, cuando termina, se queda en el último fotograma.
 export function VideoApp({

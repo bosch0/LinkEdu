@@ -70,78 +70,52 @@ async function ir(p, loc, ms = 700) {
   await mover(p, c.x + c.width / 2, c.y + c.height / 2, ms);
 }
 
-// Lleva el cursor y hace clic.
+// Lleva el cursor y hace clic. Apunta el momento del clic (en segundos del reloj)
+// para poder poner después el sonido del clic justo en ese instante.
 async function clic(p, loc, ms = 700) {
   await ir(p, loc, ms);
   await pausa(p, 150);
+  p.__clics.push([Date.now() / 1000, p.__pos.x, p.__pos.y]); // momento y posición del cursor
   await loc.first().click();
 }
 
 const boton = (p, nombre, op = {}) => p.getByRole("button", { name: nombre, ...op });
 
 // ----------------------------------------------------------------- escenas
+// Solo las tres vistas con más personalidad propia (el vídeo dura 30 s).
+// Cada grabación debe durar unos 7,5 s (lo que dura su escena en el vídeo).
 const ESCENAS = {
-  // Inicio: escribir y publicar
-  inicio: [ESCRITORIO, "", async (p) => {
-    const campo = p.getByPlaceholder(/Comparte un recurso/);
-    await pausa(p, 700);
-    await clic(p, campo);
-    await campo.pressSequentially("Nueva unidad de probabilidad: ¡adáptala!", { delay: 45 });
-    await pausa(p, 400);
-    await clic(p, boton(p, "Publicar"));
-    await pausa(p, 2200);
-  }],
-
-  // Mi red: el mapa y un país
+  // Mi red: el mapa internacional (zoom a un país, vuelta al mapa global y otro país)
   red: [ESCRITORIO, "red", async (p) => {
-    await pausa(p, 1200);
-    await clic(p, p.getByText("México", { exact: true }), 900);
-    await pausa(p, 2200);
+    await pausa(p, 1200); // se dibujan las líneas entre países
+    await clic(p, boton(p, /^Argentina, .*contactos/), 900);
+    await pausa(p, 1500);
+    await clic(p, boton(p, "Global", { exact: true }), 800);
+    await pausa(p, 1000);
+    await clic(p, boton(p, /^Reino Unido, .*contactos/), 800);
+    await pausa(p, 1700);
   }],
 
-  // Proyectos: crear un proyecto con equipo
+  // Proyectos: abrir el tablero del proyecto y pasar dos tareas de columna
   proyectos: [ESCRITORIO, "proyectos", async (p) => {
     await pausa(p, 900);
-    await clic(p, boton(p, "Crear proyecto").first());
+    await clic(p, boton(p, "Abrir tablero"), 800);
+    await pausa(p, 1200);
+    await clic(p, boton(p, /Pasar «Rúbrica de evaluación final»/), 800);
     await pausa(p, 900);
-    const nombre = p.getByPlaceholder(/Huerto matemático/);
-    await clic(p, nombre, 500);
-    await nombre.pressSequentially("Huerto matemático 2027", { delay: 45 });
-    await pausa(p, 300);
-    await clic(p, p.locator("form").getByRole("button", { name: /^Invitar a/ }), 600);
-    await pausa(p, 300);
-    await clic(p, p.locator("form").getByRole("button", { name: "Crear proyecto" }), 600);
+    await clic(p, boton(p, /Pasar «Hoja de cálculo común con los datos»/), 700);
     await pausa(p, 2300);
   }],
 
-  // Recursos: abrir la vista previa de un recurso
+  // Recursos: filtrar por tipo y abrir la vista previa de un recurso
   recursos: [ESCRITORIO, "recursos", async (p) => {
+    await pausa(p, 900);
+    await clic(p, p.getByRole("group", { name: "Tipo de recurso" }).getByRole("button", { name: "PDF" }), 800);
     await pausa(p, 1000);
     await clic(p, boton(p, /Ver vista previa de .*40 problemas/), 900);
+    await pausa(p, 1500);
+    await clic(p, boton(p, "En favoritos"), 800); // la ventana del recurso: lo guarda en favoritos
     await pausa(p, 2300);
-  }],
-
-  // Empleo: inscribirse en dos pasos
-  empleo: [ESCRITORIO, "empleo", async (p) => {
-    await pausa(p, 900);
-    await clic(p, boton(p, "Inscribirme"));
-    await pausa(p, 1000);
-    await clic(p, boton(p, "Revisar"), 600);
-    await pausa(p, 900);
-    await clic(p, p.getByText(/Acepto que/), 600);
-    await pausa(p, 400);
-    await clic(p, boton(p, "Enviar candidatura"), 600);
-    await pausa(p, 2400);
-  }],
-
-  // Móvil: recorrer la barra de pestañas de abajo
-  movil: [MOVIL, "", async (p) => {
-    const pestana = (n) => p.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: n });
-    await pausa(p, 1100);
-    for (const n of ["Mi red", "Proyectos", "Recursos", "Empleo"]) {
-      await pestana(n).tap();
-      await pausa(p, 1250);
-    }
   }],
 };
 
@@ -157,6 +131,7 @@ async function grabar(nombre) {
   });
   await ctx.addInitScript(INIT);
   const p = await ctx.newPage();
+  p.__clics = []; // momentos en los que se hace clic
   await p.goto(`${URL_APP}/${ruta}`);
   await pausa(p, 1800); // deja terminar las animaciones de entrada
   if (!movil) await p.mouse.move(900, 500);
@@ -205,7 +180,12 @@ async function grabar(nombre) {
     { shell: true, stdio: "inherit" },
   );
   rmSync(TMP, { recursive: true, force: true });
-  console.log("✓", nombre, `(${archivos.length} fotogramas)`);
+  // Cada clic: [segundo de la grabación, x, y] (el vídeo empieza en el primer fotograma copiado).
+  // x e y son la posición del cursor en la ventana (1280 × 720): la cámara del vídeo se acerca ahí.
+  const clics = p.__clics.map(([t, x, y]) => [Math.round((t - marcas[0]) * 100) / 100, Math.round(x), Math.round(y)]);
+  const duracion = Math.round((marcas[marcas.length - 1] - marcas[0] + 0.5) * 100) / 100;
+  console.log("✓", nombre, `(${archivos.length} fotogramas, dura unos ${duracion} s)`);
+  console.log(`   CLICS.${nombre} =`, JSON.stringify(clics), "→ apúntalo en src/tiempos.ts");
 }
 
 // ----------------------------------------------------------------- perfiles (fotos fijas)

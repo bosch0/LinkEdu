@@ -13,6 +13,8 @@ export function Titulo({
   num,
   palabra,
   frase,
+  frase2,
+  cambio,
   color,
   d,
   fin,
@@ -20,6 +22,8 @@ export function Titulo({
   num: string;
   palabra: string;
   frase: string;
+  frase2: string; // segunda frase: sustituye a la primera cuando la voz empieza la segunda oración
+  cambio: number; // fotograma en el que cambia de frase
   color: string;
   d: number; // cuándo empieza la escena
   fin: number; // cuándo termina la pausa
@@ -68,7 +72,19 @@ export function Titulo({
       </div>
       <div>
         <div style={{ fontSize: 58, lineHeight: 1.05, fontWeight: 800, color: C.blanco, letterSpacing: 1 }}>{palabra}</div>
-        <div style={{ marginTop: 6, fontSize: 30, lineHeight: 1.2, fontWeight: 600, color: C.texto }}>{frase}</div>
+        {/* la frase cambia (con un pequeño rebote) cuando la voz pasa a la segunda oración */}
+        <div
+          style={{
+            marginTop: 6,
+            fontSize: 30,
+            lineHeight: 1.2,
+            fontWeight: 600,
+            color: f >= cambio ? C.blanco : C.texto,
+            transform: f >= cambio ? `translateY(${(1 - entrada(f, cambio, fps)) * 18}px)` : undefined,
+          }}
+        >
+          {f >= cambio ? frase2 : frase}
+        </div>
       </div>
     </div>
   );
@@ -79,11 +95,12 @@ export function TextoIntro({ fin }: { fin: number }) {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const palabras = [
-    { t: "DOCENTES", c: C.turquesaClaro, r: 6 },
-    { t: "ALUMNOS", c: C.amarillo, r: 26 },
-    { t: "EMPRESAS", c: C.naranja, r: 46 },
+    // cada palabra sale justo cuando la voz la dice
+    { t: "DOCENTES", c: C.turquesaClaro, r: 16 },
+    { t: "ALUMNOS", c: C.amarillo, r: 36 },
+    { t: "EMPRESAS", c: C.naranja, r: 54 },
   ];
-  const pregunta = entrada(f, 78, fps);
+  const pregunta = entrada(f, 84, fps); // aparece cuando la voz dice "...por fin conectados"
   const salida = interpolate(f, [fin - 10, fin], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <div style={{ position: "absolute", inset: 0, fontFamily: FUENTE, opacity: salida }}>
@@ -163,9 +180,10 @@ export function TextoCierre({ d, fin }: { d: number; fin: number }) {
   const op = interpolate(f, [d, d + 8, fin - 4, fin], [0, 1, 1, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   if (f < d) return null;
   const lema = [
-    { t: "CONECTA.", c: C.turquesa, r: 14 },
-    { t: "APRENDE.", c: C.amarillo, r: 32 },
-    { t: "CRECE.", c: C.naranja, r: 50 },
+    // r = fotograma (desde que empieza el cierre) en el que la voz dice cada palabra
+    { t: "CONECTA.", c: C.turquesa, r: 36 },
+    { t: "APRENDE.", c: C.amarillo, r: 57 },
+    { t: "CRECE.", c: C.naranja, r: 80 },
   ];
   const logo = entrada(f, d, fps);
   return (
