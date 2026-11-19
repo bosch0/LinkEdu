@@ -585,7 +585,8 @@ code { font-family: var(--mono); font-size: 12px; background: var(--paper); padd
 .indice .kicker { color: var(--azul); width: 22px; }
 
 .col > .card[style*='flex:1'], .col > .panel[style*='flex:1'] { display: flex; flex-direction: column; justify-content: center; }
-.col > .card.fila[style*='flex:1'] { flex-direction: row; }
+/* Las tarjetas en fila (número o icono + texto) se alinean a la izquierda, no centradas */
+.col > .card.fila[style*='flex:1'] { flex-direction: row; justify-content: flex-start; }
 .resumen > div { display: flex; flex-direction: column; justify-content: center; }
 .resumen p { font-size: 14px !important; line-height: 20px !important; }
 .e-m { overflow: visible !important; text-overflow: clip !important; }
