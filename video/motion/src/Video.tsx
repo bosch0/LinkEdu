@@ -6,9 +6,9 @@ import { C, PERSPECTIVA } from "./marca";
 import { EST, OBJETOS, camaraEn } from "./mundo";
 import { T } from "./tiempos";
 import { FotoApp, Pantalla, VideoApp } from "./componentes/Pantalla";
-import { Telefono } from "./componentes/Telefono";
-import { ObjetoSuelto } from "./componentes/Objetos";
+import { ObjetoSuelto, ResplandorEsfera } from "./componentes/Objetos";
 import { LogoVuelo, TextoCierre, TextoIntro, Titulo } from "./componentes/Textos";
+import { Sonido, VOZ_SEGUNDA } from "./componentes/Sonido";
 
 // Luces de color enormes al fondo del mundo (dan color al cristal)
 const LUCES = Array.from({ length: 11 }, (_, i) => ({
@@ -17,9 +17,9 @@ const LUCES = Array.from({ length: 11 }, (_, i) => ({
   color: [C.turquesa, C.azul, C.naranja, C.rosa][i % 4],
 }));
 
-// Una capa del mundo 3D. Hay tres (fondo, pantallas y objetos de delante) con la MISMA cámara.
-// Van separadas a propósito: si las pantallas y los objetos comparten el mismo espacio 3D,
-// el navegador los "parte" para ordenarlos y salen cortes y parpadeos.
+// Una capa del mundo 3D. Hay varias (fondo, resplandores, objetos, pantallas...) con la MISMA cámara.
+// Van separadas a propósito: si dos cosas comparten el mismo espacio 3D, el navegador las "parte"
+// para ordenarlas y salen cortes y parpadeos (por eso los resplandores van en capas aparte).
 const Capa: React.FC<{ transformacion: string; children: React.ReactNode }> = ({ transformacion, children }) => (
   <div style={{ position: "absolute", inset: 0, perspective: PERSPECTIVA }}>
     <div
@@ -47,7 +47,20 @@ export const Video: React.FC = () => {
 
   // Acercar la cámara = mover el mundo hacia delante (eje z)
   const acercar = PERSPECTIVA * (1 - 1 / cam.k);
-  const transformacion = `translateZ(${acercar}px) rotateY(${-cam.yaw}deg) translate3d(${-cam.x}px, ${-cam.y}px, ${-cam.z}px)`;
+  // roll = inclinación de la cámara (solo durante los vuelos, para dar sensación de velocidad)
+  const transformacion = `translateZ(${acercar}px) rotateZ(${cam.roll}deg) rotateY(${-cam.yaw}deg) translate3d(${-cam.x}px, ${-cam.y}px, ${-cam.z}px)`;
+
+  // Destello blanco suave a mitad de cada vuelo (los cortes rápidos se notan más)
+  const vuelos = [
+    [T.intro.fin, T.red.d],
+    [T.red.fin, T.proyectos.d],
+    [T.proyectos.fin, T.recursos.d],
+    [T.recursos.fin, T.cierre.d],
+  ];
+  const destello = Math.max(
+    0,
+    ...vuelos.map(([a, b]) => (f >= a && f <= b ? Math.sin((Math.PI * (f - a)) / (b - a)) * 0.2 : 0)),
+  );
 
   return (
     <AbsoluteFill style={{ background: `radial-gradient(ellipse at 50% 42%, #0f4a7c 0%, ${C.marino} 42%, ${C.fondo} 100%)` }}>
@@ -69,6 +82,17 @@ export const Video: React.FC = () => {
               }}
             />
           ))}
+        </Capa>
+
+        {/* CAPA 1b: resplandor y sombra de las esferas que quedan detrás (van aparte para que no se corten) */}
+        <Capa transformacion={transformacion}>
+          {OBJETOS.filter((o) => !o.delante).map((o, i) => (
+            <ResplandorEsfera key={i} o={o} />
+          ))}
+        </Capa>
+
+        {/* CAPA 1c: objetos que quedan detrás de las pantallas */}
+        <Capa transformacion={transformacion}>
           {OBJETOS.filter((o) => !o.delante).map((o, i) => (
             <ObjetoSuelto key={i} o={o} />
           ))}
@@ -87,14 +111,12 @@ export const Video: React.FC = () => {
             <FotoApp archivo="perfil-empresa.jpg" />
           </Pantalla>
 
-          {/* pantallas de ordenador con la app grabada */}
+          {/* las tres vistas con más personalidad, con la app grabada dentro */}
           {(
             [
-              ["inicio", C.turquesa],
               ["red", C.amarillo],
               ["proyectos", C.naranja],
               ["recursos", C.rosa],
-              ["empleo", C.azul],
             ] as const
           ).map(([id, color]) => {
             const e = EST[id];
@@ -104,14 +126,16 @@ export const Video: React.FC = () => {
               </Pantalla>
             );
           })}
-
-          {/* teléfonos con la versión móvil: cada uno va por una pestaña distinta */}
-          <Telefono x={EST.movil.x} y={0} z={EST.movil.z} ry={0} d={T.movil.d} clip="movil" brilloColor={`${C.turquesa}99`} />
-          <Telefono x={EST.movil.x - 560} y={50} z={EST.movil.z - 140} ry={16} d={T.movil.d} clip="movil" empezarEn={2.6} brilloColor={`${C.amarillo}99`} />
-          <Telefono x={EST.movil.x + 560} y={50} z={EST.movil.z - 140} ry={-16} d={T.movil.d} clip="movil" empezarEn={4.4} brilloColor={`${C.naranja}99`} />
         </Capa>
 
-        {/* CAPA 3: objetos que pasan por delante de las pantallas */}
+        {/* CAPA 3a: resplandor y sombra de las esferas de delante */}
+        <Capa transformacion={transformacion}>
+          {OBJETOS.filter((o) => o.delante).map((o, i) => (
+            <ResplandorEsfera key={i} o={o} />
+          ))}
+        </Capa>
+
+        {/* CAPA 3b: objetos que pasan por delante de las pantallas */}
         <Capa transformacion={transformacion}>
           {OBJETOS.filter((o) => o.delante).map((o, i) => (
             <ObjetoSuelto key={i} o={o} />
@@ -124,14 +148,18 @@ export const Video: React.FC = () => {
 
       {/* textos */}
       <TextoIntro fin={T.intro.fin} />
-      <LogoVuelo d={T.intro.fin - 8} fin={T.inicio.d - 2} />
-      <Titulo num="01" palabra="COMPARTE" frase="Publica ideas y recursos con tu claustro" color={C.turquesa} d={T.inicio.d} fin={T.inicio.fin} />
-      <Titulo num="02" palabra="CONECTA" frase="Docentes de tu materia, en cualquier país" color={C.amarillo} d={T.red.d} fin={T.red.fin} />
-      <Titulo num="03" palabra="COLABORA" frase="Proyectos con tablero y chat de equipo" color={C.naranja} d={T.proyectos.d} fin={T.proyectos.fin} />
-      <Titulo num="04" palabra="DESCUBRE" frase="Recursos listos para usar en clase" color={C.rosa} d={T.recursos.d} fin={T.recursos.fin} />
-      <Titulo num="05" palabra="TU EMPLEO" frase="Inscríbete en solo dos pasos" color={C.azul} d={T.empleo.d} fin={T.empleo.fin} />
-      <Titulo num="06" palabra="EN TU MÓVIL" frase="Toda la app, siempre contigo" color={C.turquesa} d={T.movil.d} fin={T.movil.fin} />
+      <LogoVuelo d={T.intro.fin - 4} fin={T.red.d + 2} />
+      {/* cada título cambia de frase justo cuando la voz empieza la segunda oración (ver VOZ_SEGUNDA en Sonido.tsx) */}
+      <Titulo num="01" palabra="CONECTA" frase="Tu red en un mapa internacional" frase2="Docentes de otros países" cambio={T.red.d + 2 + VOZ_SEGUNDA.red} color={C.amarillo} d={T.red.d} fin={T.red.fin} />
+      <Titulo num="02" palabra="COLABORA" frase="Proyectos colaborativos entre centros" frase2="Tablero, chat y habilidades validadas" cambio={T.proyectos.d + 2 + VOZ_SEGUNDA.proyectos} color={C.naranja} d={T.proyectos.d} fin={T.proyectos.fin} />
+      <Titulo num="03" palabra="DESCUBRE" frase="Recursos didácticos" frase2="Fichas, presentaciones y vídeos" cambio={T.recursos.d + 2 + VOZ_SEGUNDA.recursos} color={C.rosa} d={T.recursos.d} fin={T.recursos.fin} />
       <TextoCierre d={T.cierre.d - 12} fin={T.cierre.fin} />
+
+      {/* destello blanco en los vuelos */}
+      <AbsoluteFill style={{ background: "#fff", opacity: destello, pointerEvents: "none" }} />
+
+      {/* voz en off, música y efectos de sonido */}
+      <Sonido />
 
       {/* fundido desde negro: el primer fotograma es negro del todo */}
       <AbsoluteFill

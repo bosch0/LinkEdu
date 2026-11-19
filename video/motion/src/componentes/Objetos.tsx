@@ -31,7 +31,7 @@ function Cubo({ o }: { o: Objeto }) {
   const s = o.tam;
   const Icono = ICONOS[o.icono % ICONOS.length];
   const icono = <Icono size={s * 0.5} color="#ffffff" strokeWidth={2.2} />;
-  const giroY = f * 0.8 + o.semilla * 57;
+  const giroY = f * 1.3 + o.semilla * 57;
   const giroX = -22 + Math.sin(f / 45 + o.semilla) * 16;
   const medio = s / 2;
   return (
@@ -56,6 +56,10 @@ function Cubo({ o }: { o: Objeto }) {
   );
 }
 
+// Dónde está la esfera en este fotograma (flota arriba y abajo). Lo usan la esfera y su resplandor.
+const posicionEsfera = (o: Objeto, f: number) =>
+  `translate3d(${o.x}px, ${o.y + Math.sin(f / 34 + o.semilla) * 26}px, ${o.z}px)`;
+
 function Esfera({ o }: { o: Objeto }) {
   const f = useCurrentFrame();
   const p = PALETA[o.color];
@@ -70,10 +74,58 @@ function Esfera({ o }: { o: Objeto }) {
         height: s,
         borderRadius: "50%",
         background: `radial-gradient(circle at 32% 28%, ${p[6]} 0%, ${p[0]} 22%, ${p[1]} 58%, ${p[5]} 100%)`,
-        boxShadow: `0 ${s * 0.25}px ${s * 0.3}px -${s * 0.1}px rgba(0,0,0,0.5), 0 0 ${s * 0.5}px ${p[1]}55`,
-        transform: `translate3d(${o.x}px, ${o.y + Math.sin(f / 34 + o.semilla) * 26}px, ${o.z}px)`,
+        transform: posicionEsfera(o, f),
       }}
     />
+  );
+}
+
+// Resplandor y sombra de la esfera.
+// OJO: se dibujan APARTE de la esfera, en su propia capa (ver Video.tsx), por dos motivos:
+//  1) Antes eran un box-shadow y el navegador los recortaba en forma de cuadrado.
+//  2) Si van en la misma capa 3D que los demás objetos, el navegador "parte" el resplandor
+//     por donde lo cruzan los planos de otro objeto (un anillo, un cubo...) y salen cortes rectos.
+// Son círculos con degradado dentro de cajas más grandes que la esfera, y el degradado llega a
+// transparente antes del borde de la caja, así que tampoco se pueden recortar por el borde.
+export function ResplandorEsfera({ o }: { o: Objeto }) {
+  const f = useCurrentFrame();
+  if (o.tipo !== "esfera") return null;
+  const p = PALETA[o.color];
+  const s = o.tam * 0.8;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: -s / 2,
+        top: -s / 2,
+        width: s,
+        height: s,
+        transform: posicionEsfera(o, f),
+      }}
+    >
+      {/* resplandor de color alrededor de la esfera */}
+      <div
+        style={{
+          position: "absolute",
+          left: -s * 0.7,
+          top: -s * 0.7,
+          width: s * 2.4,
+          height: s * 2.4,
+          background: `radial-gradient(circle closest-side, ${p[1]}66 0%, ${p[1]}33 45%, ${p[1]}00 100%)`,
+        }}
+      />
+      {/* sombra: óvalo oscuro difuminado debajo */}
+      <div
+        style={{
+          position: "absolute",
+          left: -s * 0.1,
+          top: s * 0.55,
+          width: s * 1.2,
+          height: s * 0.9,
+          background: "radial-gradient(ellipse closest-side, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 100%)",
+        }}
+      />
+    </div>
   );
 }
 
@@ -93,7 +145,7 @@ function Anillo({ o }: { o: Objeto }) {
         background: `conic-gradient(${p[1]}, ${p[6]}, ${p[2]}, ${p[0]}, ${p[1]})`,
         WebkitMask: "radial-gradient(circle, transparent 36%, #000 38%)",
         mask: "radial-gradient(circle, transparent 36%, #000 38%)",
-        transform: `translate3d(${o.x}px, ${o.y + Math.sin(f / 40 + o.semilla) * 20}px, ${o.z}px) rotateX(${58 + Math.sin(f / 50 + o.semilla) * 14}deg) rotateY(${f * 1.2 + o.semilla * 40}deg)`,
+        transform: `translate3d(${o.x}px, ${o.y + Math.sin(f / 40 + o.semilla) * 20}px, ${o.z}px) rotateX(${58 + Math.sin(f / 50 + o.semilla) * 14}deg) rotateY(${f * 1.9 + o.semilla * 40}deg)`,
       }}
     />
   );
