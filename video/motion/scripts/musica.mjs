@@ -11,7 +11,11 @@ const SR = 44100; // muestras por segundo
 const BPM = 120;
 const BEAT = 60 / BPM; // 0,5 s
 const COMPAS = BEAT * 4; // 2 s
-const DURACION = 36; // segundos
+// El golpe final cae en el compás COMPAS_FINAL (segundo COMPAS_FINAL × 2), que en el vídeo coincide
+// con la entrada del logo de cierre. Si cambia la duración del vídeo, se cambia aquí y en
+// GOLPE_MUSICA (src/componentes/Sonido.tsx).
+const COMPAS_FINAL = 19; // segundo 38
+const DURACION = COMPAS_FINAL * COMPAS + 6; // segundos (el colchón final se apaga en 6 s)
 const N = Math.floor(DURACION * SR);
 mkdirSync("public/audio", { recursive: true });
 
@@ -39,9 +43,8 @@ const ACORDES = [
 const PATRON_ARPEGIO = [0, 2, 1, 3, 0, 2, 1, 3, 0, 2, 1, 3, 0, 2, 1, 3];
 
 // Qué suena en cada compás (0 = empieza): [bombo y bajo, hi-hats y palmas, arpegio, pad]
-// El compás 15 (segundo 30) es el golpe final: en el vídeo coincide con la entrada del logo de cierre.
+// El compás COMPAS_FINAL es el golpe final: en el vídeo coincide con la entrada del logo de cierre.
 // Después solo queda el colchón de acordes, que se va apagando.
-const COMPAS_FINAL = 15;
 function capas(compas) {
   if (compas >= COMPAS_FINAL) return { ritmo: false, hats: false, arpegio: compas === COMPAS_FINAL, pad: true }; // final
   if (compas < 2) return { ritmo: false, hats: false, arpegio: true, pad: true }; // entrada suave

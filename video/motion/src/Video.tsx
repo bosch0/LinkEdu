@@ -2,12 +2,12 @@
 // y una cámara que vuela de una pantalla a la siguiente.
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { C, PERSPECTIVA } from "./marca";
+import { C, MOVIL_H, MOVIL_W, PERSPECTIVA } from "./marca";
 import { EST, OBJETOS, camaraEn } from "./mundo";
 import { T } from "./tiempos";
 import { FotoApp, Pantalla, VideoApp } from "./componentes/Pantalla";
 import { ObjetoSuelto, ResplandorEsfera } from "./componentes/Objetos";
-import { LogoVuelo, TextoCierre, TextoIntro, Titulo } from "./componentes/Textos";
+import { LogoVuelo, NumeroEsquina, TextoCierre, TextoIntro, Titulo } from "./componentes/Textos";
 import { Sonido, VOZ_SEGUNDA } from "./componentes/Sonido";
 
 // Luces de color enormes al fondo del mundo (dan color al cristal)
@@ -55,7 +55,8 @@ export const Video: React.FC = () => {
     [T.intro.fin, T.red.d],
     [T.red.fin, T.proyectos.d],
     [T.proyectos.fin, T.recursos.d],
-    [T.recursos.fin, T.cierre.d],
+    [T.recursos.fin, T.movil.d],
+    [T.movil.fin, T.cierre.d],
   ];
   const destello = Math.max(
     0,
@@ -98,7 +99,21 @@ export const Video: React.FC = () => {
           ))}
         </Capa>
 
-        {/* CAPA 2: las pantallas de cristal con la app real */}
+        {/* CAPA 2a: resplandor y sombra de las esferas más cercanas */}
+        <Capa transformacion={transformacion}>
+          {OBJETOS.filter((o) => o.delante).map((o, i) => (
+            <ResplandorEsfera key={i} o={o} />
+          ))}
+        </Capa>
+
+        {/* CAPA 2b: objetos más cercanos (siempre por detrás de las pantallas) */}
+        <Capa transformacion={transformacion}>
+          {OBJETOS.filter((o) => o.delante).map((o, i) => (
+            <ObjetoSuelto key={i} o={o} />
+          ))}
+        </Capa>
+        {/* ÚLTIMA CAPA: las pantallas de cristal con la app real.
+            Van las últimas a propósito: así NINGÚN objeto 3D se dibuja nunca encima de una pantalla */}
         <Capa transformacion={transformacion}>
           {/* introducción: tres perfiles de la app */}
           <Pantalla x={-1000} y={-30} z={-150} ry={20} escala={0.52} brilloColor={`${C.turquesa}99`}>
@@ -126,21 +141,13 @@ export const Video: React.FC = () => {
               </Pantalla>
             );
           })}
+
+          {/* la versión móvil: un teléfono de cristal con la app grabada en el móvil */}
+          <Pantalla x={EST.movil.x} y={EST.movil.y} z={EST.movil.z} ry={EST.movil.ry} brilloColor={`${C.turquesa}aa`} ancho={MOVIL_W} alto={MOVIL_H} movil>
+            <VideoApp clip="movil" d={T.movil.d} ancho={MOVIL_W} alto={MOVIL_H} />
+          </Pantalla>
         </Capa>
 
-        {/* CAPA 3a: resplandor y sombra de las esferas de delante */}
-        <Capa transformacion={transformacion}>
-          {OBJETOS.filter((o) => o.delante).map((o, i) => (
-            <ResplandorEsfera key={i} o={o} />
-          ))}
-        </Capa>
-
-        {/* CAPA 3b: objetos que pasan por delante de las pantallas */}
-        <Capa transformacion={transformacion}>
-          {OBJETOS.filter((o) => o.delante).map((o, i) => (
-            <ObjetoSuelto key={i} o={o} />
-          ))}
-        </Capa>
       </div>
 
       {/* viñeta oscura en los bordes */}
@@ -153,7 +160,11 @@ export const Video: React.FC = () => {
       <Titulo num="01" palabra="CONECTA" frase="Tu red en un mapa internacional" frase2="Docentes de otros países" cambio={T.red.d + 2 + VOZ_SEGUNDA.red} color={C.amarillo} d={T.red.d} fin={T.red.fin} />
       <Titulo num="02" palabra="COLABORA" frase="Proyectos colaborativos entre centros" frase2="Tablero, chat y habilidades validadas" cambio={T.proyectos.d + 2 + VOZ_SEGUNDA.proyectos} color={C.naranja} d={T.proyectos.d} fin={T.proyectos.fin} />
       <Titulo num="03" palabra="DESCUBRE" frase="Recursos didácticos" frase2="Fichas, presentaciones y vídeos" cambio={T.recursos.d + 2 + VOZ_SEGUNDA.recursos} color={C.rosa} d={T.recursos.d} fin={T.recursos.fin} />
+      <Titulo num="04" palabra="EN TU MÓVIL" frase="Llévalo siempre contigo" frase2="Estés donde estés" cambio={T.movil.d + 2 + VOZ_SEGUNDA.movil} color={C.turquesa} d={T.movil.d} fin={T.movil.fin} lugar="izquierda" />
       <TextoCierre d={T.cierre.d - 12} fin={T.cierre.fin} />
+
+      {/* número pequeño y discreto en la esquina inferior derecha */}
+      <NumeroEsquina num="6" />
 
       {/* destello blanco en los vuelos */}
       <AbsoluteFill style={{ background: "#fff", opacity: destello, pointerEvents: "none" }} />

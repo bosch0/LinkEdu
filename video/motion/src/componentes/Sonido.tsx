@@ -31,22 +31,26 @@ export const VOCES = [
   { archivo: "voz-red.mp3", desde: T.red.d + 2, dur: aFot(VOZ.red) },
   { archivo: "voz-proyectos.mp3", desde: T.proyectos.d + 2, dur: aFot(VOZ.proyectos) },
   { archivo: "voz-recursos.mp3", desde: T.recursos.d + 2, dur: aFot(VOZ.recursos) },
+  { archivo: "voz-movil.mp3", desde: T.movil.d + 2, dur: aFot(VOZ.movil) },
   { archivo: "voz-cierre.mp3", desde: T.cierre.d - 4, dur: aFot(VOZ.cierre) },
 ];
 
 // Fotogramas (desde que empieza el tramo de voz) en los que empieza la segunda oración de cada escena.
 // Sale de mirar dónde está el silencio entre las dos oraciones (silencedetect de ffmpeg).
-export const VOZ_SEGUNDA = { red: 71, proyectos: 76, recursos: 74 };
+export const VOZ_SEGUNDA = { red: 71, proyectos: 76, recursos: 74, movil: 60 };
 
 // Qué efecto suena en cada clic del cursor (además del clic normal)
 const EFECTO_DE_CLIC: Record<keyof typeof CLICS, ("ping" | "panel" | "ficha" | "destello" | null)[]> = {
   red: ["ping", null, "ping"], // país Argentina, botón Global, país Reino Unido
   proyectos: ["panel", "ficha", "ficha"], // abrir tablero, mover dos tareas
   recursos: [null, "panel", "destello"], // filtro, abrir vista previa, guardar en favoritos
+  movil: [null, null, null], // toques en las pestañas de abajo (solo el clic)
 };
 
-// La música tiene su golpe final en el segundo 30 de la pista: lo hacemos coincidir con la entrada del logo final
-const INICIO_MUSICA = T.cierre.d - 12 - 30 * FPS;
+// La música tiene su golpe final en el segundo GOLPE_MUSICA de la pista (COMPAS_FINAL × 2 en scripts/musica.mjs):
+// lo hacemos coincidir con la entrada del logo final
+const GOLPE_MUSICA = 38;
+const INICIO_MUSICA = T.cierre.d - 12 - GOLPE_MUSICA * FPS;
 
 // Volumen de la música en un fotograma del vídeo: sube al empezar, baja mientras habla la voz y se apaga al final
 function volumenMusica(f: number) {
@@ -64,9 +68,10 @@ export const Sonido: React.FC = () => {
     [T.intro.fin, T.red.d],
     [T.red.fin, T.proyectos.d],
     [T.proyectos.fin, T.recursos.d],
-    [T.recursos.fin, T.cierre.d],
+    [T.recursos.fin, T.movil.d],
+    [T.movil.fin, T.cierre.d],
   ];
-  const escenas = ["red", "proyectos", "recursos"] as const;
+  const escenas = ["red", "proyectos", "recursos", "movil"] as const;
   const palabrasIntro = [16, 36, 54, 84]; // mismos fotogramas que en TextoIntro
   const lema = [T.cierre.d - 12 + 36, T.cierre.d - 12 + 57, T.cierre.d - 12 + 80]; // mismos que en TextoCierre
 

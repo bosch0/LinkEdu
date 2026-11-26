@@ -14,15 +14,23 @@ const SALIDA = "public/grabaciones";
 const TMP = "tmp-grabacion";
 mkdirSync(SALIDA, { recursive: true });
 
-// Tamaño de la ventana de la app (px de CSS). Se graba al doble de resolución.
-const ESCRITORIO = { ancho: 1280, alto: 720, escala: "2560:1440" };
-const MOVIL = { ancho: 390, alto: 844, escala: "780:1688" };
+// Tamaño de la ventana de la app (px de CSS).
+// Escritorio: una pantalla estándar de 1920 × 1080 (así la cabecera y la foto de perfil se ven como en
+// un ordenador normal), grabada a 1,5× para que se vea nítida cuando la cámara se acerca.
+// Móvil: un iPhone normal (390 × 844), grabado a 3×.
+const ESCRITORIO = { ancho: 1920, alto: 1080, densidad: 1.5, escala: "2880:1620" };
+const MOVIL = { ancho: 390, alto: 844, densidad: 3, escala: "1170:2532" };
 
-// Los botones que cambian entre profesor, alumno y empresa NO deben salir en el vídeo.
+// Los botones que cambian entre profesor, alumno y empresa NO deben salir en el vídeo:
+//  - la insignia "Rol activo" de la cabecera (ordenador y móvil) y su ventana
+//  - los selectores de ejemplo de Perfil y Empleo
+const OCULTAR =
+  '[aria-label^="Rol activo"],[aria-label="Vista de ejemplo por tipo de cuenta"],[aria-label="Perfil de ejemplo"]{display:none!important}';
+
 // Además se dibuja un cursor (flecha) y una onda en cada clic o toque.
 const INIT = `
 (() => {
-  const css = '[aria-label="Vista de ejemplo por tipo de cuenta"],[aria-label="Perfil de ejemplo"]{display:none!important}'
+  const css = '${OCULTAR}'
     + '#cursor-video{position:fixed;left:0;top:0;width:40px;height:40px;z-index:2147483647;pointer-events:none;transform:translate(-200px,-200px);filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}'
     + '.onda-video{position:fixed;z-index:2147483646;pointer-events:none;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:5px solid #21bcaa;animation:onda-video .65s ease-out forwards}'
     + '@keyframes onda-video{to{transform:scale(5);opacity:0}}';
@@ -72,17 +80,39 @@ async function ir(p, loc, ms = 700) {
 
 // Lleva el cursor y hace clic. Apunta el momento del clic (en segundos del reloj)
 // para poder poner después el sonido del clic justo en ese instante.
+// En el móvil no hay cursor: se toca con el dedo (sale la onda en el punto tocado).
 async function clic(p, loc, ms = 700) {
+  if (p.__movil) {
+    await loc.first().scrollIntoViewIfNeeded();
+    const c = await loc.first().boundingBox();
+    p.__pos = { x: c.x + c.width / 2, y: c.y + c.height / 2 };
+    p.__clics.push([Date.now() / 1000, p.__pos.x, p.__pos.y]);
+    await loc.first().tap();
+    return;
+  }
   await ir(p, loc, ms);
   await pausa(p, 150);
   p.__clics.push([Date.now() / 1000, p.__pos.x, p.__pos.y]); // momento y posición del cursor
   await loc.first().click();
 }
 
+// Desliza la página con el dedo (desplazamiento suave), como haría una persona en el móvil.
+async function deslizar(p, px, ms = 900) {
+  await p.evaluate(([px, ms]) => new Promise((ok) => {
+    const y0 = scrollY; const t0 = performance.now();
+    const paso = (t) => {
+      const k = Math.min(1, (t - t0) / ms); const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      scrollTo(0, y0 + px * e); if (k < 1) requestAnimationFrame(paso); else ok();
+    };
+    requestAnimationFrame(paso);
+  }), [px, ms]);
+}
+
 const boton = (p, nombre, op = {}) => p.getByRole("button", { name: nombre, ...op });
+const pestana = (p, nombre) => p.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: nombre });
 
 // ----------------------------------------------------------------- escenas
-// Solo las tres vistas con más personalidad propia (el vídeo dura 30 s).
+// Las tres vistas con más personalidad propia (en el ordenador) y la versión móvil.
 // Cada grabación debe durar unos 7,5 s (lo que dura su escena en el vídeo).
 const ESCENAS = {
   // Mi red: el mapa internacional (zoom a un país, vuelta al mapa global y otro país)
@@ -112,10 +142,26 @@ const ESCENAS = {
     await pausa(p, 900);
     await clic(p, p.getByRole("group", { name: "Tipo de recurso" }).getByRole("button", { name: "PDF" }), 800);
     await pausa(p, 1000);
-    await clic(p, boton(p, /Ver vista previa de .*40 problemas/), 900);
+    // (un recurso que NO está en favoritos, para que se vea cómo se guarda)
+    await clic(p, boton(p, /Ver vista previa de Leer gráficas en la prensa/), 900);
     await pausa(p, 1500);
-    await clic(p, boton(p, "En favoritos"), 800); // la ventana del recurso: lo guarda en favoritos
+    await clic(p, boton(p, "Favorito", { exact: true }), 800); // la ventana del recurso: lo guarda en favoritos
     await pausa(p, 2300);
+  }],
+
+  // Móvil: el inicio en el teléfono, se desliza el muro y se navega con las pestañas de abajo
+  movil: [MOVIL, "", async (p) => {
+    await pausa(p, 900);
+    await deslizar(p, 520, 1100);
+    await pausa(p, 700);
+    await clic(p, pestana(p, /Mi red/));
+    await pausa(p, 1900);
+    await clic(p, pestana(p, /Proyectos/));
+    await pausa(p, 1500);
+    await deslizar(p, 380, 900);
+    await pausa(p, 600);
+    await clic(p, pestana(p, /Recursos/));
+    await pausa(p, 1900);
   }],
 };
 
@@ -125,13 +171,14 @@ async function grabar(nombre) {
   const movil = tam === MOVIL;
   const ctx = await navegador.newContext({
     viewport: { width: tam.ancho, height: tam.alto },
-    deviceScaleFactor: movil ? 3 : 2,
+    deviceScaleFactor: tam.densidad,
     isMobile: movil,
     hasTouch: movil,
   });
   await ctx.addInitScript(INIT);
   const p = await ctx.newPage();
   p.__clics = []; // momentos en los que se hace clic
+  p.__movil = movil;
   await p.goto(`${URL_APP}/${ruta}`);
   await pausa(p, 1800); // deja terminar las animaciones de entrada
   if (!movil) await p.mouse.move(900, 500);
@@ -149,8 +196,8 @@ async function grabar(nombre) {
   await cdp.send("Page.startScreencast", {
     format: "jpeg",
     quality: 92,
-    maxWidth: tam.ancho * (movil ? 3 : 2),
-    maxHeight: tam.alto * (movil ? 3 : 2),
+    maxWidth: Math.round(tam.ancho * tam.densidad),
+    maxHeight: Math.round(tam.alto * tam.densidad),
     everyNthFrame: 1,
   });
   await pausa(p, 300);
@@ -181,7 +228,7 @@ async function grabar(nombre) {
   );
   rmSync(TMP, { recursive: true, force: true });
   // Cada clic: [segundo de la grabación, x, y] (el vídeo empieza en el primer fotograma copiado).
-  // x e y son la posición del cursor en la ventana (1280 × 720): la cámara del vídeo se acerca ahí.
+  // x e y son la posición del cursor en la ventana (1920 × 1080, o 390 × 844 en el móvil): la cámara del vídeo se acerca ahí.
   const clics = p.__clics.map(([t, x, y]) => [Math.round((t - marcas[0]) * 100) / 100, Math.round(x), Math.round(y)]);
   const duracion = Math.round((marcas[marcas.length - 1] - marcas[0] + 0.5) * 100) / 100;
   console.log("✓", nombre, `(${archivos.length} fotogramas, dura unos ${duracion} s)`);
@@ -192,15 +239,12 @@ async function grabar(nombre) {
 async function fotosPerfiles() {
   const ctx = await navegador.newContext({
     viewport: { width: ESCRITORIO.ancho, height: ESCRITORIO.alto },
-    deviceScaleFactor: 2,
+    deviceScaleFactor: ESCRITORIO.densidad,
   });
   const p = await ctx.newPage();
   await p.goto(`${URL_APP}/perfil`);
   await pausa(p, 1800);
-  const ocultar = () =>
-    p.addStyleTag({
-      content: `[aria-label="Vista de ejemplo por tipo de cuenta"],[aria-label="Perfil de ejemplo"]{display:none!important}`,
-    });
+  const ocultar = () => p.addStyleTag({ content: OCULTAR });
   const foto = async (n) => {
     await pausa(p, 1000);
     const e = await ocultar();

@@ -31,5 +31,9 @@ export const APP_W = 1440;
 export const APP_H = 810;
 export const MARCO = 16; // grosor del marco de cristal
 
+// Pantalla del teléfono (escena del móvil): la grabación es de 390 × 844 px, con la misma proporción
+export const MOVIL_W = 370;
+export const MOVIL_H = 801;
+
 // Distancia de la cámara (perspectiva) en px
 export const PERSPECTIVA = 2000;

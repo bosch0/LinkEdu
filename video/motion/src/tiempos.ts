@@ -1,5 +1,5 @@
 // Línea de tiempo del vídeo (30 fotogramas por segundo).
-// El vídeo debe durar entre 30 y 35 segundos (900 a 1050 fotogramas).
+// El vídeo dura unos 43 segundos (puede llegar hasta 1 minuto).
 // Cada escena dura lo que dura su tramo de voz en off, así la imagen siempre acompaña a lo que se dice.
 // Cada escena tiene un "tramo de vuelo" (la cámara viaja de una pantalla a la siguiente, muy rápido)
 // y después un "tramo de pausa" (la cámara se queda mirando la pantalla, pero se mueve y se acerca a cada clic).
@@ -14,40 +14,48 @@ export const VOZ = {
   red: 7.44,
   proyectos: 7.76,
   recursos: 7.39,
+  movil: 8.09, // "Y llévalo SIEMPRE contigo. LinkEdu también está pensado para tu móvil..." (generada aparte)
   cierre: 3.03, // "LinkEdu. Conecta. Aprende. Crece."
 } as const;
 
 // Vídeos de la app grabados con scripts/grabar.mjs:
 //  dur   = lo que dura la grabación en segundos
 //  tasa  = velocidad de reproducción (1 = normal, 2 = el doble de rápido)
+//  ancho, alto = tamaño de la ventana grabada (px de CSS): 1920 × 1080 en el ordenador, 390 × 844 en el móvil
 // Cada grabación tiene que durar como mínimo lo que dura su escena una vez acelerada.
 export const CLIPS = {
-  red: { archivo: "red.mp4", dur: 9.87, tasa: 1.3 },
-  proyectos: { archivo: "proyectos.mp4", dur: 9.33, tasa: 1.2 },
-  recursos: { archivo: "recursos.mp4", dur: 8.57, tasa: 1.15 },
+  red: { archivo: "red.mp4", dur: 9.67, tasa: 1.3, ancho: 1920, alto: 1080 },
+  proyectos: { archivo: "proyectos.mp4", dur: 9.4, tasa: 1.2, ancho: 1920, alto: 1080 },
+  recursos: { archivo: "recursos.mp4", dur: 11.17, tasa: 1.3, ancho: 1920, alto: 1080 },
+  movil: { archivo: "movil.mp4", dur: 10.8, tasa: 1.2, ancho: 390, alto: 844 },
 } as const;
 
 export type NombreClip = keyof typeof CLIPS;
 
 // Clics del cursor en cada grabación: [segundo de la grabación, x, y]
-// (x e y = posición en la ventana grabada, de 1280 × 720). Sirven para dos cosas:
+// (x e y = posición en la ventana grabada, ver ancho y alto en CLIPS). Sirven para dos cosas:
 // poner el sonido del clic justo en ese momento y acercar la cámara a ese punto.
 // `node scripts/grabar.mjs` los escribe al terminar cada grabación.
 export const CLICS: Record<NombreClip, [number, number, number][]> = {
   red: [
-    [2.67, 635, 569], // país Argentina
-    [5.28, 1001, 203], // botón Global
-    [7.47, 780, 338], // país Reino Unido
+    [2.68, 852, 739], // país Argentina
+    [5.28, 1641, 139], // botón Global
+    [7.37, 1100, 343], // país Reino Unido
   ],
   proyectos: [
-    [2.26, 653, 484], // Abrir tablero
-    [4.54, 406, 324], // pasar una tarea de columna
-    [6.41, 768, 345], // pasar otra tarea
+    [2.25, 1458, 336], // Abrir tablero
+    [4.57, 726, 458], // pasar una tarea de columna
+    [6.53, 1088, 525], // pasar otra tarea
   ],
   recursos: [
-    [2.31, 444, 338], // filtro PDF
-    [4.59, 778, 566], // abrir la vista previa
-    [7.22, 745, 541], // En favoritos
+    [2.27, 445, 206], // filtro PDF
+    [4.43, 1416, 673], // abrir la vista previa
+    [7.09, 1065, 721], // guardar en favoritos
+  ],
+  movil: [
+    [3.25, 117, 812], // pestaña Mi red
+    [5.39, 195, 812], // pestaña Proyectos
+    [8.64, 273, 812], // pestaña Recursos
   ],
 };
 
@@ -69,10 +77,11 @@ const intro = escena("intro", 0, aFotogramas(VOZ.pregunta) + 6);
 const red = escena("red", intro.fin + VUELO_LOGO, aFotogramas(VOZ.red) + COLA);
 const proyectos = escena("proyectos", red.fin + VUELO, aFotogramas(VOZ.proyectos) + COLA);
 const recursos = escena("recursos", proyectos.fin + VUELO, aFotogramas(VOZ.recursos) + COLA);
-const cierre = escena("cierre", recursos.fin + VUELO_CIERRE, aFotogramas(VOZ.cierre) + 9);
+const movil = escena("movil", recursos.fin + VUELO, aFotogramas(VOZ.movil) + COLA);
+const cierre = escena("cierre", movil.fin + VUELO_CIERRE, aFotogramas(VOZ.cierre) + 9);
 
-export const T = { intro, red, proyectos, recursos, cierre };
-export const TOTAL = cierre.fin; // unos 1018 fotogramas = 33,9 s
+export const T = { intro, red, proyectos, recursos, movil, cierre };
+export const TOTAL = cierre.fin; // unos 1280 fotogramas = 42,7 s
 
 // El vídeo de la app empieza a moverse 10 fotogramas antes de que la cámara se pare
 export const ADELANTO = 10;

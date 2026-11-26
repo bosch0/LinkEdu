@@ -4,6 +4,8 @@
 |---|---|---|
 | `voz-completa.mp3` | Voz en off completa, generada **de una vez** con ElevenLabs (Text to Speech, modelo `eleven_v4`, voz "Martin Osborne - Polished and Energetic") desde la cuenta de Iván el 17-11-2026 | Los términos de uso dependen del plan de la cuenta de ElevenLabs (la cuenta es gratuita). **Revisarlos antes de publicar el vídeo** |
 | `voz-intro-pregunta.mp3`, `voz-intro-logo.mp3`, `voz-red.mp3`, `voz-proyectos.mp3`, `voz-recursos.mp3`, `voz-cierre.mp3` | Tramos cortados de `voz-completa.mp3` con ffmpeg (por los silencios entre frases) y acelerados un 10 % | Igual que la voz |
+| `voz-movil-original.mp3` | Frase de la escena del móvil, generada **aparte** el 26-11-2026 con la misma voz ("Martin Osborne - Polished and Energetic") y modelo (`eleven_v4`), estabilidad 0 y similitud 75. Se generaron dos tomas y se eligió la 2 | Igual que la voz |
+| `voz-movil.mp3` | `voz-movil-original.mp3` sin el silencio del final y acelerada un 10 % (`atempo=1.1`) | Igual que la voz |
 | `whoosh.wav`, `clic.wav`, `ping-mapa.wav`, `panel.wav`, `impacto.wav`, `pop.wav`, `destello.wav`, `ficha.wav` | Generados con ElevenLabs Sound Effects (modelo v3) con una descripción para cada uno (ver abajo). Se eligió la variante 1 de cada una, se recortó el silencio inicial y se subió el volumen | Igual que la voz |
 | `musica.wav` | Compuesta con código (`scripts/musica.mjs`): electrónica a 120 BPM en La menor | Propia del proyecto, sin licencia externa |
 
