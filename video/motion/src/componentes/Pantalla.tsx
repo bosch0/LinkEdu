@@ -74,6 +74,9 @@ export function Pantalla({
   ry,
   escala = 1,
   brilloColor,
+  ancho = APP_W,
+  alto = APP_H,
+  movil = false,
   children,
 }: {
   x: number;
@@ -82,10 +85,13 @@ export function Pantalla({
   ry: number;
   escala?: number;
   brilloColor: string; // color de la luz que sale del cristal
-  children: React.ReactNode; // lo que se ve dentro (APP_W x APP_H)
+  ancho?: number; // tamaño de lo que se ve dentro (por defecto, APP_W x APP_H)
+  alto?: number;
+  movil?: boolean; // true = forma de teléfono (esquinas muy redondeadas)
+  children: React.ReactNode;
 }) {
-  const W = APP_W + MARCO * 2;
-  const H = APP_H + MARCO * 2;
+  const W = ancho + MARCO * 2;
+  const H = alto + MARCO * 2;
   return (
     <div
       style={{
@@ -105,14 +111,14 @@ export function Pantalla({
           inset: 0,
           padding: MARCO,
           boxSizing: "border-box",
-          borderRadius: 38,
+          borderRadius: movil ? 64 : 38,
           background: "rgba(255,255,255,0.2)",
           border: "2px solid rgba(255,255,255,0.6)",
           backdropFilter: "blur(18px)",
           boxShadow: `0 50px 100px rgba(0,0,0,0.55), 0 0 110px ${brilloColor}`,
         }}
       >
-        <div style={{ position: "relative", width: APP_W, height: APP_H, borderRadius: 24, overflow: "hidden", background: "#0b2a46" }}>
+        <div style={{ position: "relative", width: ancho, height: alto, borderRadius: movil ? 50 : 24, overflow: "hidden", background: "#0b2a46" }}>
           {children}
           <div style={brillo} />
         </div>

@@ -18,6 +18,7 @@ export function Titulo({
   color,
   d,
   fin,
+  lugar = "abajo",
 }: {
   num: string;
   palabra: string;
@@ -27,6 +28,9 @@ export function Titulo({
   color: string;
   d: number; // cuándo empieza la escena
   fin: number; // cuándo termina la pausa
+  // "abajo" = abajo a la izquierda; "izquierda" = a la izquierda y centrado en vertical, con el número
+  // encima (en la escena del móvil, para que el teléfono pueda ir centrado y grande)
+  lugar?: "abajo" | "izquierda";
 }) {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -38,12 +42,10 @@ export function Titulo({
     <div
       style={{
         position: "absolute",
-        left: 224,
-        bottom: 34,
+        ...(lugar === "abajo"
+          ? { left: 224, bottom: 34, alignItems: "center", gap: 24, padding: "16px 36px 16px 16px" }
+          : { left: 90, top: 540, flexDirection: "column" as const, alignItems: "flex-start", gap: 18, padding: "22px 34px 26px 22px", marginTop: -150 }),
         display: "flex",
-        alignItems: "center",
-        gap: 24,
-        padding: "16px 36px 16px 16px",
         borderRadius: 28,
         background: "rgba(4,31,56,0.78)",
         border: "2px solid rgba(255,255,255,0.28)",
@@ -228,6 +230,36 @@ export function TextoCierre({ d, fin }: { d: number; fin: number }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+// Número pequeño en la esquina inferior derecha, discreto, durante todo el vídeo
+// (mismo estilo que los números de los títulos: cuadrado redondeado y Sora extra negrita).
+export function NumeroEsquina({ num }: { num: string }) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        right: 36,
+        bottom: 32,
+        width: 46,
+        height: 46,
+        borderRadius: 12,
+        background: "rgba(4,31,56,0.45)",
+        border: "1.5px solid rgba(255,255,255,0.22)",
+        color: C.blanco,
+        fontFamily: FUENTE,
+        fontSize: 24,
+        fontWeight: 800,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 0.4,
+        pointerEvents: "none",
+      }}
+    >
+      {num}
     </div>
   );
 }

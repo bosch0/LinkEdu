@@ -1,7 +1,7 @@
-# Guion del vídeo (unos 34 segundos)
+# Guion del vídeo (unos 43 segundos)
 
-**Formato:** 1920×1080, 30 fps, **unos 1019 fotogramas = 33,97 s** (el vídeo debe durar entre
-30 y 35 s) · **Idioma:** español · **Voz:** ElevenLabs `eleven_v4`, voz "Martin Osborne - Polished
+**Formato:** 1920×1080, 30 fps, **unos 1280 fotogramas = 42,7 s** (el vídeo puede durar hasta
+1 minuto) · **Idioma:** español · **Voz:** ElevenLabs `eleven_v4`, voz "Martin Osborne - Polished
 and Energetic" (español peninsular), generada de una vez y cortada en tramos · **Sonido:** voz en off
 casi continua + música + efectos · **Sin URL** (es para el concurso del instituto).
 
@@ -12,15 +12,21 @@ de interfaces del instituto. Lo ve gente muy distinta (marketing, DAW, profesore
 
 - **Se centra en las tres vistas con más personalidad propia:** el mapa de red
   internacional, los proyectos colaborativos entre centros y el repositorio de
-  recursos didácticos.
+  recursos didácticos. **Después enseña la versión móvil** en un teléfono de cristal.
 - **Se habla durante casi todo el vídeo:** la voz explica cada pantalla con dos frases.
 - **Se entiende sin sonido**: cada escena tiene un título enorme con su número, y la frase de
   apoyo cambia cuando la voz pasa a la segunda oración.
 - **Se ve la app real**: son grabaciones de la web app con un cursor que hace
-  clic de verdad, dentro de paneles de cristal en 3D.
+  clic de verdad, dentro de paneles de cristal en 3D. Las de ordenador se graban en una
+  **pantalla estándar de 1920 × 1080** (así la cabecera y la foto de perfil se ven como en un
+  ordenador normal) y la del móvil en un teléfono de 390 × 844 tocando con el dedo.
 - **Ritmo rápido:** los vuelos de cámara entre pantallas duran menos de medio segundo (se inclinan,
-  se alejan a mitad de camino y llevan un destello), y dentro de cada escena la cámara se acerca a
-  cada clic del cursor y se mueve suavemente como en la mano.
+  se alejan a mitad de camino y llevan un destello), y dentro de cada escena la cámara se mueve
+  suavemente como en la mano.
+- **Se ve de cerca y centrado lo que se cuenta:** dentro de cada escena la cámara va de un punto de
+  interés a otro (lo que dice la voz o donde se hace clic), lo deja en el centro y con mucho zoom.
+  No se ve toda la pantalla a la vez, para no saturar.
+- **Los objetos 3D nunca tapan las pantallas:** siempre quedan por detrás.
 
 ## Estilo: "Estudio de producto" + "Cristal"
 
@@ -36,7 +42,8 @@ de interfaces del instituto. Lo ve gente muy distinta (marketing, DAW, profesore
 ## Escenas y voz en off
 
 Todo el texto se generó de una vez (con una línea en blanco entre bloques) y luego se cortó en
-tramos por los silencios. Cada tramo se acelera un 10 % (filtro `atempo` de ffmpeg) para que todo quepa en 35 s.
+tramos por los silencios. La frase del móvil se generó aparte (26-11-2026) con la misma voz y el
+mismo modelo. Cada tramo se acelera un 10 % (filtro `atempo` de ffmpeg) para que el ritmo sea ágil.
 
 | # | Tiempo | Qué pasa | Texto en pantalla | Voz |
 |---|---|---|---|---|
@@ -44,8 +51,9 @@ tramos por los silencios. Cada tramo se acelera un 10 % (filtro `atempo` de ffmp
 | 2 | 4,4–5,9 s | Vuelo con el logo grande (el más largo) | Logo | `Esto es LinkEdu.` |
 | 3 | 5,9–13,5 s | **Mi red**: mapa del mundo; zoom a Argentina, vuelta al mapa global y zoom a Reino Unido | 01 CONECTA · "Tu red en un mapa internacional" → "Docentes de otros países" | `Explora tu red en un mapa internacional. Conecta con docentes de otros países y descubre contactos recomendados en cualquier parte del mundo.` |
 | 4 | 14–21,9 s | **Proyectos**: se abre el tablero y se pasan dos tareas de columna | 02 COLABORA · "Proyectos colaborativos entre centros" → "Tablero, chat y habilidades validadas" | `Crea proyectos colaborativos entre centros. Organiza las tareas en un tablero, chatea con tu equipo y valida las habilidades de cada compañero.` |
-| 5 | 22,4–29,9 s | **Recursos**: filtro por tipo, vista previa de un recurso y "En favoritos" | 03 DESCUBRE · "Recursos didácticos" → "Fichas, presentaciones y vídeos" | `Comparte y descubre recursos didácticos: fichas, presentaciones y vídeos creados por otros docentes, listos para usar en tu aula.` |
-| 6 | 30,6–34 s | Logo y el lema en tres etiquetas de color | CONECTA. APRENDE. CRECE. (cada una, cuando la voz la dice) | `[excited] LinkEdu. Conecta. Aprende. Crece.` |
+| 5 | 22,4–29,9 s | **Recursos**: filtro por tipo, vista previa de un recurso y "Favorito" (se guarda en favoritos) | 03 DESCUBRE · "Recursos didácticos" → "Fichas, presentaciones y vídeos" | `Comparte y descubre recursos didácticos: fichas, presentaciones y vídeos creados por otros docentes, listos para usar en tu aula.` |
+| 6 | 30,4–38,6 s | **Móvil**: un teléfono de cristal con la app, grande y centrado (zoom de 2×); se desliza el inicio y se navega con las pestañas de abajo (Mi red, Proyectos, Recursos) | 04 EN TU MÓVIL (a la izquierda, centrado en vertical) · "Llévalo siempre contigo" → "Estés donde estés" | `Y llévalo SIEMPRE contigo. LinkEdu también está pensado para tu móvil... para que conectes, colabores y descubras, estés donde estés.` |
+| 7 | 39,3–42,7 s | Logo y el lema en tres etiquetas de color | CONECTA. APRENDE. CRECE. (cada una, cuando la voz la dice) | `[excited] LinkEdu. Conecta. Aprende. Crece.` |
 
 Los tiempos salen de `motion/src/tiempos.ts`: cada escena dura lo que dura su tramo de voz más
 unos fotogramas de margen, y los vuelos duran 14 fotogramas (el del logo, 45; el del cierre, 22).
@@ -53,8 +61,8 @@ unos fotogramas de margen, y los vuelos duran 14 fotogramas (el del logo, 45; el
 ## Música y efectos de sonido
 
 - **Música:** electrónica a 120 BPM compuesta con código (`motion/scripts/musica.mjs`). Entra
-  suave, el ritmo arranca con el primer vuelo de cámara y tiene su golpe final cuando entra el
-  logo de cierre. Baja de volumen sola mientras habla la voz.
+  suave, el ritmo arranca con el primer vuelo de cámara y tiene su golpe final (segundo 38 de la
+  pista) cuando entra el logo de cierre. Baja de volumen sola mientras habla la voz.
 - **Efectos propios para cada acción** (ElevenLabs Sound Effects, no genéricos):
   - whoosh de cristal en cada vuelo de cámara
   - clic suave en cada clic del cursor, sincronizado con la grabación
@@ -66,9 +74,16 @@ unos fotogramas de margen, y los vuelos duran 14 fotogramas (el del logo, 45; el
 
 ## Cómo se escribió la voz (guía de ElevenLabs para v4)
 
-- No se usan pausas `<break>` (v4 no las admite): las pausas se hacen con `...` y con líneas en blanco.
+Siguiendo las [buenas prácticas de ElevenLabs](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/best-practices#prompting-eleven-v4):
+
+- No se usan pausas `<break>` (v4 no las admite): las pausas se hacen con `...`, con la puntuación y
+  con líneas en blanco.
 - Etiquetas de voz entre corchetes (`[excited]`) que describen el tono y no cambian las palabras.
   No se usan etiquetas de efectos (`[applause]`...).
+- Las **mayúsculas** dan énfasis a una palabra (`SIEMPRE` en la frase del móvil).
+- Cada frase tiene dos oraciones separadas por un punto: el silencio entre ellas sirve para cambiar
+  la frase del título en el momento justo.
+- Se generan varias tomas y se elige la mejor (para el móvil se generaron dos).
 - Se eligió una voz cuyo carácter encaja con un vídeo dinámico (enérgica y pulida).
 
 ## Reglas
@@ -76,4 +91,4 @@ unos fotogramas de margen, y los vuelos duran 14 fotogramas (el del logo, 45; el
 - **No deben salir los botones** que cambian entre profesor, alumno y empresa.
   El script de grabación los oculta solo (ver `motion/scripts/grabar.mjs`).
 - No se promociona ninguna dirección web.
-- El vídeo debe durar **entre 30 y 35 s**. Si se cambia algo, comprobar la duración del `.mp4` final.
+- El vídeo puede durar **hasta 1 minuto** (ahora unos 43 s). Si se cambia algo, comprobar la duración del `.mp4` final.
